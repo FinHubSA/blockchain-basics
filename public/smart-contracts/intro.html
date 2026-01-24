@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Smart Contracts - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Drawer - Dynamically Rendered -->
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Introduction to Smart Contracts</h1>
+            </div>
+            
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What are Smart Contracts?</h2>
+                    
+                    <p>
+                        A <strong>smart contract</strong> is a program that runs on the Ethereum blockchain. Unlike 
+                        traditional contracts, smart contracts are self-executing code that automatically enforces 
+                        the terms of an agreement when predetermined conditions are met.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Key Concept:</strong> Smart contracts are immutable programs stored on the blockchain. 
+                        Once deployed, their code cannot be changed, making them trustless and transparent.
+                    </div>
+
+                    <h3>Smart Contracts vs. Externally Owned Accounts (EOAs)</h3>
+                    
+                    <p>
+                        On the Ethereum blockchain, there are two types of accounts:
+                    </p>
+
+                    <h4>Externally Owned Accounts (EOAs)</h4>
+                    <ul>
+                        <li><strong>Controlled by:</strong> Private keys held by users</li>
+                        <li><strong>Can:</strong> Send transactions, hold ETH and tokens</li>
+                        <li><strong>Cannot:</strong> Execute code or have complex logic</li>
+                        <li><strong>Example:</strong> Your wallet address (like MetaMask)</li>
+                        <li><strong>Transactions:</strong> Always require an external trigger (user signs and sends)</li>
+                    </ul>
+
+                    <h4>Smart Contract Accounts</h4>
+                    <ul>
+                        <li><strong>Controlled by:</strong> Code (the smart contract program)</li>
+                        <li><strong>Can:</strong> Execute code, hold ETH and tokens, interact with other contracts</li>
+                        <li><strong>Cannot:</strong> Initiate transactions on their own (must be called)</li>
+                        <li><strong>Example:</strong> A token contract, a DeFi protocol, an NFT contract</li>
+                        <li><strong>Transactions:</strong> Executed when called by an EOA or another contract</li>
+                    </ul>
+
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <thead>
+                            <tr style="background-color: #34495e; color: white;">
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Feature</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">EOA</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Smart Contract</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Control</strong></td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Private key</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Code</td>
+                            </tr>
+                            <tr style="background-color: #f8f9fa;">
+                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Can Initiate Transactions</strong></td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Yes</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">No (must be called)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Can Execute Code</strong></td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">No</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Yes</td>
+                            </tr>
+                            <tr style="background-color: #f8f9fa;">
+                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Can Hold Balance</strong></td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Yes</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Yes</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd;"><strong>Has Code</strong></td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">No</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Yes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>How Smart Contracts Move Value</h3>
+                    
+                    <p>
+                        Unlike EOAs that require an external trigger (a user signing a transaction), smart contracts 
+                        can move value based on their internal code logic. This enables automated and conditional 
+                        value transfers.
+                    </p>
+
+                    <h4>Example Scenarios</h4>
+
+                    <div class="card">
+                        <h4>1. Conditional Transfer</h4>
+                        <p>
+                            A smart contract can hold funds and automatically transfer them when certain conditions 
+                            are met:
+                        </p>
+                        <pre><code>// Pseudocode example
+contract Escrow {
+    function releaseFunds() {
+        if (conditionsMet) {
+            transfer(amount, recipient);
+        }
+    }
+}</code></pre>
+                        <p>
+                            The contract code determines when and how to move funds, without requiring the original 
+                            depositor to sign another transaction.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h4>2. Automated Payments</h4>
+                        <p>
+                            A smart contract can automatically distribute funds based on predefined rules:
+                        </p>
+                        <pre><code>// Pseudocode example
+contract PaymentSplitter {
+    function distribute() {
+        for each recipient {
+            transfer(calculatedAmount, recipient);
+        }
+    }
+}</code></pre>
+                        <p>
+                            Once triggered, the contract executes the distribution logic automatically, moving value 
+                            to multiple recipients based on the code's logic.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h4>3. Token Transfers</h4>
+                        <p>
+                            ERC-20 token contracts can transfer tokens between accounts based on internal logic:
+                        </p>
+                        <pre><code>// Pseudocode example
+contract Token {
+    function transfer(address to, uint256 amount) {
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+    }
+}</code></pre>
+                        <p>
+                            The contract maintains balances and enforces transfer rules through its code, not through 
+                            external transactions.
+                        </p>
+                    </div>
+
+                    <h3>Key Differences in Value Movement</h3>
+
+                    <h4>EOA Value Movement</h4>
+                    <ol>
+                        <li>User creates a transaction to send ETH</li>
+                        <li>User signs the transaction with their private key</li>
+                        <li>Transaction is broadcast to the network</li>
+                        <li>Network executes the transfer</li>
+                        <li><strong>Requires external action for every transfer</strong></li>
+                    </ol>
+
+                    <h4>Smart Contract Value Movement</h4>
+                    <ol>
+                        <li>User creates a transaction to call a contract function</li>
+                        <li>User signs the transaction with their private key</li>
+                        <li>Transaction is broadcast to the network</li>
+                        <li>Contract code executes, which may include multiple transfers</li>
+                        <li><strong>Code can move value based on internal logic</strong></li>
+                    </ol>
+
+                    <div class="info-box">
+                        <strong>Important:</strong> While smart contracts can move value based on code, they still 
+                        need to be triggered by a transaction from an EOA or another contract. The difference is that 
+                        once triggered, the contract's code can execute complex logic and make multiple transfers 
+                        automatically.
+                    </div>
+
+                    <h3>Calling Smart Contracts</h3>
+                    
+                    <p>
+                        To interact with a smart contract, you send a transaction to the contract's address with:
+                    </p>
+                    <ul>
+                        <li><strong>To Address:</strong> The contract's address</li>
+                        <li><strong>Data Field:</strong> Encoded function call (function selector + parameters)</li>
+                        <li><strong>Value:</strong> Optional ETH to send to the contract</li>
+                    </ul>
+
+                    <p>
+                        The <strong>data field</strong> contains:
+                    </p>
+                    <ol>
+                        <li><strong>Function Selector:</strong> First 4 bytes of keccak256(function signature)</li>
+                        <li><strong>Encoded Parameters:</strong> ABI-encoded function parameters</li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <strong>Example:</strong> To call <code>transfer(address to, uint256 amount)</code>:
+                        <ul style="margin-top: 10px;">
+                            <li>Function signature: <code>"transfer(address,uint256)"</code></li>
+                            <li>Function selector: First 4 bytes of <code>keccak256("transfer(address,uint256)")</code></li>
+                            <li>Encoded parameters: ABI-encoded <code>to</code> and <code>amount</code></li>
+                            <li>Data field: <code>selector + encoded_parameters</code></li>
+                        </ul>
+                    </div>
+
+                    <h3>Benefits of Smart Contracts</h3>
+                    <ul>
+                        <li><strong>Automation:</strong> Execute logic automatically when conditions are met</li>
+                        <li><strong>Trustlessness:</strong> No need to trust a third party - code is transparent</li>
+                        <li><strong>Immutability:</strong> Once deployed, code cannot be changed</li>
+                        <li><strong>Complex Logic:</strong> Can implement sophisticated business rules</li>
+                        <li><strong>Composability:</strong> Contracts can call other contracts</li>
+                    </ul>
+
+                    <h3>Limitations</h3>
+                    <ul>
+                        <li><strong>Cannot be changed:</strong> Bugs are permanent (unless upgradeable pattern is used)</li>
+                        <li><strong>Require external trigger:</strong> Still need a transaction to initiate</li>
+                        <li><strong>Gas costs:</strong> Execution costs gas, which can be expensive</li>
+                        <li><strong>No external data:</strong> Cannot directly access off-chain data</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

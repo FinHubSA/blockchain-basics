@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Consensus Mechanisms - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Drawer - Dynamically Rendered -->
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Introduction to Consensus Mechanisms</h1>
+            </div>
+            
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Why Consensus is Needed</h2>
+                    
+                    <p>
+                        In a distributed ledger network, there is no central authority to validate and order transactions. 
+                        Instead, the network consists of multiple independent nodes (computers) that each maintain a copy 
+                        of the ledger. For the system to work correctly, all these nodes must agree on:
+                    </p>
+                    <ul>
+                        <li><strong>Which transactions are valid</strong></li>
+                        <li><strong>The order in which transactions occurred</strong></li>
+                        <li><strong>Which version of the ledger is the "true" version</strong></li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Consensus Problem:</strong> Without a central authority, how do distributed nodes agree 
+                        on the state of the ledger? This is known as the "Byzantine Generals Problem" - ensuring that 
+                        even if some nodes are malicious or fail, the network can still reach agreement.
+                    </div>
+
+                    <p>
+                        A <strong>consensus mechanism</strong> is the protocol that enables all nodes in a distributed 
+                        network to agree on a single version of the truth. It ensures:
+                    </p>
+                    <ul>
+                        <li><strong>Agreement:</strong> All honest nodes agree on the same state</li>
+                        <li><strong>Validity:</strong> Only valid transactions are included</li>
+                        <li><strong>Termination:</strong> The consensus process eventually completes</li>
+                        <li><strong>Integrity:</strong> Once agreed upon, the state cannot be easily changed</li>
+                    </ul>
+
+                    <h3>Main Consensus Mechanisms</h3>
+
+                    <h4>1. Proof of Work (PoW)</h4>
+                    <p>
+                        <strong>How it works:</strong> Miners compete to solve a computationally difficult puzzle. The 
+                        first miner to solve it gets to create the next block and receives a reward.
+                    </p>
+                    <ul>
+                        <li>Miners use computational power (hashing) to find a solution</li>
+                        <li>The difficulty adjusts to maintain consistent block times</li>
+                        <li>Requires significant energy consumption</li>
+                        <li>Used by Bitcoin and Ethereum (before The Merge)</li>
+                    </ul>
+                    <p>
+                        <strong>Security:</strong> An attacker would need to control more than 50% of the network's 
+                        computational power to successfully attack the network (51% attack).
+                    </p>
+
+                    <h4>2. Proof of Stake (PoS)</h4>
+                    <p>
+                        <strong>How it works:</strong> Validators are chosen to create blocks based on the amount of 
+                        cryptocurrency they "stake" (lock up) and other factors. Validators are rewarded for honest 
+                        behavior and penalized for malicious actions.
+                    </p>
+                    <ul>
+                        <li>Validators must lock up (stake) cryptocurrency as collateral</li>
+                        <li>Selection is often based on stake amount and randomization</li>
+                        <li>Much more energy-efficient than Proof of Work</li>
+                        <li>Used by Ethereum (after The Merge), Cardano, and others</li>
+                    </ul>
+                    <p>
+                        <strong>Security:</strong> Validators risk losing their staked funds if they act maliciously, 
+                        making attacks economically unfeasible.
+                    </p>
+
+                    <h4>3. Delegated Proof of Stake (DPoS)</h4>
+                    <p>
+                        Token holders vote for delegates who validate transactions and create blocks. Delegates are 
+                        rewarded and can be voted out if they misbehave.
+                    </p>
+
+                    <h4>4. Practical Byzantine Fault Tolerance (PBFT)</h4>
+                    <p>
+                        Nodes communicate with each other to reach consensus through multiple rounds of voting. 
+                        Requires a known set of validators and is faster but less decentralized.
+                    </p>
+
+                    <h3>Transaction Blocks</h3>
+                    <p>
+                        Transactions in a blockchain are grouped together into <strong>blocks</strong>. Each block contains:
+                    </p>
+                    <ul>
+                        <li>A set of transactions</li>
+                        <li>A reference to the previous block (creating a chain)</li>
+                        <li>Proof of the consensus mechanism (e.g., proof of work solution)</li>
+                        <li>Metadata about the block</li>
+                    </ul>
+
+                    <h3>Validating Transactions</h3>
+                    <p>
+                        Before a transaction is included in a block, it must be validated. Validators check:
+                    </p>
+                    <ul>
+                        <li><strong>Signature:</strong> The transaction is properly signed with the sender's private key</li>
+                        <li><strong>Balance:</strong> The sender has sufficient funds</li>
+                        <li><strong>Nonce:</strong> The transaction nonce is correct (prevents replay attacks)</li>
+                        <li><strong>Format:</strong> The transaction follows the correct format</li>
+                        <li><strong>Gas:</strong> Sufficient gas is provided for execution</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Block Validation:</strong> Once a block is proposed, other nodes validate:
+                        <ul style="margin-top: 10px;">
+                            <li>All transactions in the block are valid</li>
+                            <li>The block follows consensus rules</li>
+                            <li>The proof (PoW solution or PoS signature) is valid</li>
+                            <li>The block links correctly to the previous block</li>
+                        </ul>
+                    </div>
+
+                    <h3>Block Structure</h3>
+                    <p>
+                        Based on Ethereum's block structure (as shown on Etherscan), a block contains the following components:
+                    </p>
+
+                    <h4>Block Header</h4>
+                    <ul>
+                        <li><strong>Block Height/Number:</strong> The position of the block in the blockchain</li>
+                        <li><strong>Timestamp:</strong> When the block was created</li>
+                        <li><strong>Hash:</strong> Cryptographic hash of the block header</li>
+                        <li><strong>Parent Hash:</strong> Hash of the previous block (creates the chain)</li>
+                        <li><strong>State Root:</strong> Root hash of the state trie (all account balances and data)</li>
+                        <li><strong>Transactions Root:</strong> Root hash of the Merkle tree of all transactions</li>
+                        <li><strong>Receipts Root:</strong> Root hash of transaction receipts</li>
+                        <li><strong>Gas Limit:</strong> Maximum gas allowed in the block</li>
+                        <li><strong>Gas Used:</strong> Total gas consumed by transactions in the block</li>
+                        <li><strong>Base Fee Per Gas:</strong> Minimum gas price required (post-London upgrade)</li>
+                        <li><strong>Extra Data:</strong> Optional data that can be included by the block proposer</li>
+                        <li><strong>Nonce:</strong> Value used in proof of work (pre-Merge) or other consensus data</li>
+                    </ul>
+
+                    <h4>Block Body</h4>
+                    <ul>
+                        <li><strong>Transactions:</strong> List of all transactions included in the block</li>
+                        <li><strong>Transaction Count:</strong> Number of transactions in the block</li>
+                        <li><strong>Withdrawals:</strong> Validator withdrawal requests (post-Shanghai upgrade)</li>
+                    </ul>
+
+                    <h4>Consensus Information (Post-Merge Ethereum)</h4>
+                    <ul>
+                        <li><strong>Slot:</strong> The slot number in the beacon chain</li>
+                        <li><strong>Epoch:</strong> The epoch number (32 slots = 1 epoch)</li>
+                        <li><strong>Proposer Index:</strong> Identifier of the validator who proposed the block</li>
+                        <li><strong>Block Reward:</strong> Total reward received by the block proposer</li>
+                        <li><strong>Fee Recipient:</strong> Address that receives transaction fees</li>
+                    </ul>
+
+                    <h4>Additional Block Information</h4>
+                    <ul>
+                        <li><strong>Status:</strong> Whether the block is finalized or pending</li>
+                        <li><strong>Size:</strong> Size of the block in bytes</li>
+                        <li><strong>Burnt Fees:</strong> Amount of ETH burned (post-London upgrade)</li>
+                        <li><strong>Total Difficulty:</strong> Cumulative difficulty (pre-Merge)</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>Note:</strong> The block structure has evolved over time. Ethereum's transition from Proof 
+                        of Work to Proof of Stake (The Merge) changed some block fields. Always refer to the current 
+                        network's specifications when working with blocks.
+                    </div>
+
+                    <h3>How Blocks Create the Chain</h3>
+                    <p>
+                        Each block contains a reference to its parent block through the "Parent Hash" field. This creates 
+                        an immutable chain:
+                    </p>
+                    <ol>
+                        <li>Block 1 contains transactions and references "genesis" (no parent)</li>
+                        <li>Block 2 contains transactions and references Block 1's hash</li>
+                        <li>Block 3 contains transactions and references Block 2's hash</li>
+                        <li>And so on...</li>
+                    </ol>
+                    <p>
+                        This chaining makes it extremely difficult to alter past blocks. Changing any block would require 
+                        recalculating all subsequent blocks, which becomes computationally infeasible as the chain grows.
+                    </p>
+
+                    <h3>Finality</h3>
+                    <p>
+                        <strong>Finality</strong> refers to the point at which a block (and its transactions) is 
+                        considered permanent and cannot be reversed:
+                    </p>
+                    <ul>
+                        <li><strong>Probabilistic Finality (PoW):</strong> Blocks become more final as more blocks are 
+                        added on top. Generally, 6+ confirmations provide strong confidence.</li>
+                        <li><strong>Deterministic Finality (PoS):</strong> Blocks are finalized after a certain number 
+                        of epochs through a voting process. Once finalized, they cannot be reversed except through 
+                        extreme circumstances.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

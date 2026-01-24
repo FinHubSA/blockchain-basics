@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Transaction to Sepolia - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Drawer - Dynamically Rendered -->
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Submit Transaction to Sepolia Testnet</h1>
+            </div>
+            
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Broadcast Signed Transaction</h2>
+                    
+                    <p>
+                        This page allows you to submit a signed transaction to the Sepolia testnet. You can use a 
+                        signed transaction from the <a href="/distributed-ledgers/transaction-signing.html">Transaction 
+                        Signing</a> page or any other signed transaction in RLP-encoded hex format.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Sepolia Testnet:</strong> Sepolia is a proof-of-authority testnet for Ethereum. It's 
+                        designed for testing applications without using real ETH. You can get free Sepolia ETH from 
+                        faucets like <a href="https://sepoliafaucet.com" target="_blank">sepoliafaucet.com</a> or 
+                        <a href="https://faucet.quicknode.com/ethereum/sepolia" target="_blank">QuickNode's faucet</a>.
+                    </div>
+
+                    <div class="card">
+                        <h3>RPC Configuration</h3>
+                        <p>Enter your Sepolia RPC endpoint. You can use a public RPC or your own node:</p>
+                        
+                        <div class="input-group">
+                            <label for="rpcUrl">RPC URL:</label>
+                            <input type="text" id="rpcUrl" placeholder="https://sepolia.infura.io/v3/YOUR_API_KEY" 
+                                   value="https://sepolia.infura.io/v3/YOUR_API_KEY">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Examples:
+                                <ul style="margin-top: 5px; margin-left: 20px;">
+                                    <li>Infura: <code>https://sepolia.infura.io/v3/YOUR_API_KEY</code></li>
+                                    <li>Alchemy: <code>https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY</code></li>
+                                    <li>Public RPC: <code>https://rpc.sepolia.org</code></li>
+                                </ul>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Submit Transaction</h3>
+                        <p>Paste your signed transaction (RLP-encoded hex) below:</p>
+                        
+                        <div class="input-group">
+                            <label for="signedTx">Signed Transaction (Hex):</label>
+                            <textarea id="signedTx" placeholder="0x..." rows="4" style="font-family: monospace;"></textarea>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                This should be the RLP-encoded signed transaction from the Transaction Signing page. 
+                                It should start with "0x" and be a long hexadecimal string.
+                            </small>
+                        </div>
+                        
+                        <button class="button" id="submitBtn">Submit Transaction</button>
+                        <button class="button button-secondary" id="clearBtn">Clear</button>
+                        
+                        <div class="info-box" style="margin-top: 20px;">
+                            <strong>Need Sepolia ETH?</strong>
+                            <p style="margin-top: 10px;">
+                                To submit transactions on Sepolia testnet, you'll need Sepolia ETH to pay for gas fees. 
+                                Get free testnet ETH from these faucets:
+                            </p>
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li><a href="https://sepolia-faucet.pk910.de/" target="_blank">Sepolia PoW Faucet</a></li>
+                                <li><a href="https://www.alchemy.com/faucets/ethereum-sepolia" target="_blank">Alchemy Sepolia Faucet</a></li>
+                                
+                            </ul>
+                        </div>
+                        
+                        <div id="transactionResult" style="display: none;">
+                            <span class="output-label">Transaction Hash:</span>
+                            <div class="output-box" id="txHashOutput"></div>
+                            
+                            <div class="info-box" style="margin-top: 20px;">
+                                <strong>Transaction Submitted!</strong>
+                                <p style="margin-top: 10px;">
+                                    Your transaction has been broadcast to the Sepolia network. You can check its status 
+                                    using the Sepolia block explorer:
+                                </p>
+                                <p style="margin-top: 10px;">
+                                    <a href="#" id="explorerLink" target="_blank" style="color: #3498db; text-decoration: underline;">
+                                        View Transaction on Sepolia Etherscan
+                                    </a>
+                                </p>
+                                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                                    <strong>Note:</strong> It may take a few seconds for the transaction to appear on 
+                                    the explorer. If it doesn't appear immediately, wait a moment and refresh the page.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="errorResult" style="display: none;">
+                            <div class="warning-box" id="errorOutput"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Understanding the Process</h3>
+                        <ol>
+                            <li><strong>Sign Transaction:</strong> Create and sign a transaction using your private key 
+                            (see <a href="/distributed-ledgers/transaction-signing.html">Transaction Signing</a> page)</li>
+                            <li><strong>Submit to Network:</strong> Send the signed transaction to an Ethereum node via 
+                            RPC using <code>eth_sendRawTransaction</code></li>
+                            <li><strong>Network Propagation:</strong> The node broadcasts your transaction to other nodes 
+                            in the network</li>
+                            <li><strong>Validation:</strong> Validators check that your transaction is valid (signature, 
+                            nonce, balance, etc.)</li>
+                            <li><strong>Inclusion in Block:</strong> A validator includes your transaction in a block</li>
+                            <li><strong>Confirmation:</strong> The block is added to the blockchain, confirming your transaction</li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h3>Checking Transaction Status</h3>
+                        <p>After submitting, you can check your transaction status on:</p>
+                        <ul>
+                            <li><strong>Sepolia Etherscan:</strong> 
+                                <a href="https://sepolia.etherscan.io" target="_blank">https://sepolia.etherscan.io</a>
+                            </li>
+                            <li><strong>Alternative Explorers:</strong>
+                                <ul>
+                                    <li><a href="https://sepolia.blockscout.com" target="_blank">Sepolia Blockscout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>On the explorer, you can see:</p>
+                        <ul>
+                            <li><strong>Transaction Status:</strong> Pending, Success, or Failed</li>
+                            <li><strong>Block Number:</strong> Which block contains your transaction</li>
+                            <li><strong>Gas Used:</strong> How much gas was consumed</li>
+                            <li><strong>Transaction Fee:</strong> Total fee paid</li>
+                            <li><strong>From/To Addresses:</strong> Sender and recipient</li>
+                            <li><strong>Value:</strong> Amount transferred</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Important Notes:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Make sure you have Sepolia ETH in your account to pay for gas fees</li>
+                            <li>Transactions on testnets are free but still require testnet ETH for gas</li>
+                        </ul>
+                        
+                        <strong style="display: block; margin-top: 15px;">If Your Transaction Is Not Accepted:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Check the Nonce:</strong> Make sure the nonce is correct. Nonces start from 0 and must increment sequentially for each transaction from your account. If you've sent previous transactions, use the next nonce (e.g., if your last transaction had nonce 2, your next transaction should use nonce 3).</li>
+                            <li><strong>Check the Gas Limit:</strong> Ensure the gas limit is sufficient for your transaction. Simple transfers typically need 21,000 gas, but contract deployments and function calls require more. If the gas limit is too low, the transaction will fail. Try increasing it if you're unsure.</li>
+                            <li><strong>Check Your Balance:</strong> Verify you have enough Sepolia ETH to cover the transaction value plus gas fees (gas price × gas limit).</li>
+                            <li><strong>Check the Chain ID:</strong> Ensure the transaction was signed with the correct chain ID (11155111 for Sepolia). Transactions signed for a different network will be rejected.</li>
+                            <li><strong>Check the Gas Price:</strong> If your transaction is pending for too long, the gas price might be too low. Try increasing it to get faster confirmation.</li>
+                            <li><strong>Check the Transaction Data:</strong> For contract deployments, ensure the bytecode is valid. For function calls, verify the function signature and parameters are correctly encoded.</li>
+                            <li><strong>Check the Explorer:</strong> If a transaction fails, check the error message on the Sepolia Etherscan explorer. It will show the specific reason for failure (e.g., "insufficient funds", "nonce too low", "execution reverted").</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/submit-transaction.js"></script>
+</body>
+</html>
+

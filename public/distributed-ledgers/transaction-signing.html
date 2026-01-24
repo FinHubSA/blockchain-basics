@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Signing - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <style>
+        .CodeMirror {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 300px;
+            font-size: 14px;
+        }
+        .solidity-editor-container {
+            margin-top: 10px;
+        }
+        .compile-button-container {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .bytecode-display {
+            margin-top: 10px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #3498db;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Drawer - Dynamically Rendered -->
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Transaction Signing</h1>
+            </div>
+            
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Signing Ethereum Transactions</h2>
+                    
+                    <p>
+                        This page demonstrates how to create and sign an Ethereum transaction to transfer funds from 
+                        one account to another. You can use the private keys generated in the 
+                        <a href="/public-key-cryptography/key-generation.html">Public Key Cryptography</a> section.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Note:</strong> This is a demonstration tool. In a real Ethereum transaction, you would 
+                        also need to specify gas price, gas limit, and nonce. This simplified version focuses on the 
+                        core transaction signing process.
+                    </div>
+
+                    <div class="card">
+                        <h3>Create Transaction</h3>
+                        <p>Fill in the transaction details below:</p>
+                        
+                        <div class="input-group">
+                            <label for="fromAddress">From Address (Sender):</label>
+                            <input type="text" id="fromAddress" placeholder="0x..." value="">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Enter the Ethereum address of the sender (derived from the public key)
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="toAddress">To Address (Recipient):</label>
+                            <input type="text" id="toAddress" placeholder="0x..." value="">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Enter the Ethereum address of the recipient
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="amount">Amount (ETH):</label>
+                            <input type="number" id="amount" placeholder="1.5" step="0.000000000000000001" min="0" value="1.0">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Amount to transfer in Ether
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="nonce">Nonce:</label>
+                            <input type="number" id="nonce" placeholder="0" min="0" value="0">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Transaction nonce (prevents replay attacks)
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="gasPrice">Gas Price (Gwei):</label>
+                            <input type="number" id="gasPrice" placeholder="20" min="0" value="20">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Gas price in Gwei (1 Gwei = 10^9 Wei)
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="gasLimit">Gas Limit:</label>
+                            <input type="number" id="gasLimit" placeholder="21000" min="0" value="21000">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Maximum gas units for this transaction (21000 for simple transfers)
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="chainId">Chain ID:</label>
+                            <input type="number" id="chainId" placeholder="11155111" min="0" value="11155111">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Chain ID for the network (11155111 for Sepolia testnet, 1 for Mainnet)
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="includeContractToggle" style="width: 20px; height: 20px; cursor: pointer;">
+                                <span>Smart Contract Deployment</span>
+                            </label>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Enable this to deploy a smart contract with this transaction
+                            </small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="callContractToggle" style="width: 20px; height: 20px; cursor: pointer;">
+                                <span>Call Smart Contract Function</span>
+                            </label>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Enable this to call a function on an existing smart contract
+                            </small>
+                        </div>
+                        
+                        <div class="input-group" id="callContractGroup" style="display: none;">
+                            <label for="contractAddress">Contract Address:</label>
+                            <input type="text" id="contractAddress" placeholder="0x..." value="">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                The address of the smart contract to call
+                            </small>
+                            
+                            <label for="functionSignature" style="margin-top: 15px;">Function Signature:</label>
+                            <input type="text" id="functionSignature" placeholder="transfer(address,uint256)" value="">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Function name and parameter types, e.g., <code>transfer(address,uint256)</code>
+                            </small>
+                            
+                            <label for="functionParameters" style="margin-top: 15px;">Function Parameters (JSON array):</label>
+                            <textarea id="functionParameters" placeholder='["0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb", "1000000000000000000"]' rows="3" style="font-family: monospace; margin-top: 5px;"></textarea>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Parameters as a JSON array. Example: <code>["0x742d35Cc...", "1000000000000000000"]</code>
+                            </small>
+                            
+                            <button class="button" id="encodeFunctionBtn" style="margin-top: 10px;">Encode Function Call</button>
+                            <span id="encodeStatus" style="margin-left: 10px; color: #666;"></span>
+                            
+                            <div id="encodingOutput" style="display: none; margin-top: 15px;">
+                                <span class="output-label">Encoded Data:</span>
+                                <div class="output-box" id="encodedDataOutput" style="word-break: break-all; font-size: 12px;"></div>
+                                <small style="color: #666; margin-top: 5px; display: block;">
+                                    This encoded data will be used as the transaction data field.
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" id="solidityCodeGroup" style="display: none;">
+                            <label>Solidity Code (for Contract Deployment):</label>
+                            <div class="solidity-editor-container">
+                                <textarea id="solidityCode" placeholder="// Enter Solidity code here...&#10;pragma solidity ^0.8.0;&#10;&#10;contract SimpleContract {&#10;    uint256 public value;&#10;    &#10;    constructor(uint256 _value) {&#10;        value = _value;&#10;    }&#10;}"></textarea>
+                            </div>
+                            <div class="compile-button-container">
+                                <button class="button" id="compileBtn">Compile Solidity</button>
+                                <button class="button button-secondary" id="clearSolidityBtn">Clear Code</button>
+                                <span id="compileStatus" style="margin-left: 10px; color: #666;"></span>
+                            </div>
+                            <div id="bytecodeOutput" class="bytecode-display" style="display: none;">
+                                <span class="output-label">Compiled Bytecode:</span>
+                                <div class="output-box" id="bytecodeDisplay" style="word-break: break-all; font-size: 12px;"></div>
+                                <small style="color: #666; margin-top: 5px; display: block;">
+                                    This bytecode will be used as the transaction data field for contract deployment.
+                                </small>
+                            </div>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Enter Solidity code to deploy a smart contract. The compiled bytecode will be used as the transaction data.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Sign Transaction</h3>
+                        <p>Enter your private key to sign the transaction:</p>
+                        
+                        <div class="input-group">
+                            <label for="privateKey">Private Key (Hex):</label>
+                            <input type="text" id="privateKey" placeholder="Enter private key (with or without 0x prefix)" value="">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                The private key corresponding to the "From" address. You can use a key from the 
+                                <a href="/public-key-cryptography/key-generation.html">Key Generation</a> page.
+                            </small>
+                        </div>
+                        
+                        <button class="button" id="signTransactionBtn">Sign Transaction</button>
+                        <button class="button button-secondary" id="clearTransactionBtn">Clear All</button>
+                        
+                        <div id="transactionOutput" style="display: none;">
+                            <span class="output-label">Raw Transaction Data:</span>
+                            <div class="output-box" id="rawTransactionOutput"></div>
+                            
+                            <span class="output-label">Transaction Hash:</span>
+                            <div class="output-box" id="transactionHashOutput"></div>
+                            
+                            <span class="output-label">Signed Transaction (RLP Encoded):</span>
+                            <div class="output-box" id="signedTransactionOutput"></div>
+                            
+                            <span class="output-label">Recovery ID:</span>
+                            <div class="output-box" id="recoveryIdOutput"></div>
+                            
+                            <div class="info-box" style="margin-top: 20px;">
+                                <strong>Next Steps:</strong> This signed transaction would typically be broadcast to the 
+                                Ethereum network. In a real scenario, you would send this to an Ethereum node or use 
+                                a service like Infura or Alchemy to submit it to the network.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Transaction Details</h3>
+                        <p>Understanding the transaction components:</p>
+                        <ul>
+                            <li><strong>From Address:</strong> The Ethereum address of the account sending the funds. 
+                            This is derived from the public key (which comes from the private key).</li>
+                            <li><strong>To Address:</strong> The recipient's Ethereum address where funds will be sent.</li>
+                            <li><strong>Amount:</strong> The quantity of Ether to transfer (in ETH units).</li>
+                            <li><strong>Nonce:</strong> A sequential number that ensures each transaction is unique and 
+                            prevents replay attacks. It should increment for each transaction from the same account.</li>
+                            <li><strong>Gas Price:</strong> The amount of Ether you're willing to pay per unit of gas. 
+                            Higher gas prices typically result in faster transaction processing.</li>
+                            <li><strong>Gas Limit:</strong> The maximum amount of gas units you're willing to spend on 
+                            this transaction. For simple transfers, 21,000 is standard.</li>
+                            <li><strong>Signature:</strong> Cryptographic proof that you own the private key for the 
+                            "From" address and authorize this transaction.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/transaction-signing.js"></script>
+</body>
+</html>
+
