@@ -1,96 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Introduction to Public Key Cryptography - Blockchain Tutorial</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Left Drawer - Dynamically Rendered -->
-        <aside class="drawer" id="drawer">
-            <!-- Navigation will be rendered here by navigation.js -->
-        </aside>
+      <!-- Left Drawer - Dynamically Rendered -->
+      <aside class="drawer" id="drawer">
+        <!-- Navigation will be rendered here by navigation.js -->
+      </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="content-header">
-                <button class="menu-toggle" id="menuToggle">☰</button>
-                <h1>Introduction to Public Key Cryptography</h1>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <div class="content-header">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1>Introduction to Public Key Cryptography</h1>
+        </div>
+
+        <div class="content-body">
+          <div class="page-content">
+            <h2>What is Public Key Cryptography?</h2>
+
+            <p>
+              Public Key Cryptography, also known as asymmetric cryptography, is
+              a cryptographic system that uses pairs of keys: a public key and a
+              private key. These keys are mathematically related but cannot be
+              derived from each other easily.
+            </p>
+
+            <div class="info-box">
+              <strong>Key Concept:</strong> The public key can be shared openly,
+              while the private key must be kept secret. This fundamental
+              property enables secure communication and digital signatures
+              without requiring a shared secret beforehand.
             </div>
-            
-            <div class="content-body">
-                <div class="page-content">
-                    <h2>What is Public Key Cryptography?</h2>
-                    
-                    <p>
-                        Public Key Cryptography, also known as asymmetric cryptography, is a cryptographic system 
-                        that uses pairs of keys: a public key and a private key. These keys are mathematically 
-                        related but cannot be derived from each other easily.
-                    </p>
 
-                    <div class="info-box">
-                        <strong>Key Concept:</strong> The public key can be shared openly, while the private key 
-                        must be kept secret. This fundamental property enables secure communication and digital 
-                        signatures without requiring a shared secret beforehand.
-                    </div>
+            <h3>How It Works</h3>
+            <p>In public key cryptography:</p>
+            <ul>
+              <li>
+                <strong>Public Key:</strong> Can be freely distributed and used
+                to encrypt messages or verify signatures. Anyone can have access
+                to this key.
+              </li>
+              <li>
+                <strong>Private Key:</strong> Must be kept secret. It's used to
+                decrypt messages encrypted with the corresponding public key, or
+                to create digital signatures.
+              </li>
+            </ul>
 
-                    <h3>How It Works</h3>
-                    <p>
-                        In public key cryptography:
-                    </p>
-                    <ul>
-                        <li><strong>Public Key:</strong> Can be freely distributed and used to encrypt messages 
-                        or verify signatures. Anyone can have access to this key.</li>
-                        <li><strong>Private Key:</strong> Must be kept secret. It's used to decrypt messages 
-                        encrypted with the corresponding public key, or to create digital signatures.</li>
-                    </ul>
+            <h3>Key Properties</h3>
+            <ol>
+              <li>
+                <strong>One-way Function:</strong> It's computationally
+                infeasible to derive the private key from the public key.
+              </li>
+              <li>
+                <strong>Mathematical Relationship:</strong> The keys are
+                mathematically linked, allowing operations performed with one
+                key to be verified or reversed with the other.
+              </li>
+              <li>
+                <strong>Security:</strong> The security relies on mathematical
+                problems that are difficult to solve, such as the discrete
+                logarithm problem in elliptic curve cryptography.
+              </li>
+            </ol>
 
-                    <h3>Key Properties</h3>
-                    <ol>
-                        <li><strong>One-way Function:</strong> It's computationally infeasible to derive the 
-                        private key from the public key.</li>
-                        <li><strong>Mathematical Relationship:</strong> The keys are mathematically linked, 
-                        allowing operations performed with one key to be verified or reversed with the other.</li>
-                        <li><strong>Security:</strong> The security relies on mathematical problems that are 
-                        difficult to solve, such as the discrete logarithm problem in elliptic curve cryptography.</li>
-                    </ol>
+            <h3>Common Use Cases</h3>
+            <ul>
+              <li>
+                <strong>Encryption:</strong> Encrypt data with a public key so
+                only the holder of the private key can decrypt it.
+              </li>
+              <li>
+                <strong>Digital Signatures:</strong> Sign data with a private
+                key so anyone with the public key can verify the signature's
+                authenticity.
+              </li>
+              <li>
+                <strong>Authentication:</strong> Prove identity without
+                revealing the private key.
+              </li>
+            </ul>
 
-                    <h3>Common Use Cases</h3>
-                    <ul>
-                        <li><strong>Encryption:</strong> Encrypt data with a public key so only the holder of 
-                        the private key can decrypt it.</li>
-                        <li><strong>Digital Signatures:</strong> Sign data with a private key so anyone with the 
-                        public key can verify the signature's authenticity.</li>
-                        <li><strong>Authentication:</strong> Prove identity without revealing the private key.</li>
-                    </ul>
+            <h3>Elliptic Curve Cryptography (ECC)</h3>
+            <p>
+              Ethereum uses <strong>secp256k1</strong>, a specific elliptic
+              curve defined by the Standards for Efficient Cryptography Group
+              (SECG). This curve is also used by Bitcoin.
+            </p>
+            <p>Advantages of ECC:</p>
+            <ul>
+              <li>Smaller key sizes for equivalent security compared to RSA</li>
+              <li>Faster computation</li>
+              <li>Lower memory and bandwidth requirements</li>
+            </ul>
 
-                    <h3>Elliptic Curve Cryptography (ECC)</h3>
-                    <p>
-                        Ethereum uses <strong>secp256k1</strong>, a specific elliptic curve defined by the 
-                        Standards for Efficient Cryptography Group (SECG). This curve is also used by Bitcoin.
-                    </p>
-                    <p>
-                        Advantages of ECC:
-                    </p>
-                    <ul>
-                        <li>Smaller key sizes for equivalent security compared to RSA</li>
-                        <li>Faster computation</li>
-                        <li>Lower memory and bandwidth requirements</li>
-                    </ul>
+            <p>
+              For a deeper understanding of how signatures are created and
+              verified on elliptic curves, see the
+              <strong>Elliptic Curve Digital Signature Algorithm (ECDSA)</strong
+              >. A clear introduction and technical overview is available on
+              Wikipedia:
+              <a
+                href="https://learnmeabitcoin.com/technical/cryptography/elliptic-curve/ecdsa"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Elliptic Curve Digital Signature Algorithm</a
+              >.
+            </p>
 
-                    <div class="warning-box">
-                        <strong>Important:</strong> Never share your private key! If someone gains access to 
-                        your private key, they can impersonate you and access all your assets.
-                    </div>
-                </div>
+            <div class="warning-box">
+              <strong>Important:</strong> Never share your private key! If
+              someone gains access to your private key, they can impersonate you
+              and access all your assets.
             </div>
-        </main>
+          </div>
+        </div>
+      </main>
     </div>
 
     <script src="/js/navigation-data.js"></script>
     <script src="/js/navigation.js"></script>
-</body>
+  </body>
 </html>
-

@@ -39,6 +39,41 @@ app.post('/api/generate-keypair', (req, res) => {
   }
 });
 
+// API route for importing a key pair from a private key
+app.post('/api/import-keypair', (req, res) => {
+  try {
+    const secp256k1 = require('secp256k1');
+    const { privateToAddress } = require('ethereumjs-util');
+
+    let { privateKeyHex } = req.body;
+    if (!privateKeyHex || typeof privateKeyHex !== 'string') {
+      return res.status(400).json({ error: 'Private key (hex) is required' });
+    }
+    privateKeyHex = privateKeyHex.replace(/^0x/i, '').trim();
+    if (privateKeyHex.length !== 64 || !/^[a-fA-F0-9]+$/.test(privateKeyHex)) {
+      return res.status(400).json({ error: 'Invalid private key. Must be 64 hexadecimal characters (with or without 0x prefix).' });
+    }
+
+    const privateKey = Buffer.from(privateKeyHex, 'hex');
+    if (!secp256k1.privateKeyVerify(privateKey)) {
+      return res.status(400).json({ error: 'Invalid private key for secp256k1 curve.' });
+    }
+
+    const publicKey = secp256k1.publicKeyCreate(privateKey, false);
+    const publicKeyBuffer = Buffer.from(publicKey.slice(1));
+    const ethereumAddress = privateToAddress(privateKey);
+
+    res.json({
+      privateKey: privateKey.toString('hex'),
+      publicKey: Buffer.from(publicKey).toString('hex'),
+      ethereumAddress: '0x' + ethereumAddress.toString('hex'),
+      publicKeyUncompressed: publicKeyBuffer.toString('hex')
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // API route for signing a message
 app.post('/api/sign', (req, res) => {
   try {

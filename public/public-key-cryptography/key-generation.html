@@ -1,152 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Key Generation & Operations - Blockchain Tutorial</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Left Drawer - Dynamically Rendered -->
-        <aside class="drawer" id="drawer">
-            <!-- Navigation will be rendered here by navigation.js -->
-        </aside>
+      <!-- Left Drawer - Dynamically Rendered -->
+      <aside class="drawer" id="drawer">
+        <!-- Navigation will be rendered here by navigation.js -->
+      </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="content-header">
-                <button class="menu-toggle" id="menuToggle">☰</button>
-                <h1>Key Generation & Operations</h1>
-            </div>
-            
-            <div class="content-body">
-                <div class="page-content">
-                    <h2>secp256k1 Key Pair Generation</h2>
-                    
-                    <p>
-                        This page demonstrates how to generate Ethereum-compatible key pairs using the secp256k1 
-                        elliptic curve and perform encryption and digital signing operations.
-                    </p>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <div class="content-header">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1>Key Generation & Operations</h1>
+        </div>
 
-                    <div class="card">
-                        <h3>Generate Key Pair</h3>
-                        <p>Click the button below to generate a new secp256k1 key pair:</p>
-                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                            <button class="button" id="generateBtn">Generate New Key Pair</button>
-                            <button class="button button-secondary" id="clearKeyPairBtn">Clear Key Pair</button>
-                        </div>
-                        
-                        <div id="keyPairOutput" style="display: none;">
-                            <span class="output-label">Private Key (Keep Secret!):</span>
-                            <div class="output-box" id="privateKeyOutput"></div>
-                            <button class="button button-secondary" id="copyCurrentPrivateKeyBtn" style="margin-top: 5px; margin-bottom: 15px;">Copy Private Key</button>
-                            
-                            <span class="output-label">Public Key:</span>
-                            <div class="output-box" id="publicKeyOutput"></div>
-                            <button class="button button-secondary" id="copyCurrentPublicKeyBtn" style="margin-top: 5px; margin-bottom: 15px;">Copy Public Key</button>
-                            
-                            <span class="output-label">Ethereum Address:</span>
-                            <div class="info-box" style="margin: 5px 0; padding: 8px 12px; font-size: 0.9em;">
-                                <strong>ℹ️ Note:</strong> The Ethereum address is derived from the public key by taking the last 20 bytes of the keccak256 hash of the public key (without the 0x04 prefix).
-                            </div>
-                            <div class="output-box" id="addressOutput"></div>
-                            <button class="button button-secondary" id="copyCurrentAddressBtn" style="margin-top: 5px; margin-bottom: 15px;">Copy Address</button>
-                        </div>
-                    </div>
+        <div class="content-body">
+          <div class="page-content">
+            <h2>secp256k1 Key Pair Generation</h2>
 
-                    <div class="card">
-                        <h3>Digital Signing</h3>
-                        <p>Sign a message using your private key. The signature can be verified by anyone with your public key.</p>
-                        
-                        <div style="margin: 20px 0; text-align: center;">
-                            <img src="https://miro.medium.com/v2/resize:fit:1128/format:webp/0*fmDbrNTtkwzpXWzF" 
-                                 alt="Digital Signature Signing Process" 
-                                 style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                                <strong>Digital Signature Process:</strong> The message is hashed, then signed with the private key 
-                                to create a signature. Anyone with the public key can verify the signature's authenticity.
-                            </p>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="signMessage">Message to Sign:</label>
-                            <textarea id="signMessage" placeholder="Enter a message to sign...">Hello, Blockchain!</textarea>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="signPrivateKey">Private Key (Hex):</label>
-                            <input type="text" id="signPrivateKey" placeholder="Enter private key (with or without 0x prefix)" value="" readonly style="background-color: #f5f5f5;">
-                            <small style="color: #666; margin-top: 5px; display: block;">
-                                Private key from the generated key pair (auto-filled)
-                            </small>
-                        </div>
-                        
-                        <button class="button" id="signBtn" disabled>Sign Message</button>
-                        <button class="button button-secondary" id="clearSignBtn">Clear</button>
-                        
-                        <div id="signOutput" style="display: none;">
-                            <span class="output-label">Message Hash:</span>
-                            <div class="output-box" id="messageHashOutput"></div>
-                            
-                            <span class="output-label">Signature (r):</span>
-                            <div class="output-box" id="signatureROutput"></div>
-                            
-                            <span class="output-label">Signature (s):</span>
-                            <div class="output-box" id="signatureSOutput"></div>
-                            
-                            <span class="output-label">Full Signature:</span>
-                            <div class="output-box" id="signatureFullOutput"></div>
-                        </div>
-                    </div>
+            <p>
+              This page demonstrates how to generate Ethereum-compatible key
+              pairs using the secp256k1 elliptic curve and perform encryption
+              and digital signing operations.
+            </p>
 
-                    <div class="card">
-                        <h3>Signature Verification</h3>
-                        <p>Verify a signature using the public key. This demonstrates how anyone can verify the authenticity of a signed message.</p>
-                        
-                        <div style="margin: 20px 0; text-align: center;">
-                            <img src="https://miro.medium.com/v2/resize:fit:1128/format:webp/0*fmDbrNTtkwzpXWzF" 
-                                 alt="Digital Signature Verification Process" 
-                                 style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                                <strong>Verification Process:</strong> The original message and signature are used with the public key 
-                                to verify that the message was signed by the holder of the corresponding private key.
-                            </p>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="verifyMessage">Original Message:</label>
-                            <textarea id="verifyMessage" placeholder="Enter the original message..."></textarea>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="verifyPublicKey">Public Key (Hex):</label>
-                            <input type="text" id="verifyPublicKey" placeholder="Enter public key (with or without 0x prefix)" value="" readonly style="background-color: #f5f5f5;">
-                            <small style="color: #666; margin-top: 5px; display: block;">
-                                Public key from the generated key pair (auto-filled)
-                            </small>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="verifySignature">Signature (hex):</label>
-                            <input type="text" id="verifySignature" placeholder="Paste the full signature here...">
-                        </div>
-                        
-                        <button class="button" id="verifyBtn" disabled>Verify Signature</button>
-                        <button class="button button-secondary" id="clearVerifyBtn">Clear</button>
-                        
-                        <div id="verifyOutput" style="display: none;">
-                            <div class="output-box" id="verifyResultOutput"></div>
-                        </div>
-                    </div>
+            <div class="card">
+              <h3>Generate Key Pair</h3>
+              <p>
+                Click the button below to generate a new secp256k1 key pair:
+              </p>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  margin-bottom: 20px;
+                  flex-wrap: wrap;
+                  align-items: center;
+                "
+              >
+                <button class="button" id="generateBtn">
+                  Generate New Key Pair
+                </button>
+                <label
+                  class="button button-import button-with-checkbox"
+                  for="showImportSection"
+                >
+                  <input type="checkbox" id="showImportSection" /> Import Key
+                  Pair
+                </label>
+                <button class="button button-secondary" id="clearKeyPairBtn">
+                  Clear Key Pair
+                </button>
+              </div>
+
+              <div id="keyPairOutput" style="display: none">
+                <span class="output-label">Private Key (Keep Secret!):</span>
+                <div class="output-box" id="privateKeyOutput"></div>
+                <button
+                  class="button button-secondary"
+                  id="copyCurrentPrivateKeyBtn"
+                  style="margin-top: 5px; margin-bottom: 15px"
+                >
+                  Copy Private Key
+                </button>
+
+                <span class="output-label">Public Key:</span>
+                <div class="output-box" id="publicKeyOutput"></div>
+                <button
+                  class="button button-secondary"
+                  id="copyCurrentPublicKeyBtn"
+                  style="margin-top: 5px; margin-bottom: 15px"
+                >
+                  Copy Public Key
+                </button>
+
+                <span class="output-label">Ethereum Address:</span>
+                <div
+                  class="info-box"
+                  style="margin: 5px 0; padding: 8px 12px; font-size: 0.9em"
+                >
+                  <strong>ℹ️ Note:</strong> The Ethereum address is derived from
+                  the public key by taking the last 20 bytes of the keccak256
+                  hash of the public key (without the 0x04 prefix).
                 </div>
+                <div class="output-box" id="addressOutput"></div>
+                <button
+                  class="button button-secondary"
+                  id="copyCurrentAddressBtn"
+                  style="margin-top: 5px; margin-bottom: 15px"
+                >
+                  Copy Address
+                </button>
+              </div>
             </div>
-        </main>
+
+            <div id="importKeyPairSection" class="card" style="display: none">
+              <h3>Import Key Pair from Private Key</h3>
+              <p>
+                Enter an existing private key (64 hex characters) to derive and
+                display the corresponding public key and Ethereum address:
+              </p>
+              <div class="input-group">
+                <label for="importPrivateKey">Private Key (Hex):</label>
+                <input
+                  type="password"
+                  id="importPrivateKey"
+                  placeholder="Enter private key (with or without 0x prefix)"
+                  autocomplete="off"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Use only for learning. Never paste a key that holds real funds
+                  in a browser.
+                </small>
+              </div>
+              <div style="display: flex; gap: 10px; margin-top: 10px">
+                <button class="button" id="importKeyPairBtn">
+                  Import Key Pair
+                </button>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                  "
+                >
+                  <input type="checkbox" id="importPrivateKeyShow" /> Show
+                  private key
+                </label>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Digital Signing</h3>
+              <p>
+                Sign a message using your private key. The signature can be
+                verified by anyone with your public key.
+              </p>
+
+              <div style="margin: 20px 0; text-align: center">
+                <img
+                  src="https://miro.medium.com/v2/resize:fit:1128/format:webp/0*fmDbrNTtkwzpXWzF"
+                  alt="Digital Signature Signing Process"
+                  style="
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                />
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                  <strong>Digital Signature Process:</strong> The message is
+                  hashed, then signed with the private key to create a
+                  signature. Anyone with the public key can verify the
+                  signature's authenticity.
+                </p>
+              </div>
+
+              <div class="input-group">
+                <label for="signMessage">Message to Sign:</label>
+                <textarea
+                  id="signMessage"
+                  placeholder="Enter a message to sign..."
+                >
+Hello, Blockchain!</textarea
+                >
+              </div>
+
+              <div class="input-group">
+                <label for="signPrivateKey">Private Key (Hex):</label>
+                <input
+                  type="text"
+                  id="signPrivateKey"
+                  placeholder="Enter private key (with or without 0x prefix)"
+                  value=""
+                  readonly
+                  style="background-color: #f5f5f5"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Private key from the generated key pair (auto-filled)
+                </small>
+              </div>
+
+              <button class="button" id="signBtn" disabled>Sign Message</button>
+              <button class="button button-secondary" id="clearSignBtn">
+                Clear
+              </button>
+
+              <div id="signOutput" style="display: none">
+                <span class="output-label">Message Hash:</span>
+                <div class="output-box" id="messageHashOutput"></div>
+
+                <span class="output-label">Signature (r):</span>
+                <div class="output-box" id="signatureROutput"></div>
+
+                <span class="output-label">Signature (s):</span>
+                <div class="output-box" id="signatureSOutput"></div>
+
+                <span class="output-label">Full Signature:</span>
+                <div class="output-box" id="signatureFullOutput"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Signature Verification</h3>
+              <p>
+                Verify a signature using the public key. This demonstrates how
+                anyone can verify the authenticity of a signed message.
+              </p>
+
+              <div style="margin: 20px 0; text-align: center">
+                <img
+                  src="https://miro.medium.com/v2/resize:fit:1128/format:webp/0*fmDbrNTtkwzpXWzF"
+                  alt="Digital Signature Verification Process"
+                  style="
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                />
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                  <strong>Verification Process:</strong> The original message
+                  and signature are used with the public key to verify that the
+                  message was signed by the holder of the corresponding private
+                  key.
+                </p>
+              </div>
+
+              <div class="input-group">
+                <label for="verifyMessage">Original Message:</label>
+                <textarea
+                  id="verifyMessage"
+                  placeholder="Enter the original message..."
+                ></textarea>
+              </div>
+
+              <div class="input-group">
+                <label for="verifyPublicKey">Public Key (Hex):</label>
+                <input
+                  type="text"
+                  id="verifyPublicKey"
+                  placeholder="Enter public key (with or without 0x prefix)"
+                  value=""
+                  readonly
+                  style="background-color: #f5f5f5"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Public key from the generated key pair (auto-filled)
+                </small>
+              </div>
+
+              <div class="input-group">
+                <label for="verifySignature">Signature (hex):</label>
+                <input
+                  type="text"
+                  id="verifySignature"
+                  placeholder="Paste the full signature here..."
+                />
+              </div>
+
+              <button class="button" id="verifyBtn" disabled>
+                Verify Signature
+              </button>
+              <button class="button button-secondary" id="clearVerifyBtn">
+                Clear
+              </button>
+
+              <div id="verifyOutput" style="display: none">
+                <div class="output-box" id="verifyResultOutput"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
 
     <script src="/js/navigation-data.js"></script>
     <script src="/js/navigation.js"></script>
     <script src="/js/key-generation.js"></script>
-</body>
+  </body>
 </html>
-
