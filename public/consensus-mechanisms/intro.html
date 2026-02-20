@@ -132,10 +132,86 @@
                         </ul>
                     </div>
 
+                    <h3>Transaction Finality and the Longest Chain Rule</h3>
+                    <p>
+                        <strong>Transaction finality</strong> refers to the point at which a
+                        transaction is considered irreversible and permanently part of the
+                        ledger. In a distributed network, different nodes may sometimes
+                        produce valid blocks at nearly the same time, creating a temporary
+                        <strong>fork</strong>: two competing branches of the chain. The
+                        network must agree on which branch is the canonical one. This is
+                        where the <strong>longest chain rule</strong> applies.
+                    </p>
+                    <p>
+                        Under the longest chain rule, when two valid blocks are found and
+                        broadcast at the same time, the tie is broken when the
+                        <strong>next</strong> block is found. That next block is built on
+                        top of one of the two competing blocks. The branch that gets
+                        extended becomes the accepted chain; the other branch's tip is
+                        treated as an <strong>orphan block</strong> and is no longer part
+                        of the canonical chain. Nodes therefore consider the longest
+                        (most cumulative proof-of-work or, in Proof of Stake, the chain
+                        with the most attestations) as the true history.
+                    </p>
+                    <p>
+                        The deeper a transaction is buried under subsequent blocks, the
+                        more confident we can be that it has achieved finality, because
+                        reverting it would require replacing a longer chain. In practice,
+                        services often wait for a certain number of
+                        <strong>confirmations</strong> (blocks built on top of the block
+                        containing the transaction) before treating a transfer as final.
+                    </p>
+                    <p>
+                        How finality is achieved depends on the consensus mechanism:
+                    </p>
+                    <ul>
+                        <li><strong>Probabilistic Finality (PoW):</strong> Blocks become more final as more blocks are
+                        added on top. Generally, 6+ confirmations provide strong confidence.</li>
+                        <li><strong>Deterministic Finality (PoS):</strong> Blocks are finalized after a certain number
+                        of epochs through a voting process. Once finalized, they cannot be reversed except through
+                        extreme circumstances.</li>
+                    </ul>
+
+                    <div style="margin: 20px 0; text-align: center">
+                        <img
+                            src="/assets/longest_chain_rule.png"
+                            alt="Longest chain rule: two valid blocks create a tie; the next block extends one branch and breaks the tie, making the other an orphan block"
+                            style="
+                                max-width: 100%;
+                                height: auto;
+                                border-radius: 5px;
+                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                            "
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                            <strong>Longest chain rule:</strong> When two valid blocks are
+                            broadcast at the same time (TIE), the next block that is found
+                            is built on one branch. That branch becomes the canonical
+                            chain; the other branch's tip is the orphan block (TIE IS
+                            BROKEN).
+                        </p>
+                    </div>
+
                     <h3>Block Structure</h3>
                     <p>
                         Based on Ethereum's block structure (as shown on Etherscan), a block contains the following components:
                     </p>
+
+                    <div style="margin: 20px 0; text-align: center">
+                        <img
+                            src="/assets/block_details.png"
+                            alt="Ethereum block explorer view showing block overview: height, status, timestamp, transactions, gas, fees, hashes and roots"
+                            style="
+                                max-width: 100%;
+                                height: auto;
+                                border-radius: 5px;
+                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                            "
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                            <strong>Block details (block explorer):</strong> Overview of an Ethereum block showing header fields, gas and fees, and cryptographic hashes (hash, parent hash, state root, withdrawals root, nonce).
+                        </p>
+                    </div>
 
                     <h4>Block Header</h4>
                     <ul>
@@ -198,19 +274,6 @@
                         This chaining makes it extremely difficult to alter past blocks. Changing any block would require 
                         recalculating all subsequent blocks, which becomes computationally infeasible as the chain grows.
                     </p>
-
-                    <h3>Finality</h3>
-                    <p>
-                        <strong>Finality</strong> refers to the point at which a block (and its transactions) is 
-                        considered permanent and cannot be reversed:
-                    </p>
-                    <ul>
-                        <li><strong>Probabilistic Finality (PoW):</strong> Blocks become more final as more blocks are 
-                        added on top. Generally, 6+ confirmations provide strong confidence.</li>
-                        <li><strong>Deterministic Finality (PoS):</strong> Blocks are finalized after a certain number 
-                        of epochs through a voting process. Once finalized, they cannot be reversed except through 
-                        extreme circumstances.</li>
-                    </ul>
                 </div>
             </div>
         </main>

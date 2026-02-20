@@ -65,6 +65,24 @@ const navigationData = {
                     id: 'intro',
                     name: 'Introduction',
                     path: '/smart-contracts/intro.html'
+                },
+                {
+                    id: 'solidity',
+                    name: 'Solidity',
+                    path: '/smart-contracts/solidity.html'
+                }
+            ]
+        },
+        {
+            id: 'tokenization',
+            name: 'Tokenization',
+            icon: '🪙',
+            expanded: false,
+            pages: [
+                {
+                    id: 'intro',
+                    name: 'Introduction',
+                    path: '/tokenization/intro.html'
                 }
             ]
         }

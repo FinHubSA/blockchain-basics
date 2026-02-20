@@ -1,282 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Introduction to Distributed Ledgers - Blockchain Tutorial</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Left Drawer - Dynamically Rendered -->
-        <aside class="drawer" id="drawer">
-            <!-- Navigation will be rendered here by navigation.js -->
-        </aside>
+      <!-- Left Drawer - Dynamically Rendered -->
+      <aside class="drawer" id="drawer">
+        <!-- Navigation will be rendered here by navigation.js -->
+      </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="content-header">
-                <button class="menu-toggle" id="menuToggle">☰</button>
-                <h1>Introduction to Distributed Ledgers</h1>
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <div class="content-header">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1>Introduction to Distributed Ledgers</h1>
+        </div>
+
+        <div class="content-body">
+          <div class="page-content">
+            <h2>What is a Distributed Ledger?</h2>
+
+            <p>
+              A <strong>distributed ledger</strong> is a database that is
+              consensually shared and synchronized across multiple sites,
+              institutions, or geographies. Unlike traditional centralized
+              databases, distributed ledgers have no central administrator or
+              central storage. Instead, they are maintained by a network of
+              participants, each holding an identical copy of the ledger.
+            </p>
+
+            <div class="info-box">
+              <strong>Key Concept:</strong> In a distributed ledger, all
+              participants can see the same data simultaneously, and any changes
+              are reflected across all copies in near real-time. This creates
+              transparency and reduces the risk of fraud or manipulation.
             </div>
-            
-            <div class="content-body">
-                <div class="page-content">
-                    <h2>What is a Distributed Ledger?</h2>
-                    
-                    <p>
-                        A <strong>distributed ledger</strong> is a database that is consensually shared and synchronized 
-                        across multiple sites, institutions, or geographies. Unlike traditional centralized databases, 
-                        distributed ledgers have no central administrator or central storage. Instead, they are maintained 
-                        by a network of participants, each holding an identical copy of the ledger.
-                    </p>
 
-                    <div class="info-box">
-                        <strong>Key Concept:</strong> In a distributed ledger, all participants can see the same data 
-                        simultaneously, and any changes are reflected across all copies in near real-time. This creates 
-                        transparency and reduces the risk of fraud or manipulation.
-                    </div>
+            <h3>Core Components</h3>
+            <p>
+              A distributed ledger consists of three fundamental components:
+            </p>
 
-                    <h3>Core Components</h3>
-                    <p>
-                        A distributed ledger consists of three fundamental components:
-                    </p>
+            <h3>1. Accounts</h3>
+            <p>
+              An <strong>account</strong> in a distributed ledger represents an
+              entity that can hold balances and initiate transactions. In
+              Ethereum, there are two types of accounts:
+            </p>
+            <ul>
+              <li>
+                <strong>Externally Owned Accounts (EOAs):</strong> Controlled by
+                private keys. These are user accounts that can send transactions
+                and hold Ether (ETH) or other tokens.
+              </li>
+              <li>
+                <strong>Contract Accounts:</strong> Controlled by code (smart
+                contracts). These accounts have associated code that executes
+                when they receive transactions.
+              </li>
+            </ul>
+            <p>
+              Each account has a unique address (derived from its public key)
+              and can hold a balance of cryptocurrency or tokens.
+            </p>
 
-                    <h3>1. Accounts</h3>
-                    <p>
-                        An <strong>account</strong> in a distributed ledger represents an entity that can hold balances 
-                        and initiate transactions. In Ethereum, there are two types of accounts:
-                    </p>
-                    <ul>
-                        <li><strong>Externally Owned Accounts (EOAs):</strong> Controlled by private keys. These are 
-                        user accounts that can send transactions and hold Ether (ETH) or other tokens.</li>
-                        <li><strong>Contract Accounts:</strong> Controlled by code (smart contracts). These accounts 
-                        have associated code that executes when they receive transactions.</li>
-                    </ul>
-                    <p>
-                        Each account has a unique address (derived from its public key) and can hold a balance of 
-                        cryptocurrency or tokens.
-                    </p>
+            <h3>2. Balances</h3>
+            <p>
+              A <strong>balance</strong> represents the amount of cryptocurrency
+              or tokens held by an account. In Ethereum:
+            </p>
+            <ul>
+              <li>Balances are stored in the ledger state</li>
+              <li>
+                Each account's balance is publicly visible on the blockchain
+              </li>
+              <li>Balances can only be modified through valid transactions</li>
+              <li>
+                The ledger maintains a complete history of all balance changes
+              </li>
+            </ul>
 
-                    <h3>2. Balances</h3>
-                    <p>
-                        A <strong>balance</strong> represents the amount of cryptocurrency or tokens held by an account. 
-                        In Ethereum:
-                    </p>
-                    <ul>
-                        <li>Balances are stored in the ledger state</li>
-                        <li>Each account's balance is publicly visible on the blockchain</li>
-                        <li>Balances can only be modified through valid transactions</li>
-                        <li>The ledger maintains a complete history of all balance changes</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>Ethereum Denominations: Wei, Gwei, and Ether</strong>
-                        <p style="margin-top: 10px; margin-bottom: 10px;">
-                            Ethereum uses multiple denominations to represent different amounts of Ether, similar to how 
-                            dollars have cents. The smallest unit is <strong>Wei</strong>, and all other units are 
-                            multiples of Wei:
-                        </p>
-                        <ul style="margin-top: 10px; margin-bottom: 0;">
-                            <li><strong>Wei:</strong> The smallest unit of Ether, named after Wei Dai (creator of b-money). 
-                            This is the base unit used internally by the Ethereum protocol. 1 Wei = 1 Wei</li>
-                            <li><strong>Gwei (Gigawei):</strong> A commonly used unit for gas prices and smaller amounts. 
-                            1 Gwei = 1,000,000,000 Wei (10⁹ Wei) = 0.000000001 ETH. "Gwei" stands for "giga-wei" 
-                            (giga = billion).</li>
-                            <li><strong>Ether (ETH):</strong> The standard unit most people use. 1 ETH = 1,000,000,000,000,000,000 Wei 
-                            (10¹⁸ Wei) = 1,000,000,000 Gwei (10⁹ Gwei).</li>
-                        </ul>
-                        <p style="margin-top: 10px; margin-bottom: 0;">
-                            <strong>Why multiple units?</strong> Wei allows for precise calculations and prevents rounding 
-                            errors. Gwei is convenient for gas prices (e.g., "20 Gwei" is easier than "20000000000 Wei"). 
-                            ETH is the human-readable unit for everyday use. When working with smart contracts or 
-                            transaction APIs, values are often specified in Wei.
-                        </p>
-                    </div>
-
-                    <p>
-                        The ledger ensures that balances are always accurate and that no funds can be created or 
-                        destroyed without following the protocol's rules.
-                    </p>
-
-                    <h3>3. Transactions</h3>
-                    <p>
-                        A <strong>transaction</strong> is a signed instruction from an account to transfer value or 
-                        execute a smart contract. Key characteristics of transactions:
-                    </p>
-                    <ul>
-                        <li><strong>From:</strong> The account initiating the transaction (sender)</li>
-                        <li><strong>To:</strong> The recipient account address</li>
-                        <li><strong>Value:</strong> The amount of cryptocurrency to transfer</li>
-                        <li><strong>Nonce:</strong> A number that prevents transaction replay attacks</li>
-                        <li><strong>Gas Price:</strong> The fee paid to miners/validators</li>
-                        <li><strong>Gas Limit:</strong> The maximum computational work allowed</li>
-                        <li><strong>Signature:</strong> Cryptographic proof that the transaction was authorized by 
-                        the account owner</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>Understanding Gas and Gas Prices:</strong> Gas is the unit that measures the computational 
-                        work required to execute operations on the Ethereum network. Every operation (transferring ETH, 
-                        calling a smart contract function, deploying a contract) consumes a specific amount of gas.
-                        <ul style="margin-top: 10px; margin-bottom: 0;">
-                            <li><strong>Gas Limit:</strong> The maximum amount of gas you're willing to spend on a 
-                            transaction. This prevents runaway transactions from consuming all your funds. For simple 
-                            ETH transfers, 21,000 gas is standard. Complex smart contract interactions may require much more.</li>
-                            <li><strong>Gas Price:</strong> The amount of Ether (in Gwei, where 1 Gwei = 10⁹ Wei = 10⁻⁹ ETH) 
-                            you're willing to pay per unit of gas. Higher gas prices incentivize miners/validators to include 
-                            your transaction faster, but cost more.</li>
-                            <li><strong>Total Cost:</strong> Transaction fee = Gas Limit × Gas Price. For example, if you 
-                            set a gas limit of 21,000 and gas price of 20 Gwei, your transaction fee would be 
-                            21,000 × 20 Gwei = 420,000 Gwei = 0.00042 ETH.</li>
-                        </ul>
-                        <p style="margin-top: 10px; margin-bottom: 0;">
-                            Gas prices fluctuate based on network demand. During high traffic periods, users may need to 
-                            pay higher gas prices to get their transactions processed quickly.
-                        </p>
-                    </div>
-
-                    <div class="info-box">
-                        <strong>Transaction Flow:</strong> When a transaction is created, it must be signed with the 
-                        sender's private key. This signature proves ownership and authorization. The signed transaction 
-                        is then broadcast to the network, validated, and added to the ledger.
-                    </div>
-
-                    <h3>How Distributed Ledgers Work</h3>
-                    <ol>
-                        <li><strong>Transaction Creation:</strong> A user creates a transaction to transfer funds or 
-                        execute a smart contract, signing it with their private key.</li>
-                        <li><strong>Broadcasting:</strong> The signed transaction is broadcast to the network of 
-                        nodes (computers maintaining the ledger).</li>
-                        <li><strong>Validation:</strong> Network nodes validate the transaction by checking:
-                            <ul>
-                                <li>The signature is valid</li>
-                                <li>The sender has sufficient balance</li>
-                                <li>The transaction format is correct</li>
-                                <li>The nonce is valid (prevents replay attacks)</li>
-                            </ul>
-                        </li>
-                        <li><strong>Consensus:</strong> Network participants agree on which transactions to include 
-                        and in what order (through consensus mechanisms like Proof of Work or Proof of Stake).</li>
-                        <li><strong>Recording:</strong> Valid transactions are grouped into blocks and added to the 
-                        ledger, updating all account balances accordingly.</li>
-                    </ol>
-
-                    <h3>Blockchain as a State Machine</h3>
-                    <p>
-                        A blockchain can be understood as a <strong>state machine</strong> - a system that maintains a 
-                        current state and transitions to a new state when transactions are processed. Each block in the 
-                        blockchain represents a state transition, moving the entire system from one valid state to another.
-                    </p>
-
-                    <div style="margin: 20px 0; text-align: center;">
-                        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240829122823/blockchainstruct1.webp" 
-                             alt="Blockchain Structure as State Machine" 
-                             style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                            <strong>Blockchain State Machine:</strong> Each block contains transactions that transition the 
-                            blockchain from one state to another, with each block verifying the integrity of the previous state.
-                        </p>
-                    </div>
-
-                    <h4>Understanding State in Blockchain</h4>
-                    <p>
-                        The <strong>state</strong> of a blockchain at any given point includes:
-                    </p>
-                    <ul>
-                        <li><strong>Account Balances:</strong> The current balance of every account in the network</li>
-                        <li><strong>Smart Contract Storage:</strong> The current values stored in all smart contracts</li>
-                        <li><strong>Account Nonces:</strong> The transaction count for each account (prevents replay attacks)</li>
-                        <li><strong>Contract Code:</strong> The bytecode of all deployed smart contracts</li>
-                    </ul>
-
-                    <h4>State Transitions</h4>
-                    <p>
-                        When a block is added to the blockchain:
-                    </p>
-                    <ol>
-                        <li><strong>Initial State:</strong> The blockchain starts with the state from the previous block 
-                        (or genesis state for the first block)</li>
-                        <li><strong>Transaction Processing:</strong> Each transaction in the block is executed, which 
-                        modifies the state:
-                            <ul>
-                                <li>Transferring value between accounts updates balances</li>
-                                <li>Executing smart contract functions updates contract storage</li>
-                                <li>Deploying contracts adds new contract code to the state</li>
-                            </ul>
-                        </li>
-                        <li><strong>New State:</strong> After processing all transactions, the blockchain reaches a 
-                        new valid state</li>
-                        <li><strong>State Root:</strong> The new state is cryptographically hashed into a "state root" 
-                        (Merkle root) that represents the entire state in a single hash</li>
-                    </ol>
-
-                    <h4>State Verification in Blocks</h4>
-                    <p>
-                        Each block in the blockchain contains a <strong>state root</strong> (or state hash) that serves 
-                        as a cryptographic proof of the entire blockchain state at that point. This is crucial because:
-                    </p>
-                    <ul>
-                        <li><strong>Verification:</strong> The state root in the current block verifies that all 
-                        previous blocks have been processed correctly and the state is valid</li>
-                        <li><strong>Integrity:</strong> Any change to any account balance, contract storage, or previous 
-                        transaction would result in a different state root, immediately revealing tampering</li>
-                        <li><strong>Efficiency:</strong> Instead of storing all account data in every block, only the 
-                        state root hash is stored, making the blockchain more efficient</li>
-                        <li><strong>Consensus:</strong> All nodes can independently verify they have the same state by 
-                        comparing state roots</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>Key Insight:</strong> The state root in each block acts like a fingerprint of the entire 
-                        blockchain state. If even a single account balance changes, the state root changes completely, 
-                        making it impossible to alter the blockchain without detection.
-                    </div>
-
-                    <p>
-                        This state machine model ensures that:
-                    </p>
-                    <ul>
-                        <li>The blockchain always maintains a consistent, verifiable state</li>
-                        <li>All nodes can independently verify they have the correct state</li>
-                        <li>Historical states can be reconstructed by replaying transactions from the genesis block</li>
-                        <li>The entire system behaves deterministically - the same transactions always produce the same state</li>
-                    </ul>
-
-                    <h3>Key Benefits</h3>
-                    <ul>
-                        <li><strong>Transparency:</strong> All transactions are visible to all participants</li>
-                        <li><strong>Immutability:</strong> Once recorded, transactions cannot be easily altered</li>
-                        <li><strong>Decentralization:</strong> No single point of failure or control</li>
-                        <li><strong>Security:</strong> Cryptographic signatures ensure only authorized parties can 
-                        initiate transactions</li>
-                        <li><strong>Trust:</strong> Participants don't need to trust a central authority</li>
-                    </ul>
-
-                    <div class="warning-box">
-                        <strong>Important:</strong> While distributed ledgers provide many benefits, they also require 
-                        careful management of private keys. If you lose your private key, you lose access to your 
-                        account and funds permanently.
-                    </div>
-
-                    <h3>Ethereum as a Distributed Ledger</h3>
-                    <p>
-                        Ethereum is a prominent example of a distributed ledger that:
-                    </p>
-                    <ul>
-                        <li>Maintains account balances in Ether (ETH) and other tokens</li>
-                        <li>Records all transactions in a public, immutable blockchain</li>
-                        <li>Uses cryptographic signatures (secp256k1) to authorize transactions</li>
-                        <li>Allows execution of smart contracts through transactions</li>
-                        <li>Operates on a global network of nodes that maintain identical copies of the ledger</li>
-                    </ul>
-                </div>
+            <div class="info-box">
+              <strong>Ethereum Denominations: Wei, Gwei, and Ether</strong>
+              <p style="margin-top: 10px; margin-bottom: 10px">
+                Ethereum uses multiple denominations to represent different
+                amounts of Ether, similar to how dollars have cents. The
+                smallest unit is <strong>Wei</strong>, and all other units are
+                multiples of Wei:
+              </p>
+              <ul style="margin-top: 10px; margin-bottom: 0">
+                <li>
+                  <strong>Wei:</strong> The smallest unit of Ether, named after
+                  Wei Dai (creator of b-money). This is the base unit used
+                  internally by the Ethereum protocol. 1 Wei = 1 Wei
+                </li>
+                <li>
+                  <strong>Gwei (Gigawei):</strong> A commonly used unit for gas
+                  prices and smaller amounts. 1 Gwei = 1,000,000,000 Wei (10⁹
+                  Wei) = 0.000000001 ETH. "Gwei" stands for "giga-wei" (giga =
+                  billion).
+                </li>
+                <li>
+                  <strong>Ether (ETH):</strong> The standard unit most people
+                  use. 1 ETH = 1,000,000,000,000,000,000 Wei (10¹⁸ Wei) =
+                  1,000,000,000 Gwei (10⁹ Gwei).
+                </li>
+              </ul>
+              <p style="margin-top: 10px; margin-bottom: 0">
+                <strong>Why multiple units?</strong> Wei allows for precise
+                calculations and prevents rounding errors. Gwei is convenient
+                for gas prices (e.g., "20 Gwei" is easier than "20000000000
+                Wei"). ETH is the human-readable unit for everyday use. When
+                working with smart contracts or transaction APIs, values are
+                often specified in Wei.
+              </p>
             </div>
-        </main>
+
+            <p>
+              The ledger ensures that balances are always accurate and that no
+              funds can be created or destroyed without following the protocol's
+              rules.
+            </p>
+
+            <h3>3. Transactions</h3>
+            <p>
+              A <strong>transaction</strong> is a signed instruction from an
+              account to transfer value or execute a smart contract. Key
+              characteristics of transactions:
+            </p>
+            <ul>
+              <li>
+                <strong>From:</strong> The account initiating the transaction
+                (sender)
+              </li>
+              <li><strong>To:</strong> The recipient account address</li>
+              <li>
+                <strong>Value:</strong> The amount of cryptocurrency to transfer
+              </li>
+              <li>
+                <strong>Nonce:</strong> A number that prevents transaction
+                replay attacks
+              </li>
+              <li>
+                <strong>Gas Price:</strong> The fee paid to miners/validators
+              </li>
+              <li>
+                <strong>Gas Limit:</strong> The maximum computational work
+                allowed
+              </li>
+              <li>
+                <strong>Signature:</strong> Cryptographic proof that the
+                transaction was authorized by the account owner
+              </li>
+            </ul>
+
+            <div class="info-box">
+              <strong>Understanding Gas and Gas Prices:</strong> Gas is the unit
+              that measures the computational work required to execute
+              operations on the Ethereum network. Every operation (transferring
+              ETH, calling a smart contract function, deploying a contract)
+              consumes a specific amount of gas.
+              <ul style="margin-top: 10px; margin-bottom: 0">
+                <li>
+                  <strong>Gas Limit:</strong> The maximum amount of gas you're
+                  willing to spend on a transaction. This prevents runaway
+                  transactions from consuming all your funds. For simple ETH
+                  transfers, 21,000 gas is standard. Complex smart contract
+                  interactions may require much more.
+                </li>
+                <li>
+                  <strong>Gas Price:</strong> The amount of Ether (in Gwei,
+                  where 1 Gwei = 10⁹ Wei = 10⁻⁹ ETH) you're willing to pay per
+                  unit of gas. Higher gas prices incentivize miners/validators
+                  to include your transaction faster, but cost more.
+                </li>
+                <li>
+                  <strong>Total Cost:</strong> Transaction fee = Gas Limit × Gas
+                  Price. For example, if you set a gas limit of 21,000 and gas
+                  price of 20 Gwei, your transaction fee would be 21,000 × 20
+                  Gwei = 420,000 Gwei = 0.00042 ETH.
+                </li>
+              </ul>
+              <p style="margin-top: 10px; margin-bottom: 0">
+                Gas prices fluctuate based on network demand. During high
+                traffic periods, users may need to pay higher gas prices to get
+                their transactions processed quickly.
+              </p>
+            </div>
+
+            <div class="info-box">
+              <strong>Transaction Flow:</strong> When a transaction is created,
+              it must be signed with the sender's private key. This signature
+              proves ownership and authorization. The signed transaction is then
+              broadcast to the network, validated, and added to the ledger.
+
+              <div style="margin: 20px 0; text-align: center">
+                <img
+                  src="/assets/transaction_flow.png"
+                  alt="Transaction flow from senders to beneficiaries via proposed transactions, block formation, broadcast, verification, and blockchain update"
+                  style="
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                />
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                  <strong>Transaction Flow:</strong> Senders sign transactions →
+                  proposed transactions → validators/miners select transactions
+                  into a block → broadcast to the network → verification → block
+                  published to the blockchain → beneficiaries notified.
+                </p>
+              </div>
+            </div>
+
+            <h3>How Distributed Ledgers Work</h3>
+            <ol>
+              <li>
+                <strong>Transaction Creation:</strong> A user creates a
+                transaction to transfer funds or execute a smart contract,
+                signing it with their private key.
+              </li>
+              <li>
+                <strong>Broadcasting:</strong> The signed transaction is
+                broadcast to the network of nodes (computers maintaining the
+                ledger).
+              </li>
+              <li>
+                <strong>Validation:</strong> Network nodes validate the
+                transaction by checking:
+                <ul>
+                  <li>The signature is valid</li>
+                  <li>The sender has sufficient balance</li>
+                  <li>The transaction format is correct</li>
+                  <li>The nonce is valid (prevents replay attacks)</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Consensus:</strong> Network participants agree on which
+                transactions to include and in what order (through consensus
+                mechanisms like Proof of Work or Proof of Stake).
+              </li>
+              <li>
+                <strong>Recording:</strong> Valid transactions are grouped into
+                blocks and added to the ledger, updating all account balances
+                accordingly.
+              </li>
+            </ol>
+
+            <h3>Blockchain as a State Machine</h3>
+            <p>
+              A blockchain can be understood as a
+              <strong>state machine</strong> - a system that maintains a current
+              state and transitions to a new state when transactions are
+              processed. Each block in the blockchain represents a state
+              transition, moving the entire system from one valid state to
+              another.
+            </p>
+
+            <div style="margin: 20px 0; text-align: center">
+              <img
+                src="https://media.geeksforgeeks.org/wp-content/uploads/20240829122823/blockchainstruct1.webp"
+                alt="Blockchain Structure as State Machine"
+                style="
+                  max-width: 100%;
+                  height: auto;
+                  border-radius: 5px;
+                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                "
+              />
+              <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                <strong>Blockchain State Machine:</strong> Each block contains
+                transactions that transition the blockchain from one state to
+                another, with each block verifying the integrity of the previous
+                state.
+              </p>
+            </div>
+
+            <h4>Understanding State in Blockchain</h4>
+            <p>
+              The <strong>state</strong> of a blockchain at any given point
+              includes:
+            </p>
+            <ul>
+              <li>
+                <strong>Account Balances:</strong> The current balance of every
+                account in the network
+              </li>
+              <li>
+                <strong>Smart Contract Storage:</strong> The current values
+                stored in all smart contracts
+              </li>
+              <li>
+                <strong>Account Nonces:</strong> The transaction count for each
+                account (prevents replay attacks)
+              </li>
+              <li>
+                <strong>Contract Code:</strong> The bytecode of all deployed
+                smart contracts
+              </li>
+            </ul>
+
+            <h4>State Transitions</h4>
+            <p>When a block is added to the blockchain:</p>
+            <ol>
+              <li>
+                <strong>Initial State:</strong> The blockchain starts with the
+                state from the previous block (or genesis state for the first
+                block)
+              </li>
+              <li>
+                <strong>Transaction Processing:</strong> Each transaction in the
+                block is executed, which modifies the state:
+                <ul>
+                  <li>Transferring value between accounts updates balances</li>
+                  <li>
+                    Executing smart contract functions updates contract storage
+                  </li>
+                  <li>
+                    Deploying contracts adds new contract code to the state
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>New State:</strong> After processing all transactions,
+                the blockchain reaches a new valid state
+              </li>
+              <li>
+                <strong>State Root:</strong> The new state is cryptographically
+                hashed into a "state root" (Merkle root) that represents the
+                entire state in a single hash
+              </li>
+            </ol>
+
+            <h4>State Verification in Blocks</h4>
+            <p>
+              Each block in the blockchain contains a
+              <strong>state root</strong> (or state hash) that serves as a
+              cryptographic proof of the entire blockchain state at that point.
+              This is crucial because:
+            </p>
+            <ul>
+              <li>
+                <strong>Verification:</strong> The state root in the current
+                block verifies that all previous blocks have been processed
+                correctly and the state is valid
+              </li>
+              <li>
+                <strong>Integrity:</strong> Any change to any account balance,
+                contract storage, or previous transaction would result in a
+                different state root, immediately revealing tampering
+              </li>
+              <li>
+                <strong>Efficiency:</strong> Instead of storing all account data
+                in every block, only the state root hash is stored, making the
+                blockchain more efficient
+              </li>
+              <li>
+                <strong>Consensus:</strong> All nodes can independently verify
+                they have the same state by comparing state roots
+              </li>
+            </ul>
+
+            <div class="info-box">
+              <strong>Key Insight:</strong> The state root in each block acts
+              like a fingerprint of the entire blockchain state. If even a
+              single account balance changes, the state root changes completely,
+              making it impossible to alter the blockchain without detection.
+            </div>
+
+            <p>This state machine model ensures that:</p>
+            <ul>
+              <li>
+                The blockchain always maintains a consistent, verifiable state
+              </li>
+              <li>
+                All nodes can independently verify they have the correct state
+              </li>
+              <li>
+                Historical states can be reconstructed by replaying transactions
+                from the genesis block
+              </li>
+              <li>
+                The entire system behaves deterministically - the same
+                transactions always produce the same state
+              </li>
+            </ul>
+
+            <h3>Key Benefits</h3>
+            <ul>
+              <li>
+                <strong>Transparency:</strong> All transactions are visible to
+                all participants
+              </li>
+              <li>
+                <strong>Immutability:</strong> Once recorded, transactions
+                cannot be easily altered
+              </li>
+              <li>
+                <strong>Decentralization:</strong> No single point of failure or
+                control
+              </li>
+              <li>
+                <strong>Security:</strong> Cryptographic signatures ensure only
+                authorized parties can initiate transactions
+              </li>
+              <li>
+                <strong>Trust:</strong> Participants don't need to trust a
+                central authority
+              </li>
+            </ul>
+
+            <div class="warning-box">
+              <strong>Important:</strong> While distributed ledgers provide many
+              benefits, they also require careful management of private keys. If
+              you lose your private key, you lose access to your account and
+              funds permanently.
+            </div>
+
+            <h3>Ethereum as a Distributed Ledger</h3>
+            <p>Ethereum is a prominent example of a distributed ledger that:</p>
+            <ul>
+              <li>
+                Maintains account balances in Ether (ETH) and other tokens
+              </li>
+              <li>
+                Records all transactions in a public, immutable blockchain
+              </li>
+              <li>
+                Uses cryptographic signatures (secp256k1) to authorize
+                transactions
+              </li>
+              <li>Allows execution of smart contracts through transactions</li>
+              <li>
+                Operates on a global network of nodes that maintain identical
+                copies of the ledger
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
     </div>
 
     <script src="/js/navigation-data.js"></script>
     <script src="/js/navigation.js"></script>
-</body>
+  </body>
 </html>
-

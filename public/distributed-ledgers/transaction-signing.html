@@ -179,6 +179,16 @@
                         </div>
                         
                         <div class="input-group" id="callContractGroup" style="display: none;">
+                            <div style="margin: 15px 0; text-align: center;">
+                                <img
+                                    src="/assets/smart_contract_calling.png"
+                                    alt="Smart contract calling: transaction with To=contract address, Data=encoded method selector and arguments; 65-byte ECDSA signature"
+                                    style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                                />
+                                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                                    <strong>Smart contract calling:</strong> The transaction is sent to the contract address (<code>To</code>). The <code>data</code> field contains the encoded method selector and arguments for the function to execute.
+                                </p>
+                            </div>
                             <label for="contractAddress">Contract Address:</label>
                             <input type="text" id="contractAddress" placeholder="0x..." value="">
                             <small style="color: #666; margin-top: 5px; display: block;">
@@ -210,6 +220,16 @@
                         </div>
                         
                         <div class="input-group" id="solidityCodeGroup" style="display: none;">
+                            <div style="margin: 15px 0; text-align: center;">
+                                <img
+                                    src="/assets/smart_contract_deployment.png"
+                                    alt="Smart contract deployment transaction: fields (nonce, signature, value, To=NULL, gasPrice, gasLimit, data with encoded bytecode); Solidity contract compiles to bytecode"
+                                    style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                                />
+                                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                                    <strong>Smart contract deployment:</strong> The transaction has <code>To</code> empty (not an EOA); the <code>data</code> field holds the contract’s encoded bytecode. Solidity is compiled to bytecode for deployment.
+                                </p>
+                            </div>
                             <label>Solidity Code (for Contract Deployment):</label>
                             <div class="solidity-editor-container">
                                 <textarea id="solidityCode" placeholder="// Enter Solidity code here...&#10;pragma solidity ^0.8.0;&#10;&#10;contract SimpleContract {&#10;    uint256 public value;&#10;    &#10;    constructor(uint256 _value) {&#10;        value = _value;&#10;    }&#10;}"></textarea>

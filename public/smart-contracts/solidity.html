@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Solidity - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Introduction to Solidity</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is Solidity?</h2>
+                    <p>
+                        <strong>Solidity</strong> is the primary programming language for writing smart contracts on
+                        Ethereum and other EVM-compatible blockchains. It is statically typed, object-oriented, and
+                        compiles to bytecode that runs on the Ethereum Virtual Machine (EVM). This page introduces
+                        core concepts using the diagrams below.
+                    </p>
+
+                    <h3>1. Basics: Contract Structure, Pragma, and Constructors</h3>
+                    <p>
+                        A Solidity contract is defined with the <code>contract</code> keyword. The
+                        <code>pragma</code> directive specifies the compiler version; Solidity compiles to EVM
+                        bytecode. State variables are stored on the blockchain. The constructor runs once at
+                        deployment; functions are the entry points for contract logic.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_01_basics.png"
+                            alt="Solidity basics: pragma, contract, state variables, constructor, and functions"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Basics:</strong> Pragma and version, contract structure, state variables (e.g. <code>uint256</code>, <code>address</code>), constructor, and functions (e.g. <code>setNumber</code>, <code>getNumber</code>, <code>resetNumber</code> with access control).
+                        </p>
+                    </div>
+
+                    <h3>2. Variables and Storage</h3>
+                    <p>
+                        Solidity has several variable kinds: <strong>state</strong> variables (stored on-chain),
+                        <strong>immutable</strong> (set only in the constructor), <strong>constant</strong> (fixed at
+                        compile time), and <strong>local</strong> (temporary, discarded after the function returns).
+                        Data location matters: <strong>memory</strong> is temporary and modifiable;
+                        <strong>storage</strong> is a reference to on-chain data; <strong>calldata</strong> is
+                        read-only for external function arguments. <strong>Global</strong> variables like
+                        <code>msg.sender</code> and <code>block.timestamp</code> provide blockchain context.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_02_vars+storage.png"
+                            alt="Solidity variables: state, immutable, constant, memory, storage, local, global"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Variables and storage:</strong> State, immutable, constant, memory, storage, local, and global variables with code examples.
+                        </p>
+                    </div>
+
+                    <h3>3. Functions</h3>
+                    <p>
+                        Functions can have access modifiers: <code>private</code> (only inside the contract),
+                        <code>internal</code> (contract and derived contracts), <code>external</code> (only from
+                        outside), and <code>public</code> (anywhere). <code>view</code> functions read state but
+                        do not modify it; <code>pure</code> functions neither read nor modify state.
+                        <code>payable</code> functions can receive Ether. Functions declare return types and can
+                        use <strong>modifiers</strong> to run checks before or after execution.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_03_functions.png"
+                            alt="Solidity functions: access modifiers, view, pure, payable, return values, modifiers"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Functions:</strong> Access modifiers (private, internal, external, public), view/pure, payable, return values, and function modifiers (e.g. <code>onlyOwner</code>).
+                        </p>
+                    </div>
+
+                    <h3>4. Events</h3>
+                    <p>
+                        <strong>Events</strong> are declared with the <code>event</code> keyword and allow
+                        logging to the blockchain. Parameters can be <code>indexed</code> for efficient filtering.
+                        Functions trigger events with <code>emit</code>. Events are useful for off-chain
+                        listeners (e.g. updating UIs) and as a cheap form of historical data. They cannot be used
+                        in <code>view</code> or <code>pure</code> functions because they alter state (logs).
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_04_events.png"
+                            alt="Solidity events: declaration, indexed, emit, use cases and limitations"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Events:</strong> Declaring events, indexing for fast retrieval, emitting from functions, and use cases (logging, UI updates, cheap storage).
+                        </p>
+                    </div>
+
+                    <h3>5. Structs, Enums, and Mappings</h3>
+                    <p>
+                        <strong>Structs</strong> define custom types with multiple fields. <strong>Enums</strong>
+                        restrict a variable to a fixed set of named values. <strong>Mappings</strong> are
+                        key-value stores; they are not iterable and have no length. For ordered or countable
+                        data, keep a separate counter or array. The diagram shows an order system using an enum
+                        for status, a struct for order data, and a mapping keyed by order ID.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_05_structs+enums+mappings.png"
+                            alt="Solidity structs, enums, mappings: Order example with OrderStatus enum, Order struct, orders mapping"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Structs, enums, and mappings:</strong> Enum for order status, struct for order data, mapping for orders, and a counter for the next order ID.
+                        </p>
+                    </div>
+
+                    <h3>6. Conditionals and Loops</h3>
+                    <p>
+                        <strong>require(condition, "message")</strong> reverts the transaction if the condition
+                        fails. <strong>if/else</strong> works like in JavaScript or Java. <strong>for</strong> loops
+                        are common; using <code>++i</code> instead of <code>i++</code> can save gas.
+                        <strong>while</strong> loops are possible but can be costly if not bounded. The example
+                        shows require for validation, if/else for branching, and for/while for iteration.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_06_conditionals.png"
+                            alt="Solidity conditionals and loops: require, if/else, for, while"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Conditionals and loops:</strong> require for validation, if/else for logic, for loops (with gas tip: prefer <code>++i</code>), and while loops (use with care).
+                        </p>
+                    </div>
+
+                    <h3>7. Gas Optimization</h3>
+                    <p>
+                        Gas is the unit of cost on Ethereum. Optimizations include: using <strong>calldata</strong>
+                        for external function arguments (read-only, no copy to memory), <strong>pre-increment</strong>
+                        (<code>++i</code>) in loops to save gas vs post-increment, <strong>loading storage into
+                        memory</strong> when you read a value multiple times to avoid repeated storage reads, and
+                        <strong>caching</strong> array elements in local variables inside loops to reduce
+                        repeated accesses.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_07_gas.png"
+                            alt="Solidity gas optimization: calldata, pre-increment, loading to memory, caching"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Gas optimization:</strong> calldata for external args, ++i in loops, loading storage to memory, and caching array elements.
+                        </p>
+                    </div>
+
+                    <h3>8. Inheritance and Override</h3>
+                    <p>
+                        Use <strong>import</strong> to bring in other contracts or libraries (e.g. OpenZeppelin).
+                        <strong>Inheritance</strong> is expressed with <code>is</code>: <code>contract Child is
+                        Parent { }</code>. Parent constructors are invoked in the child constructor by naming the
+                        parent and passing arguments. Functions marked <code>virtual</code> in a parent can be
+                        <strong>override</strong>n in the child; use <code>super.functionName()</code> to call the
+                        parent implementation. Override order (e.g. in multiple inheritance) is right-to-left,
+                        with the most base-like contract on the left.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_08_inheritance.png"
+                            alt="Solidity inheritance: import, is keyword, constructor chaining, override and super"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Inheritance:</strong> import, <code>is</code> for inheritance, parent constructor calls, override and super for virtual functions.
+                        </p>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 24px;">
+                        <strong>Next steps:</strong> Use the Transaction Signing page to compile and deploy
+                        Solidity code, or explore the Consensus Mechanisms section to submit transactions to a
+                        testnet.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

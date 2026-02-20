@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Tokenization - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer">
+            <!-- Navigation will be rendered here by navigation.js -->
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Introduction to Tokenization</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is Tokenization?</h2>
+                    <p>
+                        <strong>Tokenization</strong> on blockchain refers to representing assets, rights, or units of value as
+                        digital tokens that can be issued, transferred, and managed by smart contracts. Tokens
+                        run on top of a blockchain (such as Ethereum) and rely on its security and consensus,
+                        while enabling a wide range of use cases from currencies and rewards to unique collectibles
+                        and real-world assets.
+                    </p>
+
+                    <h3>1. Tokens vs Digital Currency</h3>
+                    <p>
+                        <strong>Digital currency</strong> (or native currency) is the base-layer asset of a blockchain.
+                        On Ethereum, that is <strong>Ether (ETH)</strong>: it pays for gas, secures the network (e.g. via
+                        staking), and is the primary medium of exchange on the chain. It is created and governed
+                        by the protocol itself, not by a smart contract.
+                    </p>
+                    <p>
+                        <strong>Tokens</strong> are digital assets created and managed by smart contracts on top of a
+                        blockchain. They do not replace the native currency; they use the same ledger and benefit
+                        from its security. Key differences:
+                    </p>
+                    <ul>
+                        <li><strong>Issuance:</strong> Native currency is defined by the protocol; tokens are issued by
+                        deploying and using token contracts (e.g. ERC20, ERC721).</li>
+                        <li><strong>Gas:</strong> Transacting with tokens still requires paying gas in the native currency
+                        (ETH on Ethereum).</li>
+                        <li><strong>Standards:</strong> Tokens follow standard interfaces (ERC20, ERC721, etc.) so wallets and
+                        apps can support them in a consistent way.</li>
+                        <li><strong>Use cases:</strong> Native currency is used for fees and staking; tokens can represent
+                        anything from stablecoins and utility points to unique items (NFTs) and tokenized real-world
+                        assets.</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Key concept:</strong> Digital currency is the chain’s built-in money; tokens are
+                        programmable assets on top of that chain, created and controlled by smart contracts.
+                    </div>
+
+                    <h3>2. Fungible (ERC20) vs Non-Fungible Tokens (ERC721)</h3>
+                    <p>
+                        <strong>Fungible</strong> means each unit is interchangeable with another of the same type: one
+                        ERC20 token is identical to another (like one dollar to another). <strong>Non-fungible</strong>
+                        means each unit is unique and not interchangeable (like a specific painting or a unique
+                        in-game item).
+                    </p>
+                    <h4>ERC20 – Fungible Tokens</h4>
+                    <p>
+                        <strong>ERC20</strong> is the most common standard for fungible tokens on Ethereum. An ERC20
+                        contract maintains balances per address and provides functions such as
+                        <code>transfer</code>, <code>approve</code>, and <code>transferFrom</code>. All units of the
+                        same token are equal; they are identified by the contract address and share the same
+                        symbol and decimals (e.g. 18 decimals). Use cases: stablecoins, governance tokens,
+                        reward points, in-app currencies.
+                    </p>
+                    <ul>
+                        <li>Same contract, same symbol → every unit is interchangeable.</li>
+                        <li>Balances are a single number per address (e.g. 1000 tokens).</li>
+                        <li>Wallets and exchanges treat them as a single “balance” for that token.</li>
+                    </ul>
+                    <h4>ERC721 – Non-Fungible Tokens (NFTs)</h4>
+                    <p>
+                        <strong>ERC721</strong> is the standard for non-fungible tokens. Each token has a unique
+                        <strong>token ID</strong> within the contract. One token ID might represent a specific piece of
+                        art, a game item, or a credential. Ownership is “which address owns token ID X,” not “how
+                        many units.” Use cases: digital art, collectibles, membership passes, unique
+                        certificates, real-world asset NFTs.
+                    </p>
+                    <ul>
+                        <li>Each token ID is distinct; no two token IDs are the same within one contract.</li>
+                        <li>Contracts can attach metadata or traits (e.g. via <code>tokenURI</code>) to each ID.</li>
+                        <li>ERC721 defines <code>ownerOf(tokenId)</code>, <code>transferFrom</code>, and optional
+                        enumeration and metadata extensions.</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Summary:</strong> ERC20 = fungible, balance-based (“how many”); ERC721 = non-fungible,
+                        token-ID-based (“which one”). There are other standards (e.g. ERC1155 for mixed fungible
+                        and non-fungible) built on these ideas.
+                    </div>
+
+                    <h3>3. Types of Tokens (Utility, Asset, Stablecoins)</h3>
+                    <p>
+                        Beyond fungibility, tokens are often categorized by their economic or legal purpose.
+                        These categories are not mutually exclusive; a token can have several roles.
+                    </p>
+                    <h4>Utility Tokens</h4>
+                    <p>
+                        <strong>Utility tokens</strong> grant access to a product or service, or act as an in-system
+                        medium of exchange. Examples: governance tokens that allow voting in a protocol, tokens
+                        that pay for API usage or unlock features in an app, or reward points that can be
+                        redeemed. They are typically fungible (ERC20) and are not designed primarily as
+                        investments or as claims on off-chain assets.
+                    </p>
+                    <h4>Asset Tokens (Tokenized Assets)</h4>
+                    <p>
+                        <strong>Asset tokens</strong> (or tokenized assets) represent ownership or a claim on
+                        real-world or off-chain assets—e.g. real estate, commodities, securities, or receivables.
+                        They can be fungible (e.g. one token = one share) or non-fungible (e.g. one NFT = one
+                        property). Regulatory treatment depends on the jurisdiction and whether they are
+                        considered securities or other regulated instruments.
+                    </p>
+                    <h4>Stablecoins</h4>
+                    <p>
+                        <strong>Stablecoins</strong> are tokens aimed at maintaining a stable value, usually pegged to
+                        a fiat currency (e.g. 1 USDC ≈ 1 USD). Types include: <strong>fiat-collateralized</strong>
+                        (reserves held by an issuer), <strong>crypto-collateralized</strong> (over-collateralized
+                        crypto backing), and <strong>algorithmic</strong> (mechanisms that try to stabilize supply
+                        and demand). Most widely used stablecoins are ERC20 on Ethereum and are used for
+                        payments, trading, and DeFi.
+                    </p>
+                    <div class="info-box">
+                        <strong>In practice:</strong> Many tokens combine types—e.g. a governance token (utility)
+                        that also accrues fees (value) or a stablecoin (payment) that is backed by assets
+                        (asset-backed).
+                    </div>
+
+                    <h3>4. OpenZeppelin Libraries</h3>
+                    <p>
+                        <strong>OpenZeppelin</strong> provides audited, widely used smart contract libraries for
+                        Ethereum and EVM chains. Using them reduces implementation errors and aligns with
+                        standard patterns that wallets and tools expect.
+                    </p>
+                    <h4>What OpenZeppelin Provides</h4>
+                    <ul>
+                        <li><strong>ERC20:</strong> <code>ERC20</code>, <code>ERC20Burnable</code>, <code>ERC20Permit</code>,
+                        and extensions for supply, minting, and pausing. You inherit and configure (name, symbol,
+                        decimals, minting rules) instead of writing the standard from scratch.</li>
+                        <li><strong>ERC721:</strong> <code>ERC721</code>, <code>ERC721Enumerable</code>,
+                        <code>ERC721URIStorage</code>, and optional extensions. Handles token IDs, metadata URI,
+                        and safe transfers.</li>
+                        <li><strong>Access control:</strong> <code>Ownable</code>, <code>AccessControl</code>, and
+                        role-based patterns so you can restrict who can mint, pause, or upgrade.</li>
+                        <li><strong>Security utilities:</strong> <code>ReentrancyGuard</code>, <code>Pausable</code>,
+                        and helpers for safe math (built into Solidity 0.8+).</li>
+                    </ul>
+                    <h4>How to Use OpenZeppelin</h4>
+                    <p>
+                        Install via npm: <code>npm install @openzeppelin/contracts</code>. In Solidity, import and
+                        inherit the contracts you need. Below is an example of an ERC721 (NFT) collectible contract
+                        using OpenZeppelin: it imports ERC721, ERC721Enumerable, ERC721URIStorage, and Ownable;
+                        uses the constructor to set the collection name and symbol (e.g. "Bantu", "BT"); implements
+                        <code>mintItem</code> to mint with a metadata URI; and overrides <code>_baseURI</code>,
+                        <code>tokenURI</code>, and other functions as required by the inherited extensions.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center;">
+                        <img
+                            src="/assets/solidity_ERC721.png"
+                            alt="ERC721 NFT contract example with OpenZeppelin: imports, inheritance, constructor (name/symbol), mintItem, overrides"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>ERC721 with OpenZeppelin:</strong> Import the ERC721 implementation and extensions; use <code>is</code> to inherit; set collection name and symbol in the constructor; override <code>_baseURI</code>, <code>tokenURI</code>, and other functions for custom behavior.
+                        </p>
+                    </div>
+                    <p>
+                        For ERC20 (fungible tokens), you would import <code>@openzeppelin/contracts/token/ERC20/ERC20.sol</code>
+                        and inherit it, then call <code>_mint</code> in the constructor or in a mint function as needed.
+                    </p>
+                    <div class="info-box">
+                        <strong>Best practice:</strong> Prefer composing and extending OpenZeppelin contracts
+                        rather than reimplementing standards. Pin a specific version (e.g. 4.9.0 or 5.x) and
+                        review release notes and security advisories when upgrading.
+                    </div>
+
+                    <div class="warning-box" style="margin-top: 24px;">
+                        <strong>Note:</strong> Issuing tokens that represent securities or other regulated assets
+                        may require compliance with local law. Stablecoin issuers and asset tokenization
+                        projects often need licenses or legal advice. This material is for educational purposes
+                        only.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

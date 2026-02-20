@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 3000;
 
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
+// Serve assets (e.g. images) from project assets directory
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(express.json());
 
 // API route for generating secp256k1 key pairs
