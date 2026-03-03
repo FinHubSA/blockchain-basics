@@ -8,12 +8,13 @@ function renderNavigation() {
 
     // Get current path for active page highlighting
     const currentPath = window.location.pathname;
+    const drawerTitle = window.navigationTitle || 'Blockchain Concepts';
 
-    // Build navigation HTML
+    // Build navigation HTML (drawer header links to main page)
     let navHTML = `
-        <div class="drawer-header">
-            <h2>Blockchain Concepts</h2>
-        </div>
+        <a href="/index.html" class="drawer-header">
+            <h2>${drawerTitle}</h2>
+        </a>
         <nav class="drawer-nav">
     `;
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to the XRP Ledger - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="drawer" id="drawer">
+        <!-- Navigation rendered by navigation.js -->
+      </aside>
+
+      <main class="main-content">
+        <div class="content-header">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1>Introduction to the XRP Ledger</h1>
+        </div>
+
+        <div class="content-body">
+          <div class="page-content">
+            <h2>What is the XRP Ledger (XRPL)?</h2>
+
+            <p>
+              The XRP Ledger is a decentralized, public blockchain that enables fast,
+              low-cost payments and cross-border settlements. It was designed for
+              financial use cases and uses the native digital asset XRP to facilitate
+              transfers and pay transaction fees.
+            </p>
+
+            <div class="info-box">
+              <strong>Key Concept:</strong> XRPL uses a consensus protocol (not proof of work).
+              Validators agree on the order and outcome of transactions every 3–5 seconds,
+              making it efficient and energy-conscious compared to mining-based chains.
+            </div>
+
+            <h3>How It Works</h3>
+            <p>On the XRP Ledger:</p>
+            <ul>
+              <li>
+                <strong>Consensus:</strong> A network of validators agrees on the state
+                of the ledger through the XRP Ledger Consensus Protocol.
+              </li>
+              <li>
+                <strong>XRP:</strong> The native asset is used to pay transaction fees
+                (destroyed, not paid to miners) and can bridge currencies.
+              </li>
+              <li>
+                <strong>Accounts:</strong> Wallets hold XRP and can issue or hold
+                tokens (issued currencies) and use features like Escrow and Payment Channels.
+              </li>
+            </ul>
+
+            <h3>Key Properties</h3>
+            <ol>
+              <li>
+                <strong>Speed:</strong> Settlements typically finalize in 3–5 seconds.
+              </li>
+              <li>
+                <strong>Low Cost:</strong> Transaction fees are minimal and paid in XRP.
+              </li>
+              <li>
+                <strong>Built-in Features:</strong> Escrow, multi-signing, issued
+                currencies, and decentralized exchange (DEX) are native to the ledger.
+              </li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+              <li>
+                <strong>Payments:</strong> Send value globally with low fees and fast finality.
+              </li>
+              <li>
+                <strong>Tokenization:</strong> Issue and manage custom tokens on the ledger.
+              </li>
+              <li>
+                <strong>DeFi:</strong> Use the built-in DEX for trading and liquidity.
+              </li>
+              <li>
+                <strong>CBDC & Stablecoins:</strong> Central banks and issuers can use
+                XRPL for settlement and tokenized assets.
+              </li>
+            </ul>
+
+            <h3>Ethereum vs XRPL</h3>
+            <p>
+              Unlike Ethereum, the XRP Ledger does not use a general-purpose smart contract
+              VM. Instead, it provides a fixed set of transaction types (payments, escrow,
+              offers, trust lines, etc.) that are optimized for speed and predictability.
+              For custom logic, developers often combine XRPL with sidechains or other
+              systems.
+            </p>
+
+            <div class="warning-box">
+              <strong>Important:</strong> Keep your XRPL secret keys secure. Anyone with
+              access to your secret key can control your account and move your XRP and tokens.
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+  </body>
+</html>

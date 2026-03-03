@@ -3,17 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=/public-key-cryptography/intro.html">
-    <title>Blockchain Tutorial</title>
+    <title>Blockchain Tutorials</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .hub-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 2rem;
+        }
+        .hub-page h1 {
+            color: #eee;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .hub-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 640px;
+        }
+        .hub-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 140px;
+            padding: 2.5rem 3rem;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+        .hub-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+        }
+        .hub-button:active {
+            transform: translateY(0);
+        }
+        .hub-button-label {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.35rem;
+        }
+        .hub-button-desc {
+            font-size: 0.95rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        .hub-button-ethereum {
+            background: linear-gradient(135deg, #627eea 0%, #4c5fd5 50%, #3b4bce 100%);
+        }
+        .hub-button-ethereum:hover {
+            background: linear-gradient(135deg, #7288eb 0%, #5c6fe0 50%, #4a5bd4 100%);
+        }
+        .hub-button-xrpl {
+            background: linear-gradient(135deg, #23292d 0%, #1a1f22 50%, #0d1113 100%);
+            border: 2px solid #2d3439;
+        }
+        .hub-button-xrpl:hover {
+            background: linear-gradient(135deg, #2d3439 0%, #23292d 50%, #1a1f22 100%);
+            border-color: #3d454a;
+        }
+    </style>
 </head>
-<body>
-    <script>
-        // Redirect to intro page
-        window.location.href = '/public-key-cryptography/intro.html';
-    </script>
-    <p>Redirecting to <a href="/public-key-cryptography/intro.html">Introduction page</a>...</p>
+<body class="hub-page">
+    <h1>Choose a blockchain</h1>
+    <div class="hub-buttons">
+        <a href="/ethereum/public-key-cryptography/intro.html" class="hub-button hub-button-ethereum">
+            <span class="hub-button-label">Ethereum</span>
+            <span class="hub-button-desc">Smart contracts, Solidity &amp; Sepolia</span>
+        </a>
+        <a href="/xrpl/intro.html" class="hub-button hub-button-xrpl">
+            <span class="hub-button-label">XRPL</span>
+            <span class="hub-button-desc">XRP Ledger, consensus &amp; payments</span>
+        </a>
+    </div>
 </body>
 </html>
-
-

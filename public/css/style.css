@@ -30,9 +30,18 @@ body {
 }
 
 .drawer-header {
+    display: block;
     padding: 20px;
     background-color: #34495e;
     border-bottom: 1px solid #3d566e;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.drawer-header:hover {
+    background-color: #3d566e;
 }
 
 .drawer-header h2 {

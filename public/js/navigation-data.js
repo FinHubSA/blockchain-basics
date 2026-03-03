@@ -10,12 +10,12 @@ const navigationData = {
                 {
                     id: 'intro',
                     name: 'Introduction',
-                    path: '/public-key-cryptography/intro.html'
+                    path: '/ethereum/public-key-cryptography/intro.html'
                 },
                 {
                     id: 'key-generation',
                     name: 'Key Generation & Operations',
-                    path: '/public-key-cryptography/key-generation.html'
+                    path: '/ethereum/public-key-cryptography/key-generation.html'
                 }
             ]
         },
@@ -28,12 +28,12 @@ const navigationData = {
                 {
                     id: 'intro',
                     name: 'Introduction',
-                    path: '/distributed-ledgers/intro.html'
+                    path: '/ethereum/distributed-ledgers/intro.html'
                 },
                 {
                     id: 'transaction-signing',
                     name: 'Transaction Signing',
-                    path: '/distributed-ledgers/transaction-signing.html'
+                    path: '/ethereum/distributed-ledgers/transaction-signing.html'
                 }
             ]
         },
@@ -46,12 +46,12 @@ const navigationData = {
                 {
                     id: 'intro',
                     name: 'Introduction',
-                    path: '/consensus-mechanisms/intro.html'
+                    path: '/ethereum/consensus-mechanisms/intro.html'
                 },
                 {
                     id: 'submit-transaction',
                     name: 'Submit Transaction to Sepolia',
-                    path: '/consensus-mechanisms/submit-transaction.html'
+                    path: '/ethereum/consensus-mechanisms/submit-transaction.html'
                 }
             ]
         },
@@ -64,12 +64,12 @@ const navigationData = {
                 {
                     id: 'intro',
                     name: 'Introduction',
-                    path: '/smart-contracts/intro.html'
+                    path: '/ethereum/smart-contracts/intro.html'
                 },
                 {
                     id: 'solidity',
                     name: 'Solidity',
-                    path: '/smart-contracts/solidity.html'
+                    path: '/ethereum/smart-contracts/solidity.html'
                 }
             ]
         },
@@ -82,7 +82,7 @@ const navigationData = {
                 {
                     id: 'intro',
                     name: 'Introduction',
-                    path: '/tokenization/intro.html'
+                    path: '/ethereum/tokenization/intro.html'
                 }
             ]
         }
