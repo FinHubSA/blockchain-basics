@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRPL Accounts - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>XRPL Accounts</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is an XRPL Account?</h2>
+                    <p>
+                        An <strong>account</strong> on the XRP Ledger is an identity that can hold XRP, hold or issue
+                        other currencies, and submit transactions. Each account has a unique <strong>address</strong>
+                        (typically starting with <code>r</code> in X-address format or classic form) derived from the
+                        account’s public key.
+                    </p>
+                    <div class="info-box">
+                        <strong>Key derivation:</strong> XRPL uses the same elliptic curve (secp256k1) as Ethereum. The
+                        address is derived from the public key and encoded in a ledger-specific format (e.g. base58,
+                        X-address). You can generate keys in the <a href="/blockchain-concepts/public-key-cryptography/key-generation.html">Blockchain Concepts</a> section and use them for XRPL with the appropriate encoding.
+                    </div>
+
+                    <h3>Who Controls an Account: Master, Regular, and Multi-Signature Keys</h3>
+                    <p>
+                        An account is <strong>controlled by the keys that can authorize transactions</strong> for it. Only signed transactions can be submitted and included in the ledger. The XRP Ledger supports three ways to authorize transactions for an account: the <strong>master key pair</strong>, a <strong>regular key pair</strong>, and <strong>multi-signing</strong> (a signer list). For more detail, see the official <a href="https://xrpl.org/docs/concepts/accounts/cryptographic-keys#master-key-pair" target="_blank" rel="noopener">Cryptographic Keys</a> documentation.
+                    </p>
+
+                    <h4>Master Key Pair</h4>
+                    <p>
+                        The <strong>master key pair</strong> is the key pair from which the <strong>account ID (address) is derived</strong>. The account’s classic address and X-address are tied to this public key. You cannot change or remove the master key pair; you can only <strong>disable</strong> it (and later re-enable it using a regular key or multi-signature).
+                    </p>
+                    <p>
+                        Only the master key pair can authorize certain sensitive actions: sending the account’s <strong>first transaction</strong>, <strong>disabling the master key</strong>, permanently <strong>giving up the ability to freeze</strong>, and sending a special <strong>key reset</strong> transaction at 0 cost. For everything else, a regular key or multi-signature can act in place of the master key.
+                    </p>
+                    <p>
+                        A common practice is to keep the master key pair <strong>offline</strong> (e.g. on an air-gapped device or in cold storage) and use a <strong>regular key pair</strong> for day-to-day signing. If the regular key is compromised, you can use the master key to set a new regular key and regain control without moving to a new address.
+                    </p>
+
+                    <h4>Regular Key Pair</h4>
+                    <p>
+                        An account can authorize a <strong>regular key pair</strong>—a secondary key pair that can sign most transactions the same as the master key. The regular key is stored in the AccountRoot’s <strong>RegularKey</strong> field and is set or changed with a <a href="https://xrpl.org/docs/references/protocol/transactions/types/setregularkey" target="_blank" rel="noopener">SetRegularKey</a> transaction. You can remove or replace the regular key at any time without changing the account’s address.
+                    </p>
+                    <p>
+                        Regular keys are <strong>necessary</strong> when you want to sign from a hot wallet or an application while keeping the master key cold. They are <strong>used</strong> by specifying the regular key’s credentials when building and signing transactions; the ledger accepts the signature if it matches either the master or the current regular key.
+                    </p>
+
+                    <h4>Multi-Signature (Signer List)</h4>
+                    <p>
+                        An account can also use <strong>multi-signing</strong>: a list of signers (key pairs or other accounts) with weights and a threshold. A transaction is valid if the sum of the weights of the signers that signed it meets the threshold. This allows shared control (e.g. a treasury that requires 2-of-3 signers) or backup signers.
+                    </p>
+                    <p>
+                        Multi-signature is <strong>necessary</strong> when multiple parties must agree before an action is taken, or when you want redundancy (e.g. several keys, any <em>k</em> of which can sign). It is <strong>used</strong> by submitting a transaction that includes signatures from enough signers to meet the threshold; the ledger verifies the combined authorization against the account’s signer list.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Summary:</strong> The <strong>master key pair</strong> defines the account’s address and can do a few things only it can do; it can be disabled but not changed. A <strong>regular key pair</strong> is an optional second key you set for daily use. <strong>Multi-signature</strong> lets multiple keys or accounts share control according to weights and a threshold. All three are ways to authorize transactions for the same account.
+                    </div>
+
+                    <h3>How Accounts Are Created</h3>
+                    <p>
+                        An account does not exist on the ledger until it has a <strong>ledger entry</strong>. On the XRP Ledger, <strong>account state is created by a <a href="https://xrpl.org/docs/references/protocol/transactions/types/payment" target="_blank" rel="noopener">Payment</a> transaction</strong>: when someone sends enough XRP to a mathematically-valid address that does not yet have an account, the ledger creates a new account (an <strong>AccountRoot</strong> entry) for that address. The payment must meet the minimum <strong>reserve</strong> (and typically a bit more to leave the account with a usable balance). Until then, the address is just a possible destination; there is no AccountRoot and no balance.
+                    </p>
+
+                    <h3>AccountRoot Ledger Entry</h3>
+                    <p>
+                        Each account’s data is stored in an <strong>AccountRoot</strong> ledger entry. This is the ledger object that describes a single account, its settings, and its XRP balance. The main fields are:
+                    </p>
+                    <ul>
+                        <li><strong>Account</strong> – The classic address of the account (e.g. <code>r...</code>). This identifies the entry.</li>
+                        <li><strong>Balance</strong> – The account’s XRP balance in <strong>drops</strong> (1 XRP = 1,000,000 drops), stored as a string. Part of this is locked as the account reserve.</li>
+                        <li><strong>Sequence</strong> – The sequence number of the next valid transaction from this account. Each transaction must use the current sequence and then the account’s sequence increments by 1. This prevents replay and orders transactions.</li>
+                        <li><strong>OwnerCount</strong> – The number of ledger objects (trust lines, offers, escrows, etc.) owned by this account. Used to compute the <strong>owner reserve</strong> (additional XRP that must be held).</li>
+                        <li><strong>Flags</strong> – A bitmask of account options (e.g. default ripple, deposit auth, require destination tag, disable master key). Many can be changed with an <a href="https://xrpl.org/docs/references/protocol/transactions/types/accountset" target="_blank" rel="noopener">AccountSet</a> transaction.</li>
+                        <li><strong>PreviousTxnID</strong> – The hash of the transaction that last modified this AccountRoot.</li>
+                        <li><strong>PreviousTxnLgrSeq</strong> – The ledger index that contains that transaction.</li>
+                        <li><strong>RegularKey</strong> – (Optional) Another address that can sign for this account instead of the master key.</li>
+                        <li><strong>Domain</strong>, <strong>EmailHash</strong>, <strong>MessageKey</strong> – (Optional) Metadata and messaging hints.</li>
+                    </ul>
+                    <p>
+                        The AccountRoot entry type is fixed when the account is created; only its fields (e.g. Balance, Sequence, Flags) change as transactions are applied. You can look up an account’s state via APIs such as <code>account_info</code>.
+                    </p>
+
+                    <h3>Account Properties</h3>
+                    <ul>
+                        <li><strong>Reserve:</strong> A small XRP reserve is required to exist on the ledger (to prevent spam).</li>
+                        <li><strong>Sequence:</strong> Each transaction consumes a sequence number to prevent replay.</li>
+                        <li><strong>Signers:</strong> Accounts can use multi-signing for shared control.</li>
+                    </ul>
+                    <h3>Create or Import an Account</h3>
+                    <p>
+                        You can <a href="/xrpl/accounts/create.html">create or import an XRPL account</a> using a family seed (secret) or a hex private key. The tool uses the <a href="https://www.npmjs.com/package/xrpl" target="_blank" rel="noopener">xrpl</a> library to derive your classic address and public key.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

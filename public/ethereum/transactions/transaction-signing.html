@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction Signing - Blockchain Tutorial</title>
+    <title>Transaction Signing - Ethereum Tutorial</title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
@@ -89,7 +89,8 @@
                     <p>
                         This page demonstrates how to create and sign an Ethereum transaction to transfer funds from 
                         one account to another. You can use the private keys generated in the 
-                        <a href="/ethereum/public-key-cryptography/key-generation.html">Public Key Cryptography</a> section.
+                        <a href="/blockchain-concepts/public-key-cryptography/key-generation.html">Public Key Cryptography</a> section
+                        of Blockchain Concepts. For the transaction flow, mem-pool, gas fees, and block rewards, see the <a href="/ethereum/transactions/intro.html">Introduction</a> to Ethereum transactions.
                     </p>
 
                     <div class="info-box">
@@ -227,7 +228,7 @@
                                     style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
                                 />
                                 <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                                    <strong>Smart contract deployment:</strong> The transaction has <code>To</code> empty (not an EOA); the <code>data</code> field holds the contract’s encoded bytecode. Solidity is compiled to bytecode for deployment.
+                                    <strong>Smart contract deployment:</strong> The transaction has <code>To</code> empty (not an EOA); the <code>data</code> field holds the contract's encoded bytecode. Solidity is compiled to bytecode for deployment.
                                 </p>
                             </div>
                             <label>Solidity Code (for Contract Deployment):</label>
@@ -261,7 +262,7 @@
                             <input type="text" id="privateKey" placeholder="Enter private key (with or without 0x prefix)" value="">
                             <small style="color: #666; margin-top: 5px; display: block;">
                                 The private key corresponding to the "From" address. You can use a key from the 
-                                <a href="/ethereum/public-key-cryptography/key-generation.html">Key Generation</a> page.
+                                <a href="/blockchain-concepts/public-key-cryptography/key-generation.html">Key Generation</a> page in Blockchain Concepts.
                             </small>
                         </div>
                         
@@ -322,4 +323,3 @@
     <script src="/js/transaction-signing.js"></script>
 </body>
 </html>
-

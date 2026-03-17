@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fungible Tokens on XRPL - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Fungible Tokens on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Fungible Token Issuance Flow (Cold & Hot Wallet)</h2>
+                    <p>
+                        This walkthrough focuses on the <strong>cold / hot wallet</strong> pattern
+                        recommended when issuing fungible tokens on XRPL
+                        (<a href="https://xrpl.org/docs/tutorials/tokens/fungible-tokens/issue-a-fungible-token">Issue a Fungible Token</a>).
+                        The theory for fungible tokens lives in the
+                        <a href="/xrpl/tokens/intro.html">Tokens overview</a>; here we focus on the
+                        practical steps.
+                    </p>
+
+                    <div class="card">
+                        <h3>Provide Issuer (Cold) and Hot Wallet Addresses</h3>
+                        <div class="input-group">
+                            <label for="coldAddress">Cold address (issuer):</label>
+                            <input type="text" id="coldAddress" placeholder="r... (issuer / cold wallet)" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Long‑term issuing account. Configure settings such as Default Ripple,
+                                Require Auth, and transfer fees here.
+                            </small>
+                        </div>
+                        <div class="input-group">
+                            <label for="hotAddress">Hot address:</label>
+                            <input type="text" id="hotAddress" placeholder="r... (hot wallet)" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Operational account that receives issued tokens from the cold wallet
+                                and forwards them to end users.
+                            </small>
+                        </div>
+                        <div class="input-group" style="margin-top: 1rem;">
+                            <label for="currencyCode">Currency code (3–6 chars, e.g. FOO):</label>
+                            <input type="text" id="currencyCode" placeholder="FOO" maxlength="6" />
+                        </div>
+                        <div class="input-group">
+                            <label for="issueAmount">Amount to issue (human units):</label>
+                            <input type="number" id="issueAmount" placeholder="1000" min="0" step="0.000001" />
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Issuance Steps</h3>
+                        <p>
+                            Each step below mirrors the issuing tutorial on xrpl.org.
+                            When an action completes successfully, the step is marked with a check
+                            based on the latest state of the involved accounts.
+                        </p>
+
+                        <ul class="vertical-stepper xrpl-steps-list" id="fungibleStepsList">
+                            <li class="step xrpl-step" data-step-id="check-cold">
+                                <span class="step-number" aria-label="step 1"><span class="step-num">1</span></span>
+                                <div class="step-content">
+                                    <div class="step-title-row">
+                                        <strong>Check cold (issuer) account</strong>
+                                        <button type="button" class="button button-secondary step-action" data-action="check-cold">
+                                            Check cold account
+                                        </button>
+                                    </div>
+                                    <small class="step-desc">
+                                        Verifies that the issuer address exists and is active on XRPL and has some XRP balance.
+                                    </small>
+                                </div>
+                            </li>
+                            <li class="step xrpl-step" data-step-id="check-hot">
+                                <span class="step-number" aria-label="step 2"><span class="step-num">2</span></span>
+                                <div class="step-content">
+                                    <div class="step-title-row">
+                                        <strong>Check hot account</strong>
+                                        <button type="button" class="button button-secondary step-action" data-action="check-hot">
+                                            Check hot account
+                                        </button>
+                                    </div>
+                                    <small class="step-desc">
+                                        Verifies that the hot address exists and is funded so it can create trust lines and send tokens.
+                                    </small>
+                                </div>
+                            </li>
+                            <li class="step xrpl-step" data-step-id="trust-line">
+                                <span class="step-number" aria-label="step 3"><span class="step-num">3</span></span>
+                                <div class="step-content">
+                                    <div class="step-title-row">
+                                        <strong>Create trust line (hot → cold)</strong>
+                                        <button type="button" class="button button-secondary step-action" data-action="mark-trust-line">
+                                            Mark trust line created
+                                        </button>
+                                    </div>
+                                    <small class="step-desc">
+                                        In a real app, this would send a <code>TrustSet</code> transaction from the
+                                        hot wallet to the cold address for the chosen currency code. Here, once you
+                                        have created that transaction (for example using tools from
+                                        <a href="https://xrpl.org/docs/tutorials/tokens/fungible-tokens/issue-a-fungible-token">the official tutorial</a>),
+                                        you can mark this step as done.
+                                    </small>
+                                </div>
+                            </li>
+                            <li class="step xrpl-step" data-step-id="issue-token">
+                                <span class="step-number" aria-label="step 4"><span class="step-num">4</span></span>
+                                <div class="step-content">
+                                    <div class="step-title-row">
+                                        <strong>Send initial token payment (cold → hot)</strong>
+                                        <button type="button" class="button button-secondary step-action" data-action="mark-issue">
+                                            Mark token issued
+                                        </button>
+                                    </div>
+                                    <small class="step-desc">
+                                        This corresponds to sending a <code>Payment</code> transaction from the cold
+                                        issuer to the hot wallet for the configured amount and currency. After
+                                        performing that transaction, use this button to record completion in the
+                                        tutorial UI.
+                                    </small>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div id="fungibleStepsMessage" style="margin-top:10px;color:#444;font-size:0.9rem;"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-fungible-tokens.js"></script>
+</body>
+</html>
+

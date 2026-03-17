@@ -81,18 +81,28 @@
             background: linear-gradient(135deg, #2d3439 0%, #23292d 50%, #1a1f22 100%);
             border-color: #3d454a;
         }
+        .hub-button-concepts {
+            background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 50%, #3182ce 100%);
+        }
+        .hub-button-concepts:hover {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 50%, #2b6cb0 100%);
+        }
     </style>
 </head>
 <body class="hub-page">
-    <h1>Choose a blockchain</h1>
+    <h1>Choose a section</h1>
     <div class="hub-buttons">
-        <a href="/ethereum/public-key-cryptography/intro.html" class="hub-button hub-button-ethereum">
+        <a href="/blockchain-concepts/public-key-cryptography/intro.html" class="hub-button hub-button-concepts">
+            <span class="hub-button-label">Blockchain Concepts</span>
+            <span class="hub-button-desc">Public key crypto, distributed ledgers &amp; consensus</span>
+        </a>
+        <a href="/ethereum/intro.html" class="hub-button hub-button-ethereum">
             <span class="hub-button-label">Ethereum</span>
-            <span class="hub-button-desc">Smart contracts, Solidity &amp; Sepolia</span>
+            <span class="hub-button-desc">Accounts, transactions, consensus, smart contracts &amp; tokenization</span>
         </a>
         <a href="/xrpl/intro.html" class="hub-button hub-button-xrpl">
             <span class="hub-button-label">XRPL</span>
-            <span class="hub-button-desc">XRP Ledger, consensus &amp; payments</span>
+            <span class="hub-button-desc">Accounts, transactions &amp; consensus on the XRP Ledger</span>
         </a>
     </div>
 </body>

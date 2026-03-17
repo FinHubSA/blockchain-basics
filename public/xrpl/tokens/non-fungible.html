@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Non‑Fungible Tokens (NFTs) on XRPL - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Non‑Fungible Tokens (NFTs) on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Non‑Fungible Tokens Overview</h2>
+                    <p>
+                        This page is dedicated to non‑fungible tokens (NFTs), but the core theory
+                        and definitions for NFTs now live in the
+                        <a href="/xrpl/tokens/intro.html">Tokens overview</a>.
+                    </p>
+                    <p>
+                        Use this page for NFT‑related walkthroughs and examples. Below you can
+                        inspect NFTs owned by a specific account on the XRP Ledger.
+                    </p>
+
+                    <div class="card">
+                        <h3>Inspect NFTs for an Address</h3>
+                        <div class="input-group">
+                            <label for="nftAddressInput">Account address:</label>
+                            <input type="text" id="nftAddressInput" placeholder="r... (account holding NFTs)" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Enter a classic XRPL address to see the NFTs it currently holds
+                                in the validated ledger.
+                            </small>
+                        </div>
+                        <button type="button" class="button" id="loadNftsBtn" style="margin-top:10px;">
+                            Load NFTs
+                        </button>
+                        <div id="nftSummary" style="margin-top:10px;font-size:0.9rem;color:#444;"></div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>NFTs Held by This Address</h3>
+                        <p style="font-size:0.9rem;">
+                            For each NFT, we show basic on‑ledger fields (such as the NFTokenID,
+                            issuer and taxon) and, where supported by the connected XRPL server,
+                            a short history of recent transactions involving that NFT.
+                        </p>
+                        <div id="nftList"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-nfts.js"></script>
+</body>
+</html>
+

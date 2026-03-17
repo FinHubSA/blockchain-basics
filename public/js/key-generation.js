@@ -16,7 +16,6 @@ function initializeKeyGenerationPage() {
     const verifyBtn = document.getElementById('verifyBtn');
     const copyCurrentPrivateKeyBtn = document.getElementById('copyCurrentPrivateKeyBtn');
     const copyCurrentPublicKeyBtn = document.getElementById('copyCurrentPublicKeyBtn');
-    const copyCurrentAddressBtn = document.getElementById('copyCurrentAddressBtn');
 
     if (generateBtn) {
         generateBtn.addEventListener('click', generateKeyPair);
@@ -24,30 +23,6 @@ function initializeKeyGenerationPage() {
 
     if (clearKeyPairBtn) {
         clearKeyPairBtn.addEventListener('click', clearKeyPair);
-    }
-
-    const importKeyPairBtn = document.getElementById('importKeyPairBtn');
-    if (importKeyPairBtn) {
-        importKeyPairBtn.addEventListener('click', importKeyPair);
-    }
-
-    const showImportSection = document.getElementById('showImportSection');
-    const importKeyPairSection = document.getElementById('importKeyPairSection');
-    if (showImportSection && importKeyPairSection && generateBtn) {
-        showImportSection.addEventListener('change', () => {
-            const isImport = showImportSection.checked;
-            importKeyPairSection.style.display = isImport ? 'block' : 'none';
-            generateBtn.disabled = isImport;
-        });
-        generateBtn.disabled = showImportSection.checked;
-    }
-
-    const importPrivateKeyShow = document.getElementById('importPrivateKeyShow');
-    const importPrivateKeyInput = document.getElementById('importPrivateKey');
-    if (importPrivateKeyShow && importPrivateKeyInput) {
-        importPrivateKeyShow.addEventListener('change', () => {
-            importPrivateKeyInput.type = importPrivateKeyShow.checked ? 'text' : 'password';
-        });
     }
 
     if (signBtn) {
@@ -64,10 +39,6 @@ function initializeKeyGenerationPage() {
 
     if (copyCurrentPublicKeyBtn) {
         copyCurrentPublicKeyBtn.addEventListener('click', (e) => copyToClipboard('publicKeyOutput', e.target));
-    }
-
-    if (copyCurrentAddressBtn) {
-        copyCurrentAddressBtn.addEventListener('click', (e) => copyToClipboard('addressOutput', e.target));
     }
 
     // Clear buttons
@@ -127,7 +98,6 @@ async function generateKeyPair() {
 function loadKeyPairIntoDisplay(keyPair) {
     document.getElementById('privateKeyOutput').textContent = '0x' + keyPair.privateKey;
     document.getElementById('publicKeyOutput').textContent = '0x' + keyPair.publicKey;
-    document.getElementById('addressOutput').textContent = keyPair.ethereumAddress;
     document.getElementById('keyPairOutput').style.display = 'block';
     
     // Auto-fill private key in signing section
@@ -245,39 +215,6 @@ async function recalculateSignature(message) {
         }
     } catch (error) {
         console.error('Error recalculating signature:', error);
-    }
-}
-
-async function importKeyPair() {
-    const input = document.getElementById('importPrivateKey');
-    if (!input) return;
-    let privateKeyHex = (input.value || '').replace(/^0x/i, '').trim();
-    if (privateKeyHex.length !== 64 || !/^[a-fA-F0-9]+$/.test(privateKeyHex)) {
-        alert('Invalid private key. Enter 64 hexadecimal characters (with or without 0x prefix).');
-        return;
-    }
-    try {
-        const response = await fetch('/api/import-keypair', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ privateKeyHex: privateKeyHex })
-        });
-        const data = await response.json();
-        if (response.ok) {
-            currentKeyPair = data;
-            loadKeyPairIntoDisplay(data);
-            saveKeysToStorage(data);
-            input.value = ''; // Clear the import field after successful import
-            const showCheckbox = document.getElementById('importPrivateKeyShow');
-            if (showCheckbox) {
-                showCheckbox.checked = false;
-                input.type = 'password';
-            }
-        } else {
-            alert('Error importing key: ' + (data.error || response.statusText));
-        }
-    } catch (error) {
-        alert('Error: ' + error.message);
     }
 }
 

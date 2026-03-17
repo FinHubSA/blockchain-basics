@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Transactions - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Ethereum Transactions</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is an Ethereum Transaction?</h2>
+                    <p>
+                        A <strong>transaction</strong> is a signed message that changes state on the blockchain: transferring ETH,
+                        calling a contract, or deploying a contract. Only the holder of the account’s private key can create a valid
+                        signature for that account.
+                    </p>
+                    <div class="info-box">
+                        <strong>Signing:</strong> You learned how signing works in <a href="/blockchain-concepts/distributed-ledgers/intro.html">Distributed Ledgers</a> and
+                        can practice building and signing a transfer in the <a href="/ethereum/transactions/transaction-signing.html">Transaction Signing</a> page.
+                        The same idea applies on Ethereum: sign the transaction payload with your private key.
+                    </div>
+
+                    <h3>Transaction Flow</h3>
+                    <p>
+                        After you sign a transaction, it is broadcast to the network. The diagram below shows how it moves from senders to beneficiaries:
+                    </p>
+                    <div style="margin: 20px 0; text-align: center">
+                        <img
+                            src="/assets/transaction_flow.png"
+                            alt="Transaction flow: senders sign transactions → proposed transactions (mem-pool) → validators select transactions into a block → broadcast → verification → block published → beneficiaries notified"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                            <strong>Transaction flow:</strong> Senders sign transactions → proposed transactions (mem-pool) → validators select transactions into a block → broadcast to the network → verification → block published to the blockchain → beneficiaries notified.
+                        </p>
+                    </div>
+                    <p>
+                        <strong>Mem-pool (memory pool):</strong> Signed transactions that have been broadcast but not yet included in a block sit in a waiting area called the <strong>mem-pool</strong>. Each node maintains its own view of pending transactions. <strong>Validators</strong> (or miners in proof-of-work) take transactions from the mem-pool and choose which ones to include in the next block. They typically prefer transactions that offer higher fees, so users can pay more to get included faster.
+                    </p>
+
+                    <h3>Transaction Fields</h3>
+                    <p>A typical ETH transfer includes:</p>
+                    <ul>
+                        <li><strong>From</strong> – sender address (derived from your public key)</li>
+                        <li><strong>To</strong> – recipient address</li>
+                        <li><strong>Value</strong> – amount of ETH</li>
+                        <li><strong>Nonce</strong> – per-account counter (prevents replay)</li>
+                        <li><strong>Gas price / max fee</strong> – fee paid to the network</li>
+                        <li><strong>Gas limit</strong> – max computation allowed</li>
+                    </ul>
+                    <p>
+                        After signing, the transaction is broadcast to the network. Ethereum’s consensus (see
+                        <a href="/ethereum/consensus-mechanisms/intro.html">Consensus Mechanisms</a>) determines how it gets included in a block.
+                    </p>
+
+                    <h3>Gas Fees: Base Fee and Priority Fee (Tips)</h3>
+                    <p>
+                        On Ethereum, every transaction pays <strong>gas fees</strong> to use the network. After the London upgrade (EIP-1559), fees are split into two parts:
+                    </p>
+                    <ul>
+                        <li><strong>Base fee:</strong> A minimum fee per unit of gas that is set by the protocol based on network demand. This fee is <strong>burned</strong> (destroyed), so it is removed from circulation rather than paid to any party.</li>
+                        <li><strong>Priority fee (tip):</strong> An extra amount per unit of gas that you add on top of the base fee. The priority fee is paid to the <strong>validator (block proposer)</strong> who includes your transaction in a block. Offering a higher tip makes your transaction more attractive to validators and can lead to faster inclusion.</li>
+                    </ul>
+                    <p>
+                        Your total fee per unit of gas is typically <strong>max fee per gas</strong> (the most you are willing to pay), and the protocol charges you the <strong>base fee + priority fee</strong>, up to that maximum. Any unused portion of the max fee is refunded.
+                    </p>
+
+                    <h3>Block Rewards vs Priority Fees</h3>
+                    <p>
+                        <strong>Block rewards</strong> are new ETH created by the protocol when a new block is produced. On Ethereum (since the Merge), <strong>block rewards go to the validator that proposes the block</strong> (the block proposer). This reward is separate from transaction fees: it is issued by the protocol as an incentive to secure the network.
+                    </p>
+                    <p>
+                        <strong>Priority fees (tips)</strong> are the part of transaction fees that users explicitly add to reward the block proposer. So the validator who includes a block receives both (1) the <strong>block reward</strong> from the protocol and (2) the <strong>priority fees</strong> from the transactions in that block. The <strong>base fee</strong> from those transactions is not paid to the validator; it is burned.
+                    </p>
+                    <div class="info-box">
+                        <strong>Summary:</strong> Base fee → burned. Priority fee (tip) → paid to the block proposer. Block reward → new ETH paid by the protocol to the block proposer. So validators earn from block rewards plus priority fees, while the base fee is removed from supply.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

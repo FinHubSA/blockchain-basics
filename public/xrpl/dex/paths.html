@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pathfinding on XRPL DEX - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Pathfinding on the XRPL DEX</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What Is Pathfinding?</h2>
+                    <p>
+                        On the XRP Ledger, <strong>paths</strong> describe how a payment can flow
+                        from a sender to a receiver, potentially across multiple currencies,
+                        issuers, and liquidity sources. Pathfinding is the process of discovering
+                        those paths so a single <code>Payment</code> transaction can deliver the
+                        desired amount, even when the sender and receiver do not hold the same
+                        currency directly
+                        (<a href="https://xrpl.org/docs/concepts/tokens/fungible-tokens/paths">paths concept</a>).
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Key idea:</strong> Paths connect trust lines, order books, and AMM
+                        pools so a cross‑currency payment can be executed atomically in one
+                        transaction.
+                    </div>
+
+                    <h3>How Paths Use the DEX</h3>
+                    <p>
+                        A path is made up of <strong>steps</strong>. Each step can either:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Ripple through an account</strong> on a trust line
+                            (moving balances of the same token between two holders), or
+                        </li>
+                        <li>
+                            <strong>Trade through the DEX</strong>, using an order book or AMM to
+                            change from one currency to another.
+                        </li>
+                    </ul>
+                    <p>
+                        When a Payment transaction executes, XRPL can combine liquidity from
+                        multiple DEX sources (order books and AMMs) to deliver the destination
+                        amount, choosing the best available prices at the time the ledger is
+                        validated.
+                    </p>
+
+                    <h3>Path Sets and Default Paths</h3>
+                    <p>
+                        A transaction can specify a <strong>path set</strong>: a collection of one
+                        or more candidate paths the payment is allowed to use. In addition, XRPL
+                        can consider a <strong>default path</strong> implied by the transaction’s
+                        fields, such as <code>Account</code>, <code>Destination</code>,
+                        <code>Amount</code>, and <code>SendMax</code>.
+                    </p>
+                    <ul>
+                        <li>
+                            If the source and destination currencies are the same, the default path
+                            may simply ripple balances across trust lines.
+                        </li>
+                        <li>
+                            For cross‑currency payments, the default path typically uses the
+                            best available <strong>order book or AMM</strong> between the source
+                            and destination currencies.
+                        </li>
+                        <li>
+                            The <code>tfNoDirectRipple</code> flag can disable the default path so
+                            only explicitly provided paths are allowed.
+                        </li>
+                    </ul>
+
+                    <h3>Pathfinding APIs</h3>
+                    <p>
+                        The core XRPL server (<code>rippled</code>) exposes dedicated API methods
+                        for pathfinding:
+                    </p>
+                    <ul>
+                        <li>
+                            <code>ripple_path_find</code>: one‑shot lookup of possible path sets
+                            between a source and destination.
+                        </li>
+                        <li>
+                            <code>path_find</code> (WebSocket only): a streaming version that keeps
+                            updating as new ledgers close and better paths appear.
+                        </li>
+                    </ul>
+                    <p>
+                        You can also have <code>rippled</code> <strong>autofill paths</strong> when
+                        signing a Payment by setting <code>build_path</code>, but best practice is
+                        to run pathfinding explicitly, review the results, and then sign and submit
+                        the transaction.
+                    </p>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> Pathfinding aims to find good paths, not
+                        mathematically perfect ones. The available liquidity and prices can change
+                        slightly between path discovery and final ledger validation, and untrusted
+                        servers could theoretically bias results. Always validate assumptions and
+                        use reputable XRPL infrastructure.
+                    </div>
+
+                    <h3>When to Use Paths</h3>
+                    <ul>
+                        <li>
+                            <strong>Cross‑currency payments:</strong> Pay a destination in their
+                            preferred stablecoin or token while you send a different asset.
+                        </li>
+                        <li>
+                            <strong>Tokenized FX and routing:</strong> Move value through multiple
+                            order books and AMMs in one hop.
+                        </li>
+                        <li>
+                            <strong>Community credit and complex IOU networks:</strong> Settle
+                            multi‑party debts by rippling balances through shared issuers.
+                        </li>
+                    </ul>
+
+                    <p>
+                        For a deeper dive into how paths are modeled and serialized, including
+                        path step fields and default path rules, refer to the official
+                        <a href="https://xrpl.org/docs/concepts/tokens/fungible-tokens/paths">XRPL Paths documentation</a>.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

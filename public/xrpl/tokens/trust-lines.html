@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trust Lines and Authorized Trust Lines - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Trust Lines on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Why Trust Lines Matter for Tokens</h2>
+                    <p>
+                        For most fungible tokens on the XRP Ledger, accounts do not automatically
+                        accept balances from any issuer. Instead, an account creates a
+                        <strong>trust line</strong> to an issuer to signal that it is willing to
+                        hold that issuer’s tokens <a href="https://xrpl.org/docs/concepts/tokens/fungible-tokens/authorized-trust-lines">[authorized trust lines]</a>.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Analogy:</strong> A trust line is like opening an account with a
+                        specific bank or token issuer. Until you open that account, the issuer
+                        cannot deposit their IOUs or tokens to you.
+                    </div>
+
+                    <h3>Basic Trust Lines</h3>
+                    <p>
+                        A trust line is a ledger object that:
+                    </p>
+                    <ul>
+                        <li>Connects a holder’s account to a specific issuing account and currency.</li>
+                        <li>Specifies a limit (how much of that token the holder is willing to hold).</li>
+                        <li>Requires a small XRP reserve while it exists.</li>
+                    </ul>
+
+                    <p>
+                        When a holder sets up the trust line using a <code>TrustSet</code>
+                        transaction, the issuer can then send that token to the holder. Without a
+                        trust line, the ledger will not store a positive balance of that token in
+                        the account.
+                    </p>
+
+                    <h3>Authorized Trust Lines</h3>
+                    <p>
+                        XRPL also supports <strong>authorized trust lines</strong>. If an issuer
+                        enables the <em>Require Auth</em> flag on their issuing account, then:
+                    </p>
+                    <ul>
+                        <li>Only accounts whose trust lines the issuer has explicitly authorized can hold the issuer’s tokens.</li>
+                        <li>This effectively creates an allow-list of eligible token holders.</li>
+                    </ul>
+
+                    <p>
+                        This is useful for regulated assets such as stablecoins, where the issuer
+                        must perform KYC/AML checks before allowing someone to hold the token. The
+                        issuer authorizes a trust line by sending a <code>TrustSet</code>
+                        transaction from the issuing account with the appropriate flags.
+                    </p>
+
+                    <div class="warning-box">
+                        <strong>Caution:</strong> Enabling Require Auth is a one-way operational
+                        decision on an issuing account that can only be set when the account has no
+                        existing trust lines or offers. Plan your token issuance architecture
+                        carefully before turning it on.
+                    </div>
+
+                    <h3>Putting It Together</h3>
+                    <p>
+                        In a typical token flow:
+                    </p>
+                    <ol>
+                        <li>The issuer creates an issuing account and configures its settings.</li>
+                        <li>Holders create trust lines to the issuer’s address for the desired token.</li>
+                        <li>(Optional) The issuer authorizes those trust lines if Require Auth is enabled.</li>
+                        <li>The issuer sends payments in the token to holders over those trust lines.</li>
+                    </ol>
+
+                    <p>
+                        Understanding trust lines is critical before diving into specific token
+                        types, such as fungible tokens and NFTs, on XRPL.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

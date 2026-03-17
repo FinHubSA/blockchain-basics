@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decentralized Exchange (DEX) on XRPL - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Decentralized Exchange (DEX) on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Built‑In DEX on XRPL</h2>
+                    <p>
+                        The XRP Ledger includes a <strong>native decentralized exchange (DEX)</strong>
+                        built directly into the protocol. From the earliest days of XRPL, accounts
+                        have been able to place, match, and cancel orders for any pair of tokens
+                        issued on the ledger using an <strong>order book</strong> model.
+                    </p>
+                    <p>
+                        More recently, XRPL added support for <strong>automated market makers (AMMs)</strong>
+                        via the XLS‑30 amendment, introducing liquidity pools and continuous pricing
+                        alongside the existing order book.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Key point:</strong> XRPL’s <em>order book DEX came first</em> and
+                        still handles a large share of on‑ledger trading volume. For example, in
+                        Q1&nbsp;2025, the native order book DEX processed around
+                        <strong>$13.7&nbsp;million</strong> in average daily volume versus roughly
+                        <strong>$4.5&nbsp;million</strong> for AMM pools
+                        (<a href="https://www.linkedin.com/pulse/stablecoin-surge-xrpl-new-era-liquidity-antonio-lobusto-vesbf/">stablecoin surge article</a>).
+                    </div>
+
+                    <h3>Order Book DEX</h3>
+                    <p>
+                        In an <strong>order book</strong> DEX, users create explicit
+                        <em>bids</em> and <em>asks</em>:
+                    </p>
+                    <ul>
+                        <li>Traders place <strong>limit orders</strong> to buy or sell a token at a specific price.</li>
+                        <li>The ledger maintains an on‑chain list of open orders for each trading pair.</li>
+                        <li>When compatible orders cross, the DEX matches them and updates balances atomically.</li>
+                    </ul>
+                    <p>
+                        This model is well‑suited to <strong>professional market makers</strong>,
+                        tight spreads, and <strong>tokenized FX pairs</strong> such as regulated
+                        stablecoins on XRPL’s built‑in central limit order book (CLOB)
+                        [as described in the same article](https://www.linkedin.com/pulse/stablecoin-surge-xrpl-new-era-liquidity-antonio-lobusto-vesbf/).
+                    </p>
+
+                    <h3>AMM DEX</h3>
+                    <p>
+                        An <strong>automated market maker (AMM)</strong> uses liquidity pools rather
+                        than explicit order books:
+                    </p>
+                    <ul>
+                        <li>Users deposit token pairs into a pool and receive LP (liquidity provider) tokens.</li>
+                        <li>Prices are determined by a <strong>formula</strong> (for example, a
+                            constant‑product curve) instead of user‑specified orders.</li>
+                        <li>Traders swap against the pool, paying a small fee that goes to LPs.</li>
+                    </ul>
+                    <p>
+                        On XRPL, AMMs complement the existing order book, adding <strong>continuous
+                        on‑chain liquidity</strong> and new strategies like single‑sided deposits and
+                        impermanent‑loss protection, while still settling at XRPL’s fast,
+                        low‑cost layer.
+                    </p>
+
+                    <h3>How They Work Together on XRPL</h3>
+                    <p>
+                        The XRP Ledger treats both order books and AMM pools as <strong>first‑class,
+                        on‑ledger components</strong>. Applications can:
+                    </p>
+                    <ul>
+                        <li>Route trades through either the order book, AMM pools, or a combination of both.</li>
+                        <li>Use the same token standards (XRP, stablecoins, RWAs, and other tokens) across both models.</li>
+                        <li>Leverage XRPL’s fast finality and low fees for cross‑border and DeFi use cases.</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Takeaway:</strong> The order book DEX remains the
+                        <em>historical backbone and main source of daily trading volume</em> on XRPL,
+                        while AMMs add flexible, programmable liquidity that integrates with the same
+                        token ecosystem.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

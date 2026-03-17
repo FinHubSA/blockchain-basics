@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi‑Signature on XRPL - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Multi‑Signature (MultiSig) on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Introduction</h2>
+                    <p>
+                        <strong>Multi‑Signature (MultiSig)</strong> on the XRP Ledger is a security feature
+                        where multiple parties must jointly authorize transactions from a single account.
+                        Instead of relying on one private key, a shared account can require multiple
+                        signers to approve a transaction before it can be submitted.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Why it matters:</strong> MultiSig reduces “single key” risk. Even if one
+                        signer’s key is compromised, an attacker still can’t move funds unless the
+                        required approval threshold is met.
+                    </div>
+
+                    <h3>How MultiSig Works</h3>
+                    <ul>
+                        <li>
+                            <strong>Shared account configuration:</strong> An account is configured with a
+                            signer list describing which accounts are allowed to sign.
+                        </li>
+                        <li>
+                            <strong>Signer weights:</strong> Each signer has a numeric weight, representing
+                            how much their signature contributes toward authorization.
+                        </li>
+                        <li>
+                            <strong>Quorum:</strong> The account sets a <code>SignerQuorum</code>, the minimum
+                            total weight required for a transaction to be considered valid.
+                        </li>
+                        <li>
+                            <strong>Independent signing:</strong> Each signer signs the same transaction
+                            payload independently.
+                        </li>
+                        <li>
+                            <strong>Combining signatures:</strong> Signatures are combined into one
+                            multi‑signed transaction for submission.
+                        </li>
+                    </ul>
+
+                    <h3>Benefits</h3>
+                    <ul>
+                        <li><strong>Distributed control:</strong> No single person has unilateral control.</li>
+                        <li><strong>Stronger security:</strong> Compromising one key is not enough.</li>
+                        <li><strong>Operational flexibility:</strong> You can tailor weights/quorum for routine vs high‑value operations.</li>
+                    </ul>
+
+                    <h3>Typical Setup Flow</h3>
+                    <p>
+                        A common MultiSig flow includes:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize wallets:</strong> Create/load the main account and signer accounts.</li>
+                        <li>
+                            <strong>Configure signer list:</strong> Choose signer accounts, assign weights,
+                            and set a quorum.
+                        </li>
+                        <li>
+                            <strong>Submit a SignerListSet transaction:</strong> Set the signer list on the
+                            main account.
+                        </li>
+                        <li><strong>Create a transaction:</strong> Example: a Payment transaction.</li>
+                        <li>
+                            <strong>Autofill fee + sequence:</strong> Multi‑signed transactions require higher
+                            fees; sequence/tickets may also matter for coordination.
+                        </li>
+                        <li><strong>Each signer signs:</strong> Collect signatures from the required signers.</li>
+                        <li><strong>Combine + submit:</strong> Combine signatures and submit the final blob.</li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> Multi‑signed transactions can require higher fees, and
+                        coordinating sequence numbers can be tricky if signers sign asynchronously. In more
+                        advanced setups, tickets can help manage sequencing.
+                    </div>
+
+                    <h3>Reference</h3>
+                    <p>
+                        This page is based on the XRPL‑Commons Multi‑Signature guide:
+                        <a href="https://docs.xrpl-commons.org/xrpl-basics/multi-signature">Multi‑Signature</a>.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

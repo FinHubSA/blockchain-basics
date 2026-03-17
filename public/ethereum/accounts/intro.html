@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Accounts - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Ethereum Accounts</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is an Ethereum Account?</h2>
+                    <p>
+                        On Ethereum, an <strong>account</strong> is an identity that can hold a balance (ETH and tokens),
+                        send transactions, and interact with smart contracts. There are two types: Externally Owned Accounts (EOAs)
+                        and Contract Accounts.
+                    </p>
+                    <div class="info-box">
+                        <strong>EOAs</strong> are controlled by a private key. The public key is derived from the private key
+                        using the same elliptic curve (secp256k1) you learned in the <a href="/blockchain-concepts/public-key-cryptography/intro.html">Public Key Cryptography</a> section.
+                        The Ethereum <strong>address</strong> is derived from the public key (Keccak-256 hash, last 20 bytes).
+                    </div>
+                    <h3>Account Fields</h3>
+                    <p>
+                        Each Ethereum account is represented in the ledger state by four main fields:
+                    </p>
+                    <div style="margin: 20px 0; text-align: center">
+                        <img
+                            src="/assets/ethereum_account_fields.png"
+                            alt="Diagram of Ethereum account fields: Nonce, Balance, Storage Root, Code Hash"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);"
+                        />
+                    </div>
+                    <ul>
+                        <li><strong>Nonce:</strong> For an EOA, this is a counter of how many transactions have been sent from the account; it prevents <strong>replay</strong> attacks. For a contract account, it is the number of contracts that account has created.</li>
+                        <li><strong>Balance:</strong> The account’s balance in <strong>Wei</strong>, the smallest unit of ether (1 ETH = 10¹⁸ Wei).</li>
+                        <li><strong>Storage Root:</strong> A reference to the account’s <strong>storage trie</strong>, which holds all of a smart contract’s variables and their values. (EOAs have an empty storage root.)</li>
+                        <li><strong>Code Hash:</strong> The hash of the account’s code. For a contract, this is the hash of the deployed bytecode; the code is <strong>immutable</strong>. EOAs have an empty code hash.</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Ethereum denominations: Wei, Gwei, and Ether</strong>
+                        <p style="margin-top: 10px; margin-bottom: 10px">Ethereum uses multiple units for amounts of Ether:</p>
+                        <ul style="margin-top: 10px; margin-bottom: 0">
+                            <li><strong>Wei:</strong> The smallest unit; the base unit used by the protocol. 1 Wei = 1 Wei.</li>
+                            <li><strong>Gwei (Gigawei):</strong> Commonly used for gas prices. 1 Gwei = 10⁹ Wei = 0.000000001 ETH.</li>
+                            <li><strong>Ether (ETH):</strong> The standard unit. 1 ETH = 10¹⁸ Wei = 10⁹ Gwei.</li>
+                        </ul>
+                        <p style="margin-top: 10px; margin-bottom: 0">Wei allows precise calculations; Gwei is convenient for gas; ETH is the human-readable unit.</p>
+                    </div>
+                    <h3>Importing an Account</h3>
+                    <p>
+                        You can <a href="/ethereum/accounts/get-address.html">import an account</a> by entering a private key (e.g. from the <a href="/blockchain-concepts/public-key-cryptography/key-generation.html">Key Generation</a> section of Blockchain Concepts). The tool will derive and show the public key and Ethereum address.
+                    </p>
+                    <h3>Contract Accounts</h3>
+                    <p>
+                        Contract accounts are created when a smart contract is deployed. They have an address but no private key;
+                        their behavior is defined by their code. We cover them in the <a href="/ethereum/smart-contracts/intro.html">Smart Contracts</a> section.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

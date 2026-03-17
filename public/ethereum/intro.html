@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Ethereum - Blockchain Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Introduction to Ethereum</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is Ethereum?</h2>
+                    <p>
+                        Ethereum is a decentralized, programmable blockchain that supports smart contracts and a native currency, Ether (ETH). It was designed to be a global platform for applications and value transfer without a central authority. Unlike simple payment chains, Ethereum allows developers to deploy code that runs on the network and governs assets and logic.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Key Concept:</strong> Ethereum uses Proof of Stake (since the Merge). Validators stake ETH and run nodes to propose and attest blocks. The network maintains a shared state (accounts, balances, contract code and storage) that updates when transactions are executed.
+                    </div>
+
+                    <h3>How It Works</h3>
+                    <p>On Ethereum:</p>
+                    <ul>
+                        <li><strong>Accounts:</strong> Externally owned accounts (EOAs) are controlled by private keys and can hold ETH and tokens and send transactions. Contract accounts are created by deployment and execute code when receiving transactions.</li>
+                        <li><strong>Transactions:</strong> Signed messages that transfer ETH, deploy contracts, or call contract functions. Users pay gas fees (base fee + priority fee) to have transactions included in blocks.</li>
+                        <li><strong>Consensus:</strong> Validators agree on the canonical chain and the resulting state. Block proposers earn block rewards and priority fees; the base fee is burned.</li>
+                    </ul>
+
+                    <h3>Key Properties</h3>
+                    <ol>
+                        <li><strong>Programmability:</strong> Smart contracts enable DeFi, NFTs, DAOs, and custom applications on a single chain.</li>
+                        <li><strong>Ether (ETH):</strong> Native currency used for fees and as a store of value. Denominations include Wei (smallest), Gwei (for gas), and ETH.</li>
+                        <li><strong>EVM:</strong> The Ethereum Virtual Machine runs contract bytecode in a deterministic way so every node reaches the same state.</li>
+                    </ol>
+
+                    <h3>Common Use Cases</h3>
+                    <ul>
+                        <li><strong>Payments &amp; transfers:</strong> Send ETH and tokens between accounts.</li>
+                        <li><strong>DeFi:</strong> Lending, borrowing, trading, and yield via smart contracts.</li>
+                        <li><strong>NFTs &amp; tokenization:</strong> Unique and fungible tokens representing assets or membership.</li>
+                        <li><strong>DAOs:</strong> Decentralized governance and treasury management.</li>
+                        <li><strong>Identity &amp; credentials:</strong> Verifiable credentials and attestations on-chain or tied to addresses.</li>
+                    </ul>
+
+                    <h3>What This Section Covers</h3>
+                    <p>
+                        In this Ethereum section you will learn about <a href="/ethereum/accounts/intro.html">accounts</a> and how to import one, <a href="/ethereum/transactions/intro.html">transactions</a> (flow, gas, block rewards), <a href="/ethereum/consensus-mechanisms/intro.html">consensus and node types</a>, <a href="/ethereum/smart-contracts/intro.html">smart contracts</a>, and <a href="/ethereum/tokenization/intro.html">tokenization</a>. You can also <a href="/ethereum/accounts/get-address.html">import an account</a> from a private key and <a href="/ethereum/transactions/transaction-signing.html">sign transactions</a> or <a href="/ethereum/consensus-mechanisms/submit-transaction.html">submit to Sepolia</a>.
+                    </p>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> Keep your private keys secure. Anyone with access to your key can control your account and move your ETH and tokens. Use testnets and small amounts while learning.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

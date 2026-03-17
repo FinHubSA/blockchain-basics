@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRPL Transactions - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>XRPL Transactions</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What is an XRPL Transaction?</h2>
+                    <p>
+                        A <strong>transaction</strong> on the XRP Ledger is a signed instruction that changes ledger state:
+                        sending XRP, creating offers, setting trust lines, escrows, and more. Each transaction type has a
+                        defined format and is signed by the account’s secret key.
+                    </p>
+                    <div class="info-box">
+                        <strong>Signing:</strong> As in the <a href="/ethereum/transactions/transaction-signing.html">Transaction Signing</a> section of the Ethereum tutorial, only the holder of the private key can produce a valid signature. XRPL uses the same elliptic curve (secp256k1) with a different serialization and encoding.
+                    </div>
+                    <h3>Common Transaction Fields</h3>
+                    <p>Every XRPL transaction includes a set of common fields that identify the sender, prevent replay, and set cost and expiry:</p>
+                    <ul>
+                        <li><strong>Account:</strong> The classic address (e.g. <code>r...</code>) of the sender. This account’s key pair must sign the transaction.</li>
+                        <li><strong>Fee:</strong> The amount of XRP (in <em>drops</em>; 1 XRP = 1,000,000 drops) paid for the transaction. This XRP is destroyed (see <a href="#fees-and-burning">Fees and burning</a> below).</li>
+                        <li><strong>Sequence:</strong> A per-account counter that increments with each transaction. It enforces ordering and prevents replay: the same transaction cannot be applied twice.</li>
+                        <li><strong>LastLedgerSequence:</strong> (Optional.) The last ledger index in which this transaction can be included. If the ledger has advanced past this index, the transaction is invalid. Use it to avoid leaving transactions “in flight” indefinitely.</li>
+                        <li><strong>SigningPubKey:</strong> The public key used to verify the signature. Empty for multi-signed transactions, where <strong>Signers</strong> is used instead.</li>
+                        <li><strong>TxnSignature:</strong> The signature over the canonical transaction bytes, proving the sender authorizes the transaction.</li>
+                        <li><strong>Memos:</strong> (Optional.) An array of memo objects that attach arbitrary data to the transaction. Each memo can include <strong>MemoData</strong> (hex-encoded payload), and optionally <strong>MemoType</strong> and <strong>MemoFormat</strong> (also hex). Memos are not interpreted by the ledger—they are stored on-chain for reference. Common uses include payment references, invoice IDs, notes to the recipient, or compliance tags. Because memo data is visible on the ledger, avoid putting sensitive or personally identifiable information in memos.</li>
+                    </ul>
+                    <p>Transaction-type-specific fields (e.g. <strong>Destination</strong>, <strong>Amount</strong> for Payment) are added on top of these.</p>
+
+                    <h3>Common Transaction Types</h3>
+                    <ul>
+                        <li><strong>Payment:</strong> Send XRP or issued currencies to another account.</li>
+                        <li><strong>OfferCreate / OfferCancel:</strong> Create or cancel orders on the decentralized exchange.</li>
+                        <li><strong>TrustSet:</strong> Create or modify a trust line to hold issued currencies.</li>
+                        <li><strong>EscrowCreate / EscrowFinish / EscrowCancel:</strong> Time-locked or condition-based escrow.</li>
+                        <li><strong>AccountSet:</strong> Update account options (e.g. flags, domain).</li>
+                    </ul>
+
+                    <h3 id="fees-and-burning">Fees and the deflationary nature of XRP</h3>
+                    <p>
+                        On the XRP Ledger, the <strong>fee</strong> you pay (in XRP) is not paid to any validator or miner. Instead, that XRP is <strong>destroyed (burned)</strong>: it is removed from the total supply and can never be used again. The minimum fee is a small amount of drops (currently 12 drops for a standard transaction, though it can rise with load). You can pay more than the minimum to prioritize your transaction when the network is busy.
+                    </p>
+                    <p>
+                        Because fees are burned and no new XRP is minted for block production, the total supply of XRP is <strong>deflationary over time</strong>: as more transactions are processed, more XRP is destroyed. The initial supply was created at ledger inception; since then, the only change to supply is the decrease from burned fees. This contrasts with chains that issue new coins as block rewards, which can be inflationary unless offset by burning or other mechanisms.
+                    </p>
+
+                    <h3>Validator rewards: XRPL vs Ethereum</h3>
+                    <p>
+                        <strong>Ethereum:</strong> Validators (stakers) are rewarded for producing and attesting to blocks. They earn <strong>block rewards</strong> (newly issued ETH for each block) plus <strong>priority fees (tips)</strong> and, historically, <strong>MEV</strong>-related value. Validators are thus directly incentivized in ETH to run nodes and secure the network.
+                    </p>
+                    <p>
+                        <strong>XRP Ledger:</strong> There are <strong>no block rewards</strong> and <strong>no XRP paid to validators</strong> for validating. Transaction fees are burned, not given to validators. Validators (university operators, exchanges, businesses, etc.) run nodes to participate in consensus and to have a trusted view of the ledger for their own use—not to earn XRP from the protocol. Incentives are indirect: a reliable, secure network benefits their services and users.
+                    </p>
+                    <div class="info-box">
+                        <strong>Summary:</strong> Ethereum rewards validators with newly issued ETH and fees; XRPL does not pay validators in XRP—fees are burned, making XRP deflationary and aligning validator motivation with operational need rather than block rewards.
+                    </div>
+
+                    <p style="margin-top: 1.5rem;">Transactions are broadcast to the network and included in ledger closes by consensus (see <a href="/xrpl/consensus-mechanisms/intro.html">Consensus Mechanisms</a>).</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

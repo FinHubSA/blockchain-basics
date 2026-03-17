@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Transaction to XRPL - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Submit Transaction to XRP Ledger</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Broadcast Signed Transaction</h2>
+                    <p>
+                        This page allows you to submit a signed transaction to the XRP Ledger. By default submissions go to the
+                        XRPL Labs testnet. You can use a signed transaction from the <a href="/xrpl/transactions/sign.html">Sign Transaction</a> page—paste
+                        the <strong>tx_blob</strong> (signed transaction in hex format) below.
+                    </p>
+                    <div class="info-box">
+                        <strong>Default: XRPL Labs Testnet.</strong> The tutorials default to the XRPL Labs testnet so you can
+                        try transactions without real XRP. Get test XRP from the <a href="https://xrpl.org/xrp-testnet-faucet.html" target="_blank" rel="noopener">XRP Testnet Faucet</a>. Change the WebSocket URL below to use mainnet.
+                    </div>
+
+                    <div class="card">
+                        <h3>WebSocket configuration</h3>
+                        <p>Enter the XRPL WebSocket endpoint. The default is XRPL Labs testnet:</p>
+                        <div class="input-group">
+                            <label for="xrplWsUrl">XRPL WebSocket URL:</label>
+                            <input type="text" id="xrplWsUrl" placeholder="wss://testnet.xrpl-labs.com" value="wss://testnet.xrpl-labs.com" />
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Examples: <code>wss://testnet.xrpl-labs.com</code> (default, testnet), <code>wss://xrplcluster.com</code> (mainnet).
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Submit Transaction</h3>
+                        <p>Paste your signed transaction (tx_blob hex) below:</p>
+                        <div class="input-group">
+                            <label for="signedTx">Signed Transaction (tx_blob, hex):</label>
+                            <textarea id="signedTx" placeholder="Paste the tx_blob from the Sign Transaction page (hex string)..." rows="4" style="font-family: monospace;"></textarea>
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                This should be the signed transaction (tx_blob) from the <a href="/xrpl/transactions/sign.html">Sign Transaction</a> page.
+                                It is a long hexadecimal string (no "0x" prefix required).
+                            </small>
+                        </div>
+                        <button class="button" id="submitBtn">Submit Transaction</button>
+                        <button class="button button-secondary" id="clearBtn">Clear</button>
+                        <div id="transactionResult" style="display: none;">
+                            <span class="output-label">Transaction Hash:</span>
+                            <div class="output-box" id="txHashOutput"></div>
+                            <div class="info-box" style="margin-top: 20px;">
+                                <strong>Transaction Submitted!</strong>
+                                <p style="margin-top: 10px;">
+                                    Your transaction has been broadcast to the XRP Ledger. You can check its status
+                                    using an explorer:
+                                </p>
+                                <p style="margin-top: 10px;">
+                                    <a href="#" id="explorerLink" target="_blank" rel="noopener" style="color: #3498db; text-decoration: underline;">
+                                        View Transaction on XRPL Explorer
+                                    </a>
+                                </p>
+                                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                                    <strong>Note:</strong> It may take a few seconds for the transaction to be included in a
+                                    validated ledger. If it doesn't appear immediately, wait a moment and refresh.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="errorResult" style="display: none;">
+                            <div class="warning-box" id="errorOutput"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Understanding the Process</h3>
+                        <ol>
+                            <li><strong>Sign Transaction:</strong> Create and sign a transaction using your family seed or private key
+                                (see <a href="/xrpl/transactions/sign.html">Sign Transaction</a> page).</li>
+                            <li><strong>Submit to Network:</strong> Send the signed <strong>tx_blob</strong> to an XRPL node via the
+                                <code>submit</code> command (WebSocket/JSON-RPC).</li>
+                            <li><strong>Propagation:</strong> The node broadcasts your transaction to other servers in the network.</li>
+                            <li><strong>Consensus:</strong> Validators run the XRP Ledger Consensus Protocol to agree on the set and order of transactions.</li>
+                            <li><strong>Ledger Close:</strong> A new ledger version is closed (typically every 3–5 seconds) including your transaction if it is valid.</li>
+                            <li><strong>Validation:</strong> Once in a validated ledger, the transaction is final.</li>
+                        </ol>
+                    </div>
+
+                    <div class="card">
+                        <h3>Checking Transaction Status</h3>
+                        <p>After submitting, you can check your transaction status on:</p>
+                        <ul>
+                            <li><strong>XRPL.org Explorer:</strong>
+                                <a href="https://livenet.xrpl.org/" target="_blank" rel="noopener">https://livenet.xrpl.org</a>
+                            </li>
+                            <li><strong>Bithomp (mainnet):</strong>
+                                <a href="https://bithomp.com/explorer" target="_blank" rel="noopener">https://bithomp.com/explorer</a>
+                            </li>
+                        </ul>
+                        <p>On the explorer, you can see:</p>
+                        <ul>
+                            <li><strong>Transaction status:</strong> Success or failure (e.g. tec*, tesSUCCESS)</li>
+                            <li><strong>Ledger index:</strong> Which validated ledger contains the transaction</li>
+                            <li><strong>Fee:</strong> XRP destroyed (burned) as the transaction fee</li>
+                            <li><strong>Account / Destination:</strong> Sender and recipient</li>
+                            <li><strong>Amount:</strong> Value transferred</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Important Notes:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Ensure the account has enough XRP to cover the payment amount plus the fee (and reserve if the destination is new).</li>
+                            <li>Transactions on the XRP Ledger are final once included in a validated ledger; there is no reversal.</li>
+                        </ul>
+                        <strong style="display: block; margin-top: 15px;">If Your Transaction Is Not Accepted:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Check Sequence:</strong> Use the account's current sequence (from <code>account_info</code>) for the next transaction. If the transaction fails with a sequence error, ensure you're not reusing or skipping sequence numbers.</li>
+                            <li><strong>Check Balance:</strong> Verify the account has sufficient XRP for the amount, fee, and reserve (if creating a new account or trust line).</li>
+                            <li><strong>Check LastLedgerSequence:</strong> If the transaction has a LastLedgerSequence, it will expire if not included before that ledger. Submit again with a new LastLedgerSequence if needed.</li>
+                            <li><strong>Check engine_result:</strong> The server returns an engine result (e.g. tecUNFUNDED, tecNO_PERMISSION). Use the error message to correct the transaction and try again.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-submit-transaction.js"></script>
+</body>
+</html>

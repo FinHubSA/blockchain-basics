@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tokens on the XRP Ledger - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Tokens on the XRP Ledger</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>What Are Tokens on XRPL?</h2>
+                    <p>
+                        On the XRP Ledger, any asset other than XRP itself can be represented as a
+                        <strong>token</strong>. Tokens can model fiat currencies, stablecoins,
+                        reward points, in-game assets, NFTs, and more, all settling on the same
+                        shared ledger <a href="https://xrpl.org/docs/concepts/tokens">[tokens concept]</a>.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>Key idea:</strong> XRP is the native asset of the network, while
+                        <em>tokens</em> are additional assets issued and tracked on the XRP Ledger.
+                    </div>
+
+                    <h3>Fungible Tokens</h3>
+                    <p>
+                        <strong>Fungible tokens</strong> are tokens where every unit is
+                        interchangeable with any other unit of the same token. One unit of a
+                        USD-backed token is equivalent to any other unit of that same USD token.
+                    </p>
+                    <p>
+                        On XRPL, fungible tokens are used to represent assets such as:
+                    </p>
+                    <ul>
+                        <li>Fiat-backed stablecoins (e.g. USD, EUR)</li>
+                        <li>Reward or loyalty points</li>
+                        <li>Other digital-native currencies and payment tokens</li>
+                    </ul>
+
+                    <h4>Fungible Token Standards</h4>
+                    <p>
+                        The XRP Ledger currently has two main standards for fungible tokens
+                        <a href="https://xrpl.org/docs/concepts/tokens">[tokens concept]</a>:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Trust line tokens:</strong> The original fungible token model
+                            on XRPL, sometimes called “issued currencies” or IOUs. These rely on
+                            trust lines between holders and the issuer and are widely used in
+                            production today.
+                        </li>
+                        <li>
+                            <strong>Multi-Purpose Tokens (MPTs):</strong> A newer, more efficient
+                            fungible token standard designed based on lessons from trust line
+                            tokens. MPTs are under active development and may not yet have full
+                            feature parity with trust line tokens.
+                        </li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Remember:</strong> XRP itself is not considered a token in this
+                        context. It is the native asset of the ledger with its own properties
+                        (no trust lines, fixed precision to 6 decimal places, and used for fees).
+                    </div>
+
+                    <h4>Issuing Fungible Tokens (High Level)</h4>
+                    <p>
+                        At a high level, issuing a fungible token with trust lines involves:
+                    </p>
+                    <ol>
+                        <li>Creating and funding an issuing account.</li>
+                        <li>Deciding whether to enable features like Require Auth or freezing.</li>
+                        <li>Having holders create trust lines to your issuing address.</li>
+                        <li>Sending payments in the issued token to those accounts.</li>
+                    </ol>
+                    <p>
+                        The XRP Ledger also includes a built-in decentralized exchange (DEX),
+                        enabling fungible tokens to be traded directly on-ledger.
+                    </p>
+
+                    <h3>Non‑Fungible Tokens (NFTs)</h3>
+                    <p>
+                        <strong>Non‑fungible tokens (NFTs)</strong> represent unique, indivisible
+                        items on the XRP Ledger. Each token carries its own identity or metadata
+                        and cannot be exchanged 1‑for‑1 with another NFT like a fungible token
+                        can <a href="https://xrpl.org/docs/concepts/tokens">[tokens concept]</a>.
+                    </p>
+                    <p>
+                        NFTs on XRPL can represent:
+                    </p>
+                    <ul>
+                        <li>Digital art and collectibles</li>
+                        <li>In‑game items or achievements</li>
+                        <li>Tickets, certificates, or other uniquely identified assets</li>
+                    </ul>
+
+                    <h4>How NFTs Differ from Fungible Tokens</h4>
+                    <ul>
+                        <li>Each NFT is unique and typically has its own identifier and metadata.</li>
+                        <li>NFTs are not divided into fractional units like fungible tokens.</li>
+                        <li>Ownership is about the individual token rather than a numeric balance.</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>Big picture:</strong> Fungible tokens model balances of the same
+                        interchangeable asset, while NFTs model individually distinct items.
+                    </div>
+
+                    <h4>NFTs in the XRPL Ecosystem</h4>
+                    <p>
+                        XRPL’s built‑in features—fast settlement, low fees, and on‑ledger order
+                        books—make it a strong foundation for NFT use cases. NFTs can be issued,
+                        traded, and held alongside XRP and other tokens, all using the same
+                        underlying ledger technology.
+                    </p>
+                    <p>
+                        In practice, developers combine XRPL’s NFT primitives with off‑chain
+                        storage and applications (such as wallets and marketplaces) to build
+                        complete user experiences.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
+

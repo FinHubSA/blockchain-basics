@@ -47,13 +47,6 @@
                 <button class="button" id="generateBtn">
                   Generate New Key Pair
                 </button>
-                <label
-                  class="button button-import button-with-checkbox"
-                  for="showImportSection"
-                >
-                  <input type="checkbox" id="showImportSection" /> Import Key
-                  Pair
-                </label>
                 <button class="button button-secondary" id="clearKeyPairBtn">
                   Clear Key Pair
                 </button>
@@ -79,61 +72,6 @@
                 >
                   Copy Public Key
                 </button>
-
-                <span class="output-label">Ethereum Address:</span>
-                <div
-                  class="info-box"
-                  style="margin: 5px 0; padding: 8px 12px; font-size: 0.9em"
-                >
-                  <strong>ℹ️ Note:</strong> The Ethereum address is derived from
-                  the public key by taking the last 20 bytes of the keccak256
-                  hash of the public key (without the 0x04 prefix).
-                </div>
-                <div class="output-box" id="addressOutput"></div>
-                <button
-                  class="button button-secondary"
-                  id="copyCurrentAddressBtn"
-                  style="margin-top: 5px; margin-bottom: 15px"
-                >
-                  Copy Address
-                </button>
-              </div>
-            </div>
-
-            <div id="importKeyPairSection" class="card" style="display: none">
-              <h3>Import Key Pair from Private Key</h3>
-              <p>
-                Enter an existing private key (64 hex characters) to derive and
-                display the corresponding public key and Ethereum address:
-              </p>
-              <div class="input-group">
-                <label for="importPrivateKey">Private Key (Hex):</label>
-                <input
-                  type="password"
-                  id="importPrivateKey"
-                  placeholder="Enter private key (with or without 0x prefix)"
-                  autocomplete="off"
-                />
-                <small style="color: #666; margin-top: 5px; display: block">
-                  Use only for learning. Never paste a key that holds real funds
-                  in a browser.
-                </small>
-              </div>
-              <div style="display: flex; gap: 10px; margin-top: 10px">
-                <button class="button" id="importKeyPairBtn">
-                  Import Key Pair
-                </button>
-                <label
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    cursor: pointer;
-                  "
-                >
-                  <input type="checkbox" id="importPrivateKeyShow" /> Show
-                  private key
-                </label>
               </div>
             </div>
 
@@ -282,7 +220,7 @@ Hello, Blockchain!</textarea
       </main>
     </div>
 
-    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation-data-blockchain-concepts.js"></script>
     <script src="/js/navigation.js"></script>
     <script src="/js/key-generation.js"></script>
   </body>

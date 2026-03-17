@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRPL Consensus &amp; Nodes - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>XRPL Consensus &amp; Nodes</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>How the XRP Ledger Reaches Consensus</h2>
+                    <p>
+                        The XRP Ledger does not use Proof of Work or Proof of Stake mining. Instead it uses the
+                        <strong>XRP Ledger Consensus Protocol</strong>: a group of validators repeatedly run a consensus
+                        round to agree on the set and order of transactions, then close the ledger. A new ledger
+                        typically closes every 3–5 seconds.
+                    </p>
+                    <h3>Types of Nodes in the XRPL Ecosystem</h3>
+                    <p>Different nodes play different roles in the network.</p>
+
+                    <h4>Validators</h4>
+                    <ul>
+                        <li><strong>Validator node:</strong> Runs the consensus protocol and votes on which transactions to include and the order of ledger closes. Validators are chosen by others (e.g. through Unique Node Lists) and need to be trusted for the health of the network.</li>
+                        <li><strong>Validator list (UNL):</strong> Each node configures a Unique Node List — a set of validators it trusts. Consensus is reached among the validators on your UNL; the network works as long as enough participants overlap in trust.</li>
+                    </ul>
+
+                    <h4>Non-validating nodes</h4>
+                    <ul>
+                        <li><strong>Full node (rippled):</strong> Runs the same software as validators and stores a full copy of the ledger but does not participate in consensus. Used for RPC, history, and reliability.</li>
+                        <li><strong>Reporting mode:</strong> A lighter mode that follows the network and serves API requests without storing full history. Good for applications that need current state and recent data.</li>
+                    </ul>
+
+                    <h4>Other roles</h4>
+                    <ul>
+                        <li><strong>P2P / cluster:</strong> Nodes communicate over peer-to-peer links to propagate transactions and proposed ledgers. Clustering helps with redundancy and performance.</li>
+                        <li><strong>API / RPC:</strong> Many users and applications connect to public or private API nodes (e.g. xrpl.org, Ripple, or self-hosted) instead of running their own node.</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>In practice:</strong> To send transactions you typically use a client library (e.g. xrpl.js) and connect to a public or private node; you don’t need to run a validator or full node yourself.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

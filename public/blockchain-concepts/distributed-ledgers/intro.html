@@ -48,89 +48,66 @@
             <h3>1. Accounts</h3>
             <p>
               An <strong>account</strong> in a distributed ledger represents an
-              entity that can hold balances and initiate transactions. In
-              Ethereum, there are two types of accounts:
-            </p>
-            <ul>
-              <li>
-                <strong>Externally Owned Accounts (EOAs):</strong> Controlled by
-                private keys. These are user accounts that can send transactions
-                and hold Ether (ETH) or other tokens.
-              </li>
-              <li>
-                <strong>Contract Accounts:</strong> Controlled by code (smart
-                contracts). These accounts have associated code that executes
-                when they receive transactions.
-              </li>
-            </ul>
-            <p>
-              Each account has a unique address (derived from its public key)
-              and can hold a balance of cryptocurrency or tokens.
+              entity that can hold balances and initiate transactions. Each
+              account has a unique address (often derived from a public key) and
+              can hold a balance of cryptocurrency or tokens.
             </p>
 
             <h3>2. Balances</h3>
             <p>
               A <strong>balance</strong> represents the amount of cryptocurrency
-              or tokens held by an account. In Ethereum:
+              or tokens held by an account.
             </p>
             <ul>
               <li>Balances are stored in the ledger state</li>
               <li>
-                Each account's balance is publicly visible on the blockchain
+                Each account's balance may be publicly visible on the ledger
               </li>
               <li>Balances can only be modified through valid transactions</li>
               <li>
                 The ledger maintains a complete history of all balance changes
               </li>
             </ul>
-
-            <div class="info-box">
-              <strong>Ethereum Denominations: Wei, Gwei, and Ether</strong>
-              <p style="margin-top: 10px; margin-bottom: 10px">
-                Ethereum uses multiple denominations to represent different
-                amounts of Ether, similar to how dollars have cents. The
-                smallest unit is <strong>Wei</strong>, and all other units are
-                multiples of Wei:
-              </p>
-              <ul style="margin-top: 10px; margin-bottom: 0">
-                <li>
-                  <strong>Wei:</strong> The smallest unit of Ether, named after
-                  Wei Dai (creator of b-money). This is the base unit used
-                  internally by the Ethereum protocol. 1 Wei = 1 Wei
-                </li>
-                <li>
-                  <strong>Gwei (Gigawei):</strong> A commonly used unit for gas
-                  prices and smaller amounts. 1 Gwei = 1,000,000,000 Wei (10⁹
-                  Wei) = 0.000000001 ETH. "Gwei" stands for "giga-wei" (giga =
-                  billion).
-                </li>
-                <li>
-                  <strong>Ether (ETH):</strong> The standard unit most people
-                  use. 1 ETH = 1,000,000,000,000,000,000 Wei (10¹⁸ Wei) =
-                  1,000,000,000 Gwei (10⁹ Gwei).
-                </li>
-              </ul>
-              <p style="margin-top: 10px; margin-bottom: 0">
-                <strong>Why multiple units?</strong> Wei allows for precise
-                calculations and prevents rounding errors. Gwei is convenient
-                for gas prices (e.g., "20 Gwei" is easier than "20000000000
-                Wei"). ETH is the human-readable unit for everyday use. When
-                working with smart contracts or transaction APIs, values are
-                often specified in Wei.
-              </p>
-            </div>
-
             <p>
               The ledger ensures that balances are always accurate and that no
               funds can be created or destroyed without following the protocol's
               rules.
             </p>
 
+            <h3>UTXO vs Account Model</h3>
+            <p>
+              Distributed ledgers track ownership and balances in one of two main ways: the <strong>UTXO model</strong> or the <strong>account (balance) model</strong>. The choice affects how the ledger state is stored and how transactions are built.
+            </p>
+
+            <h4>UTXO (Unspent Transaction Output) Model</h4>
+            <p>
+              In the <strong>UTXO model</strong>, the ledger does not store a single "balance" per address. Instead, it stores a set of <strong>unspent transaction outputs</strong>: each UTXO is a chunk of value (e.g. coins) that was the output of a past transaction and has not yet been used as an input to another transaction.
+            </p>
+            <ul>
+              <li><strong>No account balance:</strong> There is no single "account balance" field. Your "balance" is the sum of all UTXOs that are locked to your address (or that you can unlock with your key).</li>
+              <li><strong>Spending:</strong> To send value, you select one or more of your UTXOs as <strong>inputs</strong> to a new transaction. The transaction consumes those UTXOs and creates new <strong>outputs</strong>: some go to recipients, and often one "change" output goes back to you. Each UTXO can only be spent once (fully consumed).</li>
+              <li><strong>Privacy &amp; parallelism:</strong> Different UTXOs can be spent in different transactions without a single global nonce, which can help with privacy and with parallel processing. Bitcoin uses this model.</li>
+            </ul>
+
+            <h4>Account (Balance) Model</h4>
+            <p>
+              In the <strong>account model</strong>, the ledger keeps a <strong>balance</strong> (and often a nonce) for each account address. There are no UTXOs; the state is "account → balance (and other fields)."
+            </p>
+            <ul>
+              <li><strong>Direct balance:</strong> Each account has a current balance. To send value, you create a transaction that debits your account and credits the recipient's. The ledger updates the two account balances.</li>
+              <li><strong>Nonce:</strong> Typically each account has a nonce (e.g. transaction count) that increments with each transaction. This prevents replay and orders transactions from the same account.</li>
+              <li><strong>Simpler mental model:</strong> Users and developers think in terms of "my balance" and "send X to address Y," which aligns with traditional banking. Ethereum, XRP Ledger, and many other chains use the account model.</li>
+            </ul>
+
+            <div class="info-box">
+              <strong>Summary:</strong> <strong>UTXO</strong> = balance is the sum of unspent outputs; you spend outputs and create new ones; no per-account balance field. <strong>Account model</strong> = each account has a balance (and usually a nonce); transactions directly add/subtract from balances. Both models ensure that value cannot be created or double-spent; they differ in how state is represented and how transfers are expressed.
+            </div>
+
             <h3>3. Transactions</h3>
             <p>
               A <strong>transaction</strong> is a signed instruction from an
-              account to transfer value or execute a smart contract. Key
-              characteristics of transactions:
+              account to transfer value or trigger execution (e.g. smart
+              contracts where supported). Key characteristics of transactions:
             </p>
             <ul>
               <li>
@@ -146,77 +123,15 @@
                 replay attacks
               </li>
               <li>
-                <strong>Gas Price:</strong> The fee paid to miners/validators
-              </li>
-              <li>
-                <strong>Gas Limit:</strong> The maximum computational work
-                allowed
-              </li>
-              <li>
                 <strong>Signature:</strong> Cryptographic proof that the
                 transaction was authorized by the account owner
               </li>
             </ul>
-
-            <div class="info-box">
-              <strong>Understanding Gas and Gas Prices:</strong> Gas is the unit
-              that measures the computational work required to execute
-              operations on the Ethereum network. Every operation (transferring
-              ETH, calling a smart contract function, deploying a contract)
-              consumes a specific amount of gas.
-              <ul style="margin-top: 10px; margin-bottom: 0">
-                <li>
-                  <strong>Gas Limit:</strong> The maximum amount of gas you're
-                  willing to spend on a transaction. This prevents runaway
-                  transactions from consuming all your funds. For simple ETH
-                  transfers, 21,000 gas is standard. Complex smart contract
-                  interactions may require much more.
-                </li>
-                <li>
-                  <strong>Gas Price:</strong> The amount of Ether (in Gwei,
-                  where 1 Gwei = 10⁹ Wei = 10⁻⁹ ETH) you're willing to pay per
-                  unit of gas. Higher gas prices incentivize miners/validators
-                  to include your transaction faster, but cost more.
-                </li>
-                <li>
-                  <strong>Total Cost:</strong> Transaction fee = Gas Limit × Gas
-                  Price. For example, if you set a gas limit of 21,000 and gas
-                  price of 20 Gwei, your transaction fee would be 21,000 × 20
-                  Gwei = 420,000 Gwei = 0.00042 ETH.
-                </li>
-              </ul>
-              <p style="margin-top: 10px; margin-bottom: 0">
-                Gas prices fluctuate based on network demand. During high
-                traffic periods, users may need to pay higher gas prices to get
-                their transactions processed quickly.
-              </p>
-            </div>
-
-            <div class="info-box">
-              <strong>Transaction Flow:</strong> When a transaction is created,
-              it must be signed with the sender's private key. This signature
-              proves ownership and authorization. The signed transaction is then
-              broadcast to the network, validated, and added to the ledger.
-
-              <div style="margin: 20px 0; text-align: center">
-                <img
-                  src="/assets/transaction_flow.png"
-                  alt="Transaction flow from senders to beneficiaries via proposed transactions, block formation, broadcast, verification, and blockchain update"
-                  style="
-                    max-width: 100%;
-                    height: auto;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                  "
-                />
-                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
-                  <strong>Transaction Flow:</strong> Senders sign transactions →
-                  proposed transactions → validators/miners select transactions
-                  into a block → broadcast to the network → verification → block
-                  published to the blockchain → beneficiaries notified.
-                </p>
-              </div>
-            </div>
+            <p>
+              When a transaction is created, it is signed with the sender's
+              private key. The signed transaction is then broadcast to the
+              network, validated, and added to the ledger.
+            </p>
 
             <h3>How Distributed Ledgers Work</h3>
             <ol>
@@ -421,32 +336,12 @@
               you lose your private key, you lose access to your account and
               funds permanently.
             </div>
-
-            <h3>Ethereum as a Distributed Ledger</h3>
-            <p>Ethereum is a prominent example of a distributed ledger that:</p>
-            <ul>
-              <li>
-                Maintains account balances in Ether (ETH) and other tokens
-              </li>
-              <li>
-                Records all transactions in a public, immutable blockchain
-              </li>
-              <li>
-                Uses cryptographic signatures (secp256k1) to authorize
-                transactions
-              </li>
-              <li>Allows execution of smart contracts through transactions</li>
-              <li>
-                Operates on a global network of nodes that maintain identical
-                copies of the ledger
-              </li>
-            </ul>
           </div>
         </div>
       </main>
     </div>
 
-    <script src="/js/navigation-data.js"></script>
+    <script src="/js/navigation-data-blockchain-concepts.js"></script>
     <script src="/js/navigation.js"></script>
   </body>
 </html>

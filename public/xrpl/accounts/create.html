@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create / Import XRPL Account - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Create / Import XRPL Account</h1>
+            </div>
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Import an XRPL Account</h2>
+                    <p>
+                        Import an account using either your <strong>family seed (secret)</strong> or a <strong>hex private key</strong>.
+                        The page uses the <a href="https://www.npmjs.com/package/xrpl" target="_blank" rel="noopener">xrpl</a> library to derive your XRPL address and public key. Use only for learning; never paste a key that holds real funds in a browser.
+                    </p>
+                    <div class="info-box" style="margin-bottom: 1.5rem;">
+                        <strong>Signing algorithms:</strong> The XRP Ledger supports both <strong>secp256k1</strong> and <strong>Ed25519</strong> for key pairs. In these tutorials we use <strong>secp256k1</strong> (the same curve used by Bitcoin and by the Blockchain Concepts key-generation section). If you use a different tool or library, ensure the algorithm matches—the same seed can produce a different address under Ed25519 than under secp256k1.
+                    </div>
+
+                    <h3>From Seed to Private Key</h3>
+                    <p>
+                        The <strong>family seed (secret)</strong> is a compact value used to derive the account’s private and public keys. The diagram below shows how the seed is used to create the private key (and then the public key and address) for <strong>Ed25519</strong>.
+                    </p>
+                    <div style="margin: 20px 0; text-align: center">
+                        <img
+                            src="/assets/xrpl_ed_key_gen.png"
+                            alt="XRPL Ed25519 key derivation: seed to private key and public key"
+                            style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);"
+                        />
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                            <strong>Ed25519:</strong> The seed is hashed (e.g. SHA-512Half) to produce the private key; the public key is then derived from the private key. The address is derived from the public key.
+                        </p>
+                    </div>
+                    <p>
+                        This flow is for <strong>Ed25519</strong>. For <strong>secp256k1</strong> (used in these tutorials), the general flow is the same—seed → private key → public key → address—but the derivation is more involved: the XRP Ledger’s secp256k1 process derives a root key pair from the seed, then an intermediate key pair, and combines them to get the master key pair. Not all 32-byte values are valid secp256k1 private keys, so the algorithm may need to retry with a different sequence. The <a href="https://xrpl.org/docs/concepts/accounts/cryptographic-keys#key-derivation" target="_blank" rel="noopener">XRPL key derivation</a> docs describe both algorithms in detail.
+                    </p>
+
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h3>Create new account (secp256k1)</h3>
+                        <p style="color: #666; margin-bottom: 10px;">
+                            Generate a new XRPL key pair using the <strong>secp256k1</strong> algorithm. The family seed is shown once—save it securely; it is required to sign transactions for this account.
+                        </p>
+                        <button class="button" id="createAccountBtn">Generate account (secp256k1)</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>Import by Family Seed or Private Key</h3>
+                        <div class="input-group">
+                            <label for="secretInput">Family seed (secret, base58):</label>
+                            <input type="password" id="secretInput" placeholder="e.g. sEdV..." autocomplete="off" />
+                            <small style="color: #666; margin-top: 5px; display: block;">Optional. Leave empty to use private key below.</small>
+                        </div>
+                        <div class="input-group" style="margin-top: 1rem;">
+                            <label for="privateKeyInput">Or private key (hex, 64 chars):</label>
+                            <input type="password" id="privateKeyInput" placeholder="64 hex characters (with or without 0x)" autocomplete="off" />
+                            <small style="color: #666; margin-top: 5px; display: block;">Optional. Leave empty to use family seed above.</small>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px; align-items: center; flex-wrap: wrap;">
+                            <button class="button" id="importBtn">Import</button>
+                            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                                <input type="checkbox" id="showSecrets" /> Show inputs
+                            </label>
+                            <button class="button button-secondary" id="clearBtn">Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="card" id="accountInfoCard">
+                        <h3>Account information</h3>
+                        <p style="color: #666; margin-bottom: 1rem;">Create or import an account above; the account details and ledger status appear here. Stored in this browser for the session and restored on reload.</p>
+                        <div class="input-group" style="margin-bottom: 1rem;">
+                            <label for="xrplWsUrl">XRPL WebSocket URL:</label>
+                            <input type="text" id="xrplWsUrl" placeholder="wss://testnet.xrpl-labs.com" value="wss://testnet.xrpl-labs.com" />
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Used to fetch account status and balance. Default is XRPL Labs testnet. Use mainnet (e.g. <code>wss://xrplcluster.com</code>) for production.
+                            </small>
+                        </div>
+                        <div id="outputSection" style="display: none;">
+                            <div id="seedOutputWrap" style="display: none; margin-bottom: 1rem;">
+                                <span class="output-label">Family seed (secp256k1) — save this securely:</span>
+                                <div class="output-box" id="seedOutput"></div>
+                                <button class="button button-secondary" id="copySeedBtn" style="margin-top: 5px; margin-bottom: 5px;">Copy seed</button>
+                            </div>
+                            <div id="accountStatusSection" style="margin-bottom: 1rem;">
+                                <span class="output-label">Account status:</span>
+                                <div class="output-box" id="accountStatusOutput"></div>
+                                <span class="output-label" style="margin-top: 10px; display: block;">Balance:</span>
+                                <div class="output-box" id="balanceOutput"></div>
+                            </div>
+                            <span class="output-label">Classic Address:</span>
+                            <div class="output-box" id="classicAddressOutput"></div>
+                            <button class="button button-secondary" id="copyClassicBtn" style="margin-top: 5px; margin-bottom: 15px;">Copy Classic Address</button>
+                            <span class="output-label">Public Key:</span>
+                            <div class="output-box" id="publicKeyOutput"></div>
+                            <button class="button button-secondary" id="copyPublicKeyBtn" style="margin-top: 5px; margin-bottom: 15px;">Copy Public Key</button>
+                            <span class="output-label">X-Address (Mainnet):</span>
+                            <div class="output-box" id="xAddressOutput"></div>
+                            <button class="button button-secondary" id="copyXAddressBtn" style="margin-top: 8px;">Copy X-Address</button>
+                            <div class="info-box" style="margin-top: 1rem;">
+                                <strong>X-Address vs classic address:</strong> The <strong>classic address</strong> (e.g. <code>r...</code>) is the original XRPL format. An <strong>X-Address</strong> encodes the same account plus an optional <strong>destination tag</strong> and the network (mainnet or testnet) in a single string (e.g. <code>X...</code>). That way you can send to one value instead of address + tag separately.<br><br>
+                                <strong>Destination tag:</strong> A destination tag is a number (0–2<sup>32</sup>−1) that some exchanges or services require when you send them XRP. They use one XRPL address for many users and rely on the tag to credit the right account. If a service asks for a destination tag, you can use an X-Address that includes that tag, or send the classic address and tag as two fields.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-accounts.js"></script>
+</body>
+</html>

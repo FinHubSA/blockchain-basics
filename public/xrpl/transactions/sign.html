@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign XRPL Transaction - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="drawer" id="drawer"></aside>
+      <main class="main-content">
+        <div class="content-header">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1>Sign XRPL Transaction</h1>
+        </div>
+        <div class="content-body">
+          <div class="page-content">
+            <h2>Signing XRPL Transactions</h2>
+            <p>
+              This page demonstrates how to create and sign a
+              <strong>Payment</strong> transaction on the XRP Ledger. Fill in
+              the transaction details below, then sign with your family seed or
+              private key. If you created or imported an account on the
+              <a href="/xrpl/accounts/create.html">Create / Import Account</a>
+              page, you can use the saved credentials. Use only for learning;
+              never sign transactions that move real funds in a browser.
+            </p>
+            <div class="info-box">
+              <strong>Note:</strong> This is a simplified Payment flow. The XRP
+              Ledger supports other transaction types (OfferCreate, TrustSet,
+              Escrow, etc.); those require additional fields and can be built
+              manually or with the xrpl library.
+            </div>
+
+            <div class="card">
+              <h3>Create Transaction</h3>
+              <p>Fill in the transaction details below:</p>
+              <div class="input-group">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    id="isSignerList"
+                    style="width: 18px; height: 18px; cursor: pointer"
+                  />
+                  <span>Signer list transaction (MultiSig setup)</span>
+                </label>
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Creates a <code>SignerListSet</code> transaction to configure
+                  Multi‑Signature signers, weights, and quorum for an account.
+                </small>
+              </div>
+              <div class="input-group">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    id="isNft"
+                    style="width: 18px; height: 18px; cursor: pointer"
+                  />
+                  <span>Non‑fungible token (NFT) transaction</span>
+                </label>
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Check this if you want to experiment with NFT‑related
+                  transactions such as minting or transferring an NFToken.
+                  Additional NFT fields will appear below.
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="transactionType">TransactionType:</label>
+                <input
+                  type="text"
+                  id="transactionType"
+                  value="Payment"
+                  readonly
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Auto‑filled based on the toggles above.
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="account">Account (Sender):</label>
+                <input type="text" id="account" placeholder="r..." value="" />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  The classic address of the sender (your account). Filled
+                  automatically if you use saved credentials.
+                </small>
+              </div>
+              <div
+                id="signerListFields"
+                style="display: none; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px"
+              >
+                <h4 style="margin-top: 0">SignerListSet Fields</h4>
+                <p style="font-size: 0.9rem; color: #555">
+                  Configure the signer list and quorum. Each signer entry is a
+                  JSON object of the form:
+                  <code>{"SignerEntry":{"Account":"r...","SignerWeight":1}}</code>
+                </p>
+                <div class="input-group">
+                  <label for="signerQuorum">SignerQuorum:</label>
+                  <input
+                    type="number"
+                    id="signerQuorum"
+                    placeholder="2"
+                    min="1"
+                    value="2"
+                  />
+                </div>
+                <div class="input-group">
+                  <label for="signerEntriesContainer"
+                    >SignerEntries (JSON array items):</label
+                  >
+                  <div id="signerEntriesContainer">
+                    <textarea
+                      class="signer-entry-json"
+                      rows="2"
+                      placeholder='{"SignerEntry":{"Account":"r...","SignerWeight":1}}'
+                    ></textarea>
+                  </div>
+                  <button
+                    type="button"
+                    class="button button-secondary"
+                    id="addSignerEntryBtn"
+                    style="margin-top: 8px"
+                  >
+                    Add another signer
+                  </button>
+                  <small style="color: #666; margin-top: 5px; display: block">
+                    SignerEntries is an array. Add one JSON object per signer.
+                  </small>
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="destination">Destination (Recipient):</label>
+                <input
+                  type="text"
+                  id="destination"
+                  placeholder="r..."
+                  value=""
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  The classic address of the recipient
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="amount">Amount (XRP):</label>
+                <input
+                  type="number"
+                  id="amount"
+                  placeholder="1"
+                  step="0.000001"
+                  min="0"
+                  value="1"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Amount to send in XRP (converted to drops internally; 1 XRP =
+                  1,000,000 drops)
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="fee">Fee (drops):</label>
+                <input
+                  type="number"
+                  id="fee"
+                  placeholder="12"
+                  min="12"
+                  value="12"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Transaction fee in drops. Minimum is typically 12 drops;
+                  increase when the network is busy.
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="sequence">Sequence:</label>
+                <input
+                  type="number"
+                  id="sequence"
+                  placeholder="1"
+                  min="0"
+                  value="1"
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Per-account sequence number (prevents replay). Must be the
+                  account’s current sequence plus 1 for the next transaction.
+                </small>
+              </div>
+              <div
+                id="nftFields"
+                style="
+                  display: none;
+                  border-top: 1px solid #eee;
+                  margin-top: 10px;
+                  padding-top: 10px;
+                "
+              >
+                <h4 style="margin-top: 0">
+                  NFT‑specific Fields (Experimental)
+                </h4>
+                <p style="font-size: 0.9rem; color: #555">
+                  These fields illustrate some common fields used when
+                  <strong>minting</strong> or <strong>transferring</strong> NFTs
+                  on XRPL. They do not yet change the transaction type in this
+                  demo, but help you understand what data is involved.
+                </p>
+                <div class="input-group">
+                  <label for="nftTokenId">NFTokenID (for transfers):</label>
+                  <input
+                    type="text"
+                    id="nftTokenId"
+                    placeholder="Hex NFTokenID when transferring an existing NFT"
+                  />
+                  <small style="color: #666; margin-top: 5px; display: block">
+                    When transferring an existing NFT, this identifies the
+                    specific NFToken being sent.
+                  </small>
+                </div>
+                <div class="input-group">
+                  <label for="nftUri">URI (for minting):</label>
+                  <input
+                    type="text"
+                    id="nftUri"
+                    placeholder="e.g. https://example.com/metadata/123"
+                  />
+                  <small style="color: #666; margin-top: 5px; display: block">
+                    Optional URI pointing to off‑ledger metadata when minting a
+                    new NFToken.
+                  </small>
+                </div>
+                <div class="input-group">
+                  <label for="nftTaxon">NFTokenTaxon:</label>
+                  <input type="number" id="nftTaxon" placeholder="0" min="0" />
+                  <small style="color: #666; margin-top: 5px; display: block">
+                    Application‑defined numeric category for the NFT (for
+                    example, a collection or project identifier).
+                  </small>
+                </div>
+                <div class="input-group">
+                  <label for="nftFlags">NFT Flags (bitmask, optional):</label>
+                  <input type="number" id="nftFlags" placeholder="0" min="0" />
+                  <small style="color: #666; margin-top: 5px; display: block">
+                    Advanced flags such as burnable or transferable; see the
+                    XRPL NFToken documentation for valid values.
+                  </small>
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="lastLedgerSequence"
+                  >LastLedgerSequence (optional):</label
+                >
+                <input
+                  type="number"
+                  id="lastLedgerSequence"
+                  placeholder="e.g. 9500000"
+                  min="0"
+                  value=""
+                />
+                <small style="color: #666; margin-top: 5px; display: block">
+                  The last ledger index in which this transaction can be
+                  included. Leave empty to omit (not recommended for
+                  production).
+                </small>
+              </div>
+              <div class="input-group">
+                <label for="memosContainer"
+                  >Memos (optional, JSON objects):</label
+                >
+                <div id="memosContainer">
+                  <textarea
+                    class="memo-json"
+                    rows="2"
+                    placeholder='{"invoice_id":"12345","description":"Coffee and Milk","date":"2024-07-02"}'
+                  ></textarea>
+                </div>
+                <button
+                  type="button"
+                  class="button button-secondary"
+                  id="addMemoBtn"
+                  style="margin-top: 8px"
+                >
+                  Add another memo
+                </button>
+                <small style="color: #666; margin-top: 5px; display: block">
+                  Optional array of memo objects. Each textarea should contain a
+                  valid JSON object; they will be encoded into XRPL
+                  <code>Memos</code>.
+                </small>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Sign Transaction</h3>
+              <p>
+                Use saved credentials or enter your family seed or private key
+                to sign the transaction:
+              </p>
+              <div id="manualCredentialsWrap">
+                <div class="input-group">
+                  <label for="secretInput">Family seed (base58):</label>
+                  <input
+                    type="text"
+                    id="secretInput"
+                    placeholder="e.g. sEdV..."
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="input-group" style="margin-top: 1rem">
+                  <label for="privateKeyInput"
+                    >Or private key (hex, 64 chars):</label
+                  >
+                  <input
+                    type="text"
+                    id="privateKeyInput"
+                    placeholder="64 hex characters"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <div
+                style="
+                  margin-top: 1rem;
+                  display: flex;
+                  gap: 10px;
+                  align-items: center;
+                  flex-wrap: wrap;
+                "
+              >
+                <button class="button" id="signBtn">Sign Transaction</button>
+                <button class="button button-secondary" id="clearBtn">
+                  Clear All
+                </button>
+              </div>
+              <div class="input-group" style="margin-top: 10px;">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    id="multiSigMode"
+                    style="width: 18px; height: 18px; cursor: pointer"
+                  />
+                  <span>Multi‑sig (collect signatures)</span>
+                </label>
+                <small style="color: #666; margin-top: 5px; display: block">
+                  If enabled, each time you sign we save the resulting
+                  <code>tx_blob</code> into a list so you can combine signatures
+                  later (see
+                  <a href="https://docs.xrpl-commons.org/xrpl-basics/multi-signature#combine-the-signatures"
+                    >combine the signatures</a
+                  >).
+                </small>
+              </div>
+              <div id="multiSigBlobsWrap" style="display: none; margin-top: 10px">
+                <span class="output-label">Collected signed tx_blobs:</span>
+                <div class="output-box" id="multiSigBlobsOutput" style="word-break: break-all"></div>
+                <button
+                  class="button button-secondary"
+                  id="combineMultiSigBtn"
+                  style="margin-top: 8px"
+                >
+                  Sign multi‑sig
+                </button>
+                <div id="combinedMultiSigWrap" style="display: none; margin-top: 12px">
+                  <span class="output-label">Combined transaction (combined tx_blob):</span>
+                  <div class="output-box" id="combinedTxBlobOutput" style="word-break: break-all"></div>
+                  <button
+                    class="button button-secondary"
+                    id="copyCombinedTxBlobBtn"
+                    style="margin-top: 5px"
+                  >
+                    Copy combined tx_blob
+                  </button>
+                </div>
+              </div>
+              <div
+                id="transactionOutput"
+                style="display: none; margin-top: 1.5rem"
+              >
+                <span class="output-label">Signed transaction (tx_blob):</span>
+                <div
+                  class="output-box"
+                  id="txBlobOutput"
+                  style="word-break: break-all"
+                ></div>
+                <button
+                  class="button button-secondary"
+                  id="copyTxBlobBtn"
+                  style="margin-top: 5px; margin-bottom: 15px"
+                >
+                  Copy tx_blob
+                </button>
+                <span class="output-label">Transaction hash:</span>
+                <div
+                  class="output-box"
+                  id="hashOutput"
+                  style="word-break: break-all"
+                ></div>
+                <button
+                  class="button button-secondary"
+                  id="copyHashBtn"
+                  style="margin-top: 5px"
+                >
+                  Copy hash
+                </button>
+                <div class="info-box" style="margin-top: 20px">
+                  <strong>Next steps:</strong> Submit the signed
+                  <code>tx_blob</code> to the XRP Ledger (e.g. via
+                  <code>submit</code> API or a client such as xrpl.js). The
+                  transaction will be applied once it is included in a validated
+                  ledger.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Transaction Details</h3>
+              <p>Understanding the transaction components:</p>
+              <ul>
+                <li>
+                  <strong>Account:</strong> The sender’s classic address. The
+                  account’s key pair must sign the transaction.
+                </li>
+                <li>
+                  <strong>Destination:</strong> The recipient’s classic address.
+                </li>
+                <li>
+                  <strong>Amount:</strong> For a Payment in XRP, the amount is
+                  specified in drops (1 XRP = 1,000,000 drops). This form
+                  accepts XRP and converts to drops.
+                </li>
+                <li>
+                  <strong>Fee:</strong> XRP paid as the transaction fee (in
+                  drops). This XRP is destroyed (burned), not paid to
+                  validators.
+                </li>
+                <li>
+                  <strong>Sequence:</strong> A per-account counter that orders
+                  transactions and prevents replay.
+                </li>
+                <li>
+                  <strong>LastLedgerSequence:</strong> Optional. The last ledger
+                  index in which the transaction can be included; after that it
+                  becomes invalid.
+                </li>
+                <li>
+                  <strong>Memos:</strong> Optional. Attach a note or reference
+                  (e.g. invoice ID) to the transaction. Stored on-ledger but not
+                  interpreted by the protocol.
+                </li>
+                <li>
+                  <strong>Signature:</strong> Cryptographic proof that you
+                  authorize this transaction with the account’s private key.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-sign.js"></script>
+  </body>
+</html>

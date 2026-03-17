@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XRPL Order Book Viewer - XRPL Tutorial</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <aside class="drawer" id="drawer"></aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>XRPL Order Book Viewer</h1>
+            </div>
+
+            <div class="content-body">
+                <div class="page-content">
+                    <h2>Look Up Order Book for a Token Pair</h2>
+                    <p>
+                        Use this page to inspect the <strong>sell</strong> and <strong>buy</strong>
+                        offers for a given currency pair on the XRP Ledger’s built‑in DEX.
+                        By default, this uses the XRPL <strong>Testnet</strong>.
+                    </p>
+
+                    <div class="card">
+                        <h3>XRPL Network, Token Pair and Ledger</h3>
+                        <div class="input-group">
+                            <label for="wsUrl">XRPL network (WebSocket URL):</label>
+                            <input type="text" id="wsUrl" placeholder="wss://testnet.xrpl-labs.com" value="wss://testnet.xrpl-labs.com" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Defaults to XRPL Testnet. You can change this to another XRPL network
+                                URL if needed.
+                            </small>
+                        </div>
+                        <div class="input-group">
+                            <label>Token 1 (base):</label>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                <input type="text" id="baseCurrency" placeholder="XRP or currency code (e.g. USD)" style="flex:1 1 140px;" />
+                                <input type="text" id="baseIssuer" placeholder="Issuer address for non-XRP (optional if XRP)" style="flex:2 1 220px;" />
+                            </div>
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Token 1 is the base asset in the pair. If you enter <code>XRP</code>,
+                                leave issuer empty; otherwise provide an issuing address.
+                            </small>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Token 2 (counter):</label>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                <input type="text" id="counterCurrency" placeholder="XRP or currency code (e.g. USD)" style="flex:1 1 140px;" />
+                                <input type="text" id="counterIssuer" placeholder="Issuer address for non-XRP (optional if XRP)" style="flex:2 1 220px;" />
+                            </div>
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Token 2 is the counter asset in the pair.
+                            </small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="ledgerIndex">Ledger index (optional):</label>
+                            <input type="text" id="ledgerIndex" placeholder="validated (default)" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Use <code>validated</code> (default) to query the latest validated ledger,
+                                or enter a specific ledger index or shortcut supported by the server.
+                            </small>
+                        </div>
+
+                        <button type="button" class="button" id="loadOrderbookBtn" style="margin-top:10px;">
+                            Load Order Book
+                        </button>
+                        <div id="orderbookSummary" style="margin-top:10px;font-size:0.9rem;color:#444;"></div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>Sell and Buy Offers</h3>
+                        <p style="font-size:0.9rem;">
+                            <strong>Sell offers</strong> are offers where traders are selling Token 1
+                            for Token 2. <strong>Buy offers</strong> are the opposite direction
+                            (selling Token 2 for Token 1).
+                        </p>
+                        <div style="display:flex;flex-wrap:wrap;gap:16px;">
+                            <div style="flex:1 1 260px;min-width:0;">
+                                <h4 style="margin-top:0;">Sell Offers (Token 1 → Token 2)</h4>
+                                <div id="sellOffers"></div>
+                            </div>
+                            <div style="flex:1 1 260px;min-width:0;">
+                                <h4 style="margin-top:0;">Buy Offers (Token 2 → Token 1)</h4>
+                                <div id="buyOffers"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>Place a Limit Order (Testnet Demo)</h3>
+                        <p style="font-size:0.9rem;color:#555;">
+                            This section demonstrates how an on‑ledger order (OfferCreate transaction)
+                            is structured. For safety, use this only with <strong>Testnet</strong>
+                            accounts and small amounts.
+                        </p>
+                        <div class="input-group">
+                            <label for="orderAccount">Account (Trader):</label>
+                            <input type="text" id="orderAccount" placeholder="r... (account placing the order)" />
+                        </div>
+                        <div class="input-group">
+                            <label for="orderSeed">Family seed (Testnet only):</label>
+                            <input type="text" id="orderSeed" placeholder="sEd... (used only to sign this order)" autocomplete="off" />
+                            <small style="color:#666;display:block;margin-top:4px;">
+                                Used locally in the browser to sign the OfferCreate transaction, then
+                                sent to the selected XRPL network. Do not use production secrets here.
+                            </small>
+                        </div>
+                        <div class="input-group">
+                            <span style="display:block;margin-bottom:6px;">Side:</span>
+                            <div style="display:flex;flex-wrap:nowrap;gap:16px;align-items:center;width:100%;min-width:0;">
+                                <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;flex:1;min-width:0;">
+                                    <span style="flex:0 0 20%;max-width:20%;display:flex;align-items:center;justify-content:flex-start;">
+                                        <input type="radio" name="orderSide" value="sell-base" checked />
+                                    </span>
+                                    <span style="flex:1;min-width:0;">Sell Token 1 (base) for Token 2 (counter)</span>
+                                </label>
+                                <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;flex:1;min-width:0;">
+                                    <span style="flex:0 0 20%;max-width:20%;display:flex;align-items:center;justify-content:flex-start;">
+                                        <input type="radio" name="orderSide" value="buy-base" />
+                                    </span>
+                                    <span style="flex:1;min-width:0;">Buy Token 1 (base) using Token 2 (counter)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="orderAmountBase">Amount (Token 1):</label>
+                            <input type="number" id="orderAmountBase" placeholder="e.g. 100" min="0" step="0.000001" />
+                        </div>
+                        <div class="input-group">
+                            <label for="orderPrice">Limit price (Token 2 per Token 1):</label>
+                            <input type="number" id="orderPrice" placeholder="e.g. 0.5" min="0" step="0.0000001" />
+                        </div>
+                        <div class="input-group">
+                            <label for="orderFee">Fee (drops):</label>
+                            <input type="number" id="orderFee" placeholder="12" min="10" value="12" />
+                        </div>
+                        <button type="button" class="button" id="placeOrderBtn" style="margin-top:10px;">
+                            Place Order
+                        </button>
+                        <div id="orderStatus" style="margin-top:10px;font-size:0.9rem;color:#444;"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/navigation-data-xrpl.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/xrpl-dex-orderbook.js"></script>
+</body>
+</html>
+

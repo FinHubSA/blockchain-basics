@@ -384,3 +384,93 @@ body {
     }
 }
 
+/* Vertical stepper (issuance steps) – inspired by pure CSS vertical stepper */
+.vertical-stepper {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.vertical-stepper::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: #ddd;
+    z-index: 0;
+}
+
+.vertical-stepper .step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 0;
+    z-index: 1;
+}
+
+.vertical-stepper .step:last-child {
+    margin-bottom: 0;
+}
+
+.vertical-stepper .step-number {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #999;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.vertical-stepper .step.done .step-number {
+    background: #0a7d2b;
+    border-color: #0a7d2b;
+    color: #fff;
+}
+
+.vertical-stepper .step.done .step-number::after {
+    content: '✓';
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.vertical-stepper .step.done .step-number .step-num {
+    display: none;
+}
+
+.vertical-stepper .step-content {
+    flex: 1;
+    min-width: 0;
+    margin-left: 16px;
+    padding-bottom: 24px;
+}
+
+.vertical-stepper .step:last-child .step-content {
+    padding-bottom: 0;
+}
+
+.vertical-stepper .step-content .step-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.vertical-stepper .step-content .step-desc {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    display: block;
+}
+
